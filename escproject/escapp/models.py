@@ -41,3 +41,21 @@ class Feature1(models.Model):
 
 #for searchResult2 in searchResults2['results']: 
     #DestinationSearch.objects.create(country = searchResult2['name'], pax=1, start_date = "2000-10-11", end_date = "2000-11-12")
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.full_name
+
+class Booking(models.Model):
+    first_name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
+    phone_number = models.PositiveIntegerField()
+    email = models.EmailField()
+    request = models.CharField(max_length=5000)
+    credit_card_no = models.PositiveIntegerField()
+    expiry = models.PositiveBigIntegerField()
+    cvv = models.PositiveIntegerField()
+    billing_address = models.CharField(max_length=500)
