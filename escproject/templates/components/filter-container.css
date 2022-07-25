@@ -1,0 +1,68 @@
+.filter-container-filter-container {
+  width: 1135px;
+  height: 53px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding-top: var(--dl-space-space-doubleunit);
+  border-color: var(--dl-color-primary-brown);
+  border-width: 1px;
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius4);
+  margin-bottom: var(--dl-space-space-doubleunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-doubleunit);
+  justify-content: flex-start;
+  border-top-width: 0px;
+  border-left-width: 1px;
+  border-right-width: 1x;
+  border-bottom-width: 1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: var(--dl-radius-radius-radius4);
+  border-bottom-right-radius: var(--dl-radius-radius-radius4);
+}
+.filter-container-select {
+  width: 145px;
+  height: 35px;
+  padding-top: var(--dl-space-space-unit);
+  margin-right: var(--dl-space-space-doubleunit);
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: var(--dl-radius-radius-radius4);
+  padding-right: var(--dl-space-space-doubleunit);
+  padding-bottom: var(--dl-space-space-unit);
+}
+.filter-container-select1 {
+  width: 145px;
+  height: 35px;
+  padding-top: var(--dl-space-space-unit);
+  margin-right: var(--dl-space-space-doubleunit);
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: var(--dl-radius-radius-radius4);
+  padding-right: var(--dl-space-space-doubleunit);
+  padding-bottom: var(--dl-space-space-unit);
+}
+.filter-container-select2 {
+  width: 145px;
+  height: 35px;
+  padding-top: var(--dl-space-space-unit);
+  margin-right: var(--dl-space-space-doubleunit);
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: var(--dl-radius-radius-radius4);
+  padding-right: var(--dl-space-space-doubleunit);
+  padding-bottom: var(--dl-space-space-unit);
+}
+.filter-container-button {
+  color: var(--dl-color-primary-brown);
+  width: auto;
+  text-align: center;
+  padding-top: var(--dl-space-space-halfunit);
+  border-color: var(--dl-color-primary-brown);
+  border-width: 1px;
+  margin-right: 0px;
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: var(--dl-radius-radius-radius2);
+  padding-right: var(--dl-space-space-doubleunit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  background-color: transparent;
+}

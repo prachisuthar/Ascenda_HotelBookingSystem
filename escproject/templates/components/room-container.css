@@ -1,0 +1,94 @@
+.room-container-room2container {
+  flex: 0 0 auto;
+  width: 1003px;
+  display: flex;
+  position: relative;
+  align-self: center;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+}
+.room-container-room-container {
+  width: 1025px;
+  height: 229px;
+  display: flex;
+  position: relative;
+  align-self: center;
+  align-items: center;
+  padding-top: var(--dl-space-space-unit);
+  border-color: var(--dl-color-primary-brown);
+  border-width: 1px;
+  margin-right: 0px;
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius2);
+  margin-bottom: var(--dl-space-space-doubleunit);
+  padding-right: var(--dl-space-space-unit);
+  flex-direction: row;
+  padding-bottom: var(--dl-space-space-unit);
+  justify-content: flex-start;
+}
+.room-container-image {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  margin-right: var(--dl-space-space-unit);
+}
+.room-container-container {
+  width: 560px;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-right: var(--dl-space-space-doubleunit);
+  padding-left: var(--dl-space-space-unit);
+  padding-right: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.room-container-text1 {
+  color: var(--dl-color-primary-white);
+  font-size: 35px;
+  font-family: Roboto;
+}
+.room-container-text2 {
+  color: var(--dl-color-primary-white);
+  font-size: 23px;
+  font-family: Roboto;
+}
+.room-container-text3 {
+  color: var(--dl-color-primary-white);
+  font-size: 23px;
+  font-family: Roboto;
+}
+.room-container-container1 {
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  border-color: var(--dl-color-primary-brown);
+  border-width: 1px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.room-container-navlink {
+  color: var(--dl-color-primary-brown);
+  width: auto;
+  height: auto;
+  display: flex;
+  position: relative;
+  font-size: 22px;
+  align-self: flex-end;
+  text-align: center;
+  align-items: center;
+  font-family: Roboto;
+  padding-top: var(--dl-space-space-halfunit);
+  border-width: 0px;
+  padding-left: var(--dl-space-space-doubleunit);
+  border-radius: var(--dl-radius-radius-radius2);
+  padding-right: var(--dl-space-space-doubleunit);
+  flex-direction: row;
+  padding-bottom: var(--dl-space-space-halfunit);
+  text-transform: capitalize;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+}
+.room-container-text4 {
+  align-self: center;
+}
