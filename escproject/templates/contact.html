@@ -2,7 +2,18 @@
 
 <html lang="en">
   <head>
-    <title>Login Page - Ascenda</title>
+    <title>Contact Page - Ascenda</title>
+    <meta property="og:title" content="Contact Page - Ascenda" />
+    <meta
+      property="og:title"
+      content="Delete Account Confirmation  Page - Ascenda"
+    />
+    <meta property="og:title" content="Account Info Page - Ascenda" />
+    <meta property="og:title" content="Delete Account Check Page - Ascenda" />
+    <meta property="og:title" content="Confirm Transaction Page - Ascenda" />
+    <meta property="og:title" content="Hotel Info Page - Ascenda" />
+    <meta property="og:title" content="Booking Confirmation Page - Ascenda" />
+    <meta property="og:title" content="About Page - Ascenda" />
     <meta property="og:title" content="Login Page - Ascenda" />
     <meta property="og:title" content="Previous Bookings Page - Ascenda" />
     <meta property="og:title" content="Booking Form Page - Ascenda" />
@@ -50,19 +61,19 @@
   </head>
   <body>
     <div>
-      <link href="./login-page.css" rel="stylesheet" />
+      <link href="./contact-page.css" rel="stylesheet" />
 
-      <div class="login-page-container">
-        <div class="login-page-top-container">
+      <div class="contact-page-container">
+        <div class="contact-page-top-container">
           <header
             data-role="Header"
-            class="header-header header-root-class-name5"
+            class="header-header header-root-class-name14"
           >
             <a href="landing-page.html" class="header-navlink">
               <h1 class="header-logo"><span>Ascenda</span></h1>
             </a>
             <div class="header-nav">
-              <nav
+                <nav
                 class="navigation-links-nav navigation-links-root-class-name10"
               >
                 <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
@@ -108,21 +119,21 @@
                   </div>
                 </div>
                 <nav
-                  class="navigation-links-nav navigation-links-root-class-name11"
-                >
-                  <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
-                    <span>Home</span>
-                  </a>
-                  <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
-                    <span>About</span>
-                  </a>
-                  <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
-                    <span>Contact</span>
-                  </a>
-                  <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                    <span>Log In</span>
-                  </a>
-                </nav>
+                class="navigation-links-nav navigation-links-root-class-name10"
+              >
+                <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
+                  <span>Home</span>
+                </a>
+                <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
+                  <span>About</span>
+                </a>
+                <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
+                  <span>Contact</span>
+                </a>
+                <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+                    <span class="navigation-links-text"><span>Log In</span></span>
+                </a>
+              </nav>
               </div>
               <div>
                 <svg viewBox="0 0 950.8571428571428 1024" class="header-icon04">
@@ -147,49 +158,41 @@
               </div>
             </div>
           </header>
-          <form action="" method="POST">
-            {% csrf_token %}
-          <div class="login-page-hero">
-            <div class="login-page-content-container">
-              <span class="login-page-text">
-                <span class="login-page-text1">Login</span>
-                <!-- <span class="login-page-text2">&amp;#8203;</span> -->
-              </span>
-              <div class="login-page-container1">
-                <span class="login-page-text3">Username</span>
-                <!-- <input
-                  type="text"
-                  placeholder="placeholder"
-                  class="login-page-textinput input"
-                /> -->
-                {{form.username}}
+          <div class="contact-page-hero">
+            <div class="contact-page-container1">
+              <span class="contact-page-text">Contact</span>
+              <div class="contact-page-container2">
+                <span class="contact-page-text1">
+                  <span>Address: 380 Jln Besar,</span>
+                  <span>Singapore 209000</span>
+                  <br />
+                  <span></span>
+                  <br />
+                  <span>Follow us:</span>
+                </span>
+                <a
+                  href="https://www.linkedin.com/company/ascenda-loyalty/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  class="contact-page-link"
+                >
+                  LinkedIn
+                </a>
               </div>
-              <div class="login-page-container2">
-                <span class="login-page-text4">Password</span>
-                <!-- <input
-                  type="text"
-                  placeholder="placeholder"
-                  class="login-page-textinput1 input"
-                /> -->
-                {{form.password}}
+              <div class="contact-page-container3">
+                <a
+                  href="https://www.ascendaloyalty.com/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  class="contact-page-link1 button"
+                >
+                  More about Ascenda
+                </a>
               </div>
-              <div class="login-page-container3">
-                <button type="submit" id="login_button" class="login-page-button button">
-                  <span>Login</span>
-                </button>
-                {% if error %}
-                <li style="color: red">{{error}}</li>
-                {% endif %}
-        
-              </div>
-              <a href="{% url 'escapp:signup' %}" class="login-page-navlink">
-                New user? Click here to register
-              </a>
             </div>
           </div>
         </div>
-    </form>
-        <div class="footer-footer footer-root-class-name3">
+        <div class="footer-footer footer-root-class-name12">
           <footer class="footer-footer1">
             <div class="footer-container">
               <h1><span>Ascenda</span></h1>
@@ -262,7 +265,6 @@
             margin-left: 32px;
             text-decoration: none;
           }
-          
           
           
           
@@ -547,7 +549,7 @@
             }
           }
           
-          .login-page-container {
+          .contact-page-container {
             width: 100%;
             height: auto;
             display: flex;
@@ -556,9 +558,9 @@
             flex-direction: column;
             background-size: cover;
             background-color: var(--dl-color-primary-darkblue);
-            background-image: url('https://images.unsplash.com/photo-1520014384091-f75776a1ca4f?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDMwNnx8aG90ZWx8ZW58MHx8fHwxNjU4NTg5NjMz&ixlib=rb-1.2.1&w=1500');
+            background-image: url("https://images.unsplash.com/photo-1583090326628-1d834b505499?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDU3fHx0ZWxlcGhvbmV8ZW58MHx8fHwxNjU4NTg5MDYw&ixlib=rb-1.2.1&w=1500");
           }
-          .login-page-top-container {
+          .contact-page-top-container {
             width: 100%;
             height: 791px;
             display: flex;
@@ -566,144 +568,98 @@
             border-width: 0px;
             flex-direction: column;
           }
-          .login-page-hero {
+          .contact-page-hero {
             width: auto;
             height: auto;
             display: flex;
+            padding: var(--dl-space-space-doubleunit);
             max-width: 1000px;
-            margin-top: var(--dl-space-space-doubleunit);
+            align-self: center;
+            margin-top: var(--dl-space-space-quadruple);
             align-items: center;
-            padding-top: var(--dl-space-space-doubleunit);
-            padding-left: var(--dl-space-space-doubleunit);
-            padding-right: var(--dl-space-space-doubleunit);
-            flex-direction: row;
-            padding-bottom: var(--dl-space-space-doubleunit);
+            border-radius: var(--dl-radius-radius-radius2);
+            flex-direction: column;
             justify-content: center;
             background-color: var(--dl-color-primary-darkblue);
           }
-          .login-page-content-container {
-            width: 543px;
-            height: 423px;
+          .contact-page-container1 {
+            flex: 0 0 auto;
+            width: auto;
             display: flex;
-            position: relative;
-            align-items: flex-start;
-            padding-top: var(--dl-space-space-unit);
+            align-items: center;
+            padding-top: var(--dl-space-space-doubleunit);
             border-color: var(--dl-color-primary-brown);
             border-width: 1px;
-            padding-left: var(--dl-space-space-doubleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-doubleunit);
+            padding-left: var(--dl-space-space-tripleunit);
+            padding-right: var(--dl-space-space-tripleunit);
             flex-direction: column;
-            padding-bottom: var(--dl-space-space-unit);
+            padding-bottom: var(--dl-space-space-doubleunit);
             justify-content: flex-start;
           }
-          .login-page-text {
-            color: var(--dl-color-primary-white);
+          .contact-page-text {
+            color: var(--dl-color-primary-brown);
             font-size: 50px;
             font-family: Roboto;
-          }
-          .login-page-text1 {
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 500;
-          }
-          .login-page-text2 {
-            color: var(--dl-color-primary-white);
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 500;
-          }
-          .login-page-container1 {
-            width: 416px;
-            height: 85px;
-            display: flex;
-            position: relative;
-            align-items: flex-start;
-            margin-bottom: var(--dl-space-space-unit);
-            flex-direction: column;
-            justify-content: center;
-          }
-          .login-page-text3 {
-            color: var(--dl-color-primary-brown);
-            font-size: 20px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 500;
             margin-bottom: var(--dl-space-space-halfunit);
           }
-          .login-page-textinput {
-            flex: 0;
-            width: 100%;
-            height: 41px;
-            align-self: flex-start;
-            margin-top: 0px;
-            border-width: 0px;
-            text-transform: capitalize;
-          }
-          .login-page-container2 {
-            flex: 0 0 auto;
-            width: 416px;
+          .contact-page-container2 {
+            width: auto;
+            height: auto;
             display: flex;
             align-items: flex-start;
-            margin-bottom: var(--dl-space-space-doubleunit);
-            flex-direction: column;
-            justify-content: center;
-          }
-          .login-page-text4 {
-            color: var(--dl-color-primary-brown);
-            font-size: 20px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 500;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .login-page-textinput1 {
-            width: 100%;
-            height: 43px;
-            border-width: 0px;
-            margin-right: 0px;
-          }
-          .login-page-container3 {
-            display: flex;
-            align-items: flex-start;
-            border-color: var(--dl-color-primary-brown);
-            border-width: 1px;
             flex-direction: column;
             justify-content: flex-start;
           }
-          .login-page-button {
-            color: var(--dl-color-primary-brown);
-            font-size: 20px;
-            padding-top: var(--dl-space-space-halfunit);
-            border-width: 0px;
-            padding-left: var(--dl-space-space-doubleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-doubleunit);
-            padding-bottom: var(--dl-space-space-halfunit);
-            background-color: transparent;
-          }
-          .login-page-navlink {
-            color: var(--dl-color-primary-brown);
+          .contact-page-text1 {
+            color: var(--dl-color-primary-white);
+            margin: 0px;
+            font-size: 25px;
+            align-self: flex-start;
             font-style: normal;
-            margin-top: var(--dl-space-space-unit);
+            font-family: Roboto;
+            font-weight: 600;
+          }
+          .contact-page-link {
+            color: var(--dl-color-primary-brown);
+            font-size: 22px;
+            font-style: normal;
             font-family: Roboto;
             font-weight: 700;
             text-decoration: none;
           }
+          .contact-page-container3 {
+            display: flex;
+            margin-top: var(--dl-space-space-doubleunit);
+            align-items: center;
+            border-color: var(--dl-color-primary-brown);
+            border-width: 1px;
+            flex-direction: column;
+            justify-content: flex-start;
+          }
+          .contact-page-link1 {
+            color: var(--dl-color-primary-white);
+            font-size: 23px;
+            align-self: center;
+            margin-top: 0px;
+            font-family: Roboto;
+            padding-top: var(--dl-space-space-halfunit);
+            border-color: var(--dl-color-primary-brown);
+            border-width: 0px;
+            padding-left: var(--dl-space-space-doubleunit);
+            padding-right: var(--dl-space-space-doubleunit);
+            padding-bottom: var(--dl-space-space-halfunit);
+            text-decoration: none;
+            background-color: transparent;
+          }
           @media(max-width: 991px) {
-            .login-page-hero {
+            .contact-page-hero {
               padding-left: var(--dl-space-space-tripleunit);
               padding-right: var(--dl-space-space-tripleunit);
             }
           }
           @media(max-width: 767px) {
-            .login-page-hero {
+            .contact-page-hero {
               justify-content: center;
-            }
-            .login-page-content-container {
-              align-items: center;
             }
           }
           

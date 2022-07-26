@@ -106,4 +106,10 @@ class BookLoginView(FormView):
 class BookingView(CreateView):
     template_name = "booking.html"
     form_class = BookingForm
-    success_url = reverse_lazy("escapp:index")   
+    success_url = reverse_lazy("escapp:index") 
+
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+class ContactView(TemplateView):
+    template_name = "contact.html" 

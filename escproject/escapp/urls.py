@@ -11,5 +11,8 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
     path("booklogin/", BookLoginView.as_view(), name="booklogin"),
     path("booking/", BookingView.as_view(), name="booking"),
+    path("about/", AboutView.as_view(), name="about"),
+    path("contact/", ContactView.as_view(), name="contact"),
+
 
 ]
