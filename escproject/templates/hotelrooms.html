@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel List</title>
+  </head>
+  <body>
+
+
+      <div class="row mt-4">
+        {% for room in hotel_rooms%}
+        <div class="col-md-4">
+          <h3>Hotel Room Type: {{room.roomNormalizedDescription}}</h>
+            <br><img src= {{room.imageURL_forUse}} alt="Image Currently Unavailable" width="400" height="300">
+            <h4>Hotel Room Description: {{room.long_description | safe}}</h>
+                  <p>Points: {{room.points}}</p>
+                  <p>Price: {{room.price}}</p>
+                  <p>Points: {{room.points}}</p>
+                  <p>Free Cancellation: {{room.free_cancellation}}</p>
+                  <p>Amenities: {{room.amenities}}</p>
+
+
+                  <a href="{% url 'escapp:startbooking' room.slug %}"><button>Book Room</button></a>
+              
+              
+                 
+          
+          
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <style></style>
+  </body>
+</html>
+

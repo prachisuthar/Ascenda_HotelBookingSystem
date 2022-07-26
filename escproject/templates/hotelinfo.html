@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Information</title>
+  </head>
+  <body>
+
+
+      <div class="row mt-4">
+        
+        <div class="col-md-4">
+          <h1>Hotel Name: {{hotel1.hotel_name}}</h1>
+          <a href="{% url 'escapp:hotelinfo_map' %}"><button>View on Map</button></a>
+            <h2>Address: {{hotel1.hotel_address}}</h2>
+            <img src= {{hotel1.image_url_ForUse}} alt="Image Currently Unavailable" width="600" height="400">
+            
+              <p>{{hotel1.description | safe}}</p> 
+            
+            
+            <p>TrustYou Score Overall: {{hotel1.trustyou_score_overall}}</p>
+            <p>TrustYou Score Solo: {{hotel1.trustyou_score_solo}}</p>
+            <p>TrustYou Score Couple: {{hotel1.trustyou_score_couple}}</p>
+            <p>TrustYou Score Family: {{hotel1.trustyou_score_family}}</p>
+            <p>TrustYou Score Business: {{hotel1.trustyou_score_business}}</p>
+            <p>Amenities Ratings: {{hotel1.amenities_ratings}}</p>
+            <a href="{% url 'escapp:hotelrooms' %}"><button>View Rooms Available For Booking</button></a><br>
+            
+        </div>
+        
+      </div>
+    </div>
+    <style></style>
+  </body>
+</html>
+
