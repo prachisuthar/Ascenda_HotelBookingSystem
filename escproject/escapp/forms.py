@@ -8,10 +8,10 @@ class SignUpForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
-
+    
     class Meta:
         model = Customer
-        fields = ["username", "password", "full_name", "password", "confirm_password"]
+        fields = ["username", "password", "full_name", "password", "confirm_password", "email"]
 
     def clean_username(self):
         uname = self.cleaned_data.get("username")

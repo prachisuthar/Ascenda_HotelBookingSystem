@@ -314,3 +314,8 @@ class AboutView(TemplateView):
 
 class ContactView(TemplateView):
     template_name = "contact.html" 
+
+class AccountinfoView(TemplateView):
+    template_name = "accountinfo.html" 
+
+

@@ -78,10 +78,13 @@
                 <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
                     <span class="navigation-links-text"><span>Log In</span></span>
                 </a>
+                <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+                  <span class="navigation-links-text"><span>Sign Up</span></span>
+              </a>
               </nav>
             </div>
             <div class="header-btn-group">
-              <a href="account-info-page.html" class="header-register button">
+              <a href="{% url 'escapp:accountinfo' %}" class="header-register button">
                 <span>My Account</span>
               </a>
             </div>
@@ -769,5 +772,7 @@
           }
           
     </style>
+
+    
   </body>
 </html>

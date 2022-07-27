@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 
 <html lang="en">
   <head>
@@ -94,10 +95,13 @@
                 <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
                     <span class="navigation-links-text"><span>Log In</span></span>
                 </a>
+                <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+                  <span class="navigation-links-text"><span>Sign Up</span></span>
+              </a>
               </nav>
               </div>
               <div class="header-btn-group">
-                <a href="account-info-page.html" class="header-register button">
+                <a href="{% url 'escapp:accountinfo' %}" class="header-register button">
                   <span>My Account</span>
                 </a>
               </div>
@@ -125,21 +129,27 @@
                     </div>
                   </div>
                   <nav
-                  class="navigation-links-nav navigation-links-root-class-name10"
-                >
-                  <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
-                    <span>Home</span>
-                  </a>
-                  <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
-                    <span>About</span>
-                  </a>
-                  <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
-                    <span>Contact</span>
-                  </a>
-                  <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                      <span class="navigation-links-text"><span>Log In</span></span>
-                  </a>
-                </nav>
+                    class="navigation-links-nav navigation-links-root-class-name11"
+                  >
+                    <a
+                      href="landing-page.html"
+                      class="navigation-links-navlink"
+                    >
+                      <span>Home</span>
+                    </a>
+                    <a href="about-page.html" class="navigation-links-navlink1">
+                      <span>About</span>
+                    </a>
+                    <span class="navigation-links-text">
+                      <span>Hotels</span>
+                    </span>
+                    <a
+                      href="contact-page.html"
+                      class="navigation-links-navlink2"
+                    >
+                      <span>Contact</span>
+                    </a>
+                  </nav>
                 </div>
                 <div>
                   <svg
@@ -174,12 +184,9 @@
               <div class="landing-page-content-container">
                 <h1 class="landing-page-text">Search for a Hotel</h1>
                 <div class="landing-page-container02">
+                      <form action="" method="GET"> 
+
                   <span class="landing-page-text1">Destination</span>
-                  <!-- <input
-                    type="text"
-                    placeholder="placeholder"
-                    class="landing-page-textinput input"
-                  /> -->
                   <input list="Countries" name="country" id="country">
                   <datalist id="Countries">
             
@@ -189,8 +196,9 @@
             
                         {% endfor %}
             
-                  </datalist>  
-            
+                  </datalist>
+                      </form> 
+
                 </div>
                 <div class="landing-page-container03">
                   <div class="landing-page-container04">
@@ -213,37 +221,32 @@
                   </div>
                 </div>
                 <div class="landing-page-container09">
+                  <div class="landing-page-container10">
+                    <button type="submit" class="landing-page-button button">
+                      <span><span>Confirm Search Parameters</span></span>
+                    </button>
+                  </div>
+                </form>
                   <a
-                    href="hotel-search-results.html"
+                    href="{% url 'escapp:hotellist' %}"
                     class="landing-page-navlink"
                   >
                     <div
                       class="search-button-container search-button-root-class-name2"
                     >
                       <div class="search-button-container1">
-                        <button type="submit" class="search-button-button button">
+                        <button type = "submit" class="search-button-button button">
                           <span>
-                            <span>Confirm Search Parameters</span>
+                            <span>Search</span>
                             <span class="search-button-text2"></span>
                           </span>
                         </button>
-                      </form>
-                      </div>
-                      <div class="search-button-container2">
-                        <a href="{% url 'escapp:index' %}">
-                          <button class="search-button-button button">
-                            <span>
-                              <span>Begin Search</span>
-                              <span class="search-button-text2"></span>
-                            </span>
-                          </button>
-                        </a>
                       </div>
                     </div>
                   </a>
                 </div>
-                <div class="landing-page-container10"></div>
                 <div class="landing-page-container11"></div>
+                <div class="landing-page-container12"></div>
               </div>
             </div>
           </div>
@@ -313,14 +316,6 @@
         margin-left: 32px;
         text-decoration: none;
       }
-      .navigation-links-navlink3 {
-        color: var(--dl-color-primary-white);
-        font-style: normal;
-        font-family: Roboto;
-        font-weight: 400;
-        margin-left: 32px;
-        text-decoration: none;
-      }
       
       
       
@@ -348,10 +343,6 @@
           margin-bottom: var(--dl-space-space-unit);
         }
         .navigation-links-navlink2 {
-          margin-left: 0;
-          margin-bottom: var(--dl-space-space-unit);
-        }
-        .navigation-links-navlink3 {
           margin-left: 0;
           margin-bottom: var(--dl-space-space-unit);
         }
@@ -509,11 +500,6 @@
         position: relative;
       }
       .search-button-container1 {
-        display: flex;
-        border-color: var(--dl-color-primary-brown);
-        border-width: 1px;
-      }
-      .search-button-container2 {
         display: flex;
         border-color: var(--dl-color-primary-brown);
         border-width: 1px;
@@ -846,12 +832,31 @@
       }
       .landing-page-container09 {
         flex: 0 0 auto;
-        width: 195px;
+        width: 328px;
         height: 64px;
         display: flex;
         align-items: center;
         margin-bottom: 0px;
         justify-content: flex-start;
+      }
+      .landing-page-container10 {
+        display: flex;
+        align-self: flex-end;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        margin-right: var(--dl-space-space-unit);
+      }
+      .landing-page-button {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        align-self: flex-end;
+        padding-top: var(--dl-space-space-halfunit);
+        border-width: 0px;
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        background-color: transparent;
       }
       .landing-page-navlink {
         display: contents;
@@ -859,14 +864,14 @@
       .landing-page-component1 {
         text-decoration: none;
       }
-      .landing-page-container10 {
+      .landing-page-container11 {
         border: 2px dashed rgba(120, 120, 120, 0.4);
         display: flex;
         align-items: flex-start;
         flex-direction: column;
         justify-content: flex-start;
       }
-      .landing-page-container11 {
+      .landing-page-container12 {
         border: 2px dashed rgba(120, 120, 120, 0.4);
         display: flex;
         position: relative;
@@ -887,6 +892,7 @@
       }
       
     </style>
+
     <style>
       :root {
         --dl-color-gray-900: #D9D9D9;
@@ -979,4 +985,3 @@
     </style>
   </body>
 </html>
-
