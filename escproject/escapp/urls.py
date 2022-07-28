@@ -19,6 +19,8 @@ urlpatterns = [
     path("hotelinfo_map/", ViewMap.as_view(), name = "hotelinfo_map"),
     path("hotelrooms/", HotelRoomsView.as_view(), name="hotelrooms"),
     path("accountinfo/", AccountinfoView.as_view(), name="accountinfo"),
+    path("deleteaccount/", CheckDeleteAccountView.as_view(), name="deleteaccountcheck"),
+    path("confirmdelete/", ConfirmDeleteView.as_view(), name="confirmdelete"),
 
 
 

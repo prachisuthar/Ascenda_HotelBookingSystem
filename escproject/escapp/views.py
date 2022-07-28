@@ -318,4 +318,16 @@ class ContactView(TemplateView):
 class AccountinfoView(TemplateView):
     template_name = "accountinfo.html" 
 
+class CheckDeleteAccountView(TemplateView):
+    template_name = "checkdeleteaccount.html"
+
+class ConfirmDeleteView(TemplateView):
+    template_name = "confirmdelete.html"
+
+    def del_user(request, username):    
+
+        u = User.objects.get(username = request.user.customer.username)
+        u.delete()
+
+        return render(request, 'confirmdelete.html')     
 
