@@ -85,12 +85,21 @@
               <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
                 <span>Contact</span>
               </a>
-              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                  <span class="navigation-links-text"><span>Log In</span></span>
-              </a>
-              <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
-                <span class="navigation-links-text"><span>Sign Up</span></span>
+              {% if request.user.customer %}
+
+              <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log Out</span></span>
             </a>
+              {% else %}
+
+              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log In</span></span>
+            </a>
+            <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+              <span class="navigation-links-text"><span>Sign Up</span></span>
+          </a>
+          
+              {% endif %}
             </nav>
             </div>
             <div class="header-btn-group">

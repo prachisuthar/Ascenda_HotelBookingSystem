@@ -122,9 +122,21 @@
                   <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
                     <span>Contact</span>
                   </a>
+                  {% if request.user.customer %}
+
+                  <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+                    <span class="navigation-links-text"><span>Log Out</span></span>
+                </a>
+                  {% else %}
+    
                   <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                    <span>Log In</span>
-                  </a>
+                    <span class="navigation-links-text"><span>Log In</span></span>
+                </a>
+                <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+                  <span class="navigation-links-text"><span>Sign Up</span></span>
+              </a>
+              
+                  {% endif %}
                 </nav>
               </div>
               <div>
@@ -155,7 +167,7 @@
           <div class="login-page-hero">
             <div class="login-page-content-container">
               <span class="login-page-text">
-                <span class="login-page-text1">Login</span>
+                <span class="login-page-text1">Log In</span>
                 <!-- <span class="login-page-text2">&amp;#8203;</span> -->
               </span>
               <div class="login-page-container1">
@@ -176,13 +188,15 @@
                 /> -->
                 {{form.password}}
               </div>
+              {% if error %}
+              <li style="color: white">{{error}}</li>
+              {% endif %}
+
               <div class="login-page-container3">
                 <button type="submit" id="login_button" class="login-page-button button">
                   <span>Login</span>
                 </button>
-                {% if error %}
-                <li style="color: red">{{error}}</li>
-                {% endif %}
+              
         
               </div>
               <a href="{% url 'escapp:signup' %}" class="login-page-navlink">

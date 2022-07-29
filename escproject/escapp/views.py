@@ -11,6 +11,7 @@ from pandas.io.json import json_normalize
 import pandas as pd
 import folium
 from flask import request
+from django.shortcuts import redirect
 
 # Create your views here.
 def index(request):
@@ -45,7 +46,8 @@ def f1(request):
     def Qdest_id():
         return destination_id
 
-    return render(request,'index.html')
+    return redirect(request,'index.html')
+    # return redirect("http://127.0.0.1:8000/hotellist/")
 
 class HotelListView(TemplateView):
     template_name = "hotellist.html"
@@ -258,11 +260,20 @@ class SignUpView(CreateView):
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         confirm_password = form.cleaned_data.get("confirm_password")
-        user = User.objects.create_user(username, confirm_password, password)
-        form.instance.user = user
-        login(self.request, user)
-       
+
+        if User.objects.filter(username = username).exists():
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Username already exists. Please enter a new username."})
+        elif password != confirm_password:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Password and Re-Enter Password do not match."})
+        else:
+            user = User.objects.create_user(username, confirm_password, password)
+            form.instance.user = user
+            login(self.request, user)
+
+            return super().form_valid(form) 
+
         return super().form_valid(form) 
+
 
 class LogoutView(View):
     def get(self, request):
@@ -326,8 +337,9 @@ class ConfirmDeleteView(TemplateView):
 
     def del_user(request, username):    
 
-        u = User.objects.get(username = request.user.customer.username)
+        u = User.objects.get(username = username)
         u.delete()
 
         return render(request, 'confirmdelete.html')     
+
 

@@ -206,15 +206,22 @@
                   /> -->
                   {{form.password}}
                 </div>
-                <div class="register-page-container5">
-                  <span class="register-page-text5">Re-enter Password</span>
-                  <!-- <input
-                    type="text"
-                    placeholder="placeholder"
-                    class="register-page-textinput3 input"
-                  /> -->
-                  {{form.confirm_password}}
-                </div>
+                <div class="register-page-container3">
+                  <div class="register-page-container4">
+                    <span class="register-page-text4">Re-Enter Password</span>
+                    <!-- <input
+                      type="text"
+                      placeholder="placeholder"
+                      class="register-page-textinput2 input"
+                    /> -->
+                    {{form.confirm_password}}
+                  </div>
+
+                  {% if error %}
+                  <li style="color: white">{{error}}</li>
+                  {% endif %}
+          
+
               </div>
               <div class="register-page-container6">
                 <a
@@ -438,7 +445,12 @@
       
       
       
-      
+
+      .errorlist {
+          color: white;
+          size: 100px;
+        }
+ 
       
       
       

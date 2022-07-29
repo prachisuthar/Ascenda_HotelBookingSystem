@@ -5,8 +5,10 @@ from . import views
 app_name = "escapp"
 urlpatterns = [
     path("", views.index, name = "index"),
+    # path("", HomeView.as_view(), name='index'),
     path("hotellist/", HotelListView.as_view(), name="hotellist"),
     path("f1/", views.f1, name = "f1"),
+    # path("hotellist/", views.hotel_get_context_data, name = "hotellist"),
     path("signup/", SignUpView.as_view(), name="signup"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("login/", LoginView.as_view(), name="login"),
@@ -21,7 +23,5 @@ urlpatterns = [
     path("accountinfo/", AccountinfoView.as_view(), name="accountinfo"),
     path("deleteaccount/", CheckDeleteAccountView.as_view(), name="deleteaccountcheck"),
     path("confirmdelete/", ConfirmDeleteView.as_view(), name="confirmdelete"),
-
-
 
 ]

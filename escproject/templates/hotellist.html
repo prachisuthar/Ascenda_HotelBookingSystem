@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel List</title>
+  </head>
+  <body>
+
+
+      <div class="row mt-4">
+        {% for hotel in hotels_list%}
+        <div class="col-md-4">
+          <h3>Hotel Name: {{hotel.hotelName}}</h>
+            <h4>Address: {{hotel.address}}</h>
+              <h5>Price of Cheapest Room: {{hotel.cheapest_price}}</h>
+              
+              
+            <a href="{% url 'escapp:hotelinfo' hotel.slug %}"><button>View</button></a>
+            
+          
+          
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <style></style>
+  </body>
+</html>
+

@@ -92,12 +92,21 @@
                 <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
                   <span>Contact</span>
                 </a>
-                <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                    <span class="navigation-links-text"><span>Log In</span></span>
-                </a>
-                <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
-                  <span class="navigation-links-text"><span>Sign Up</span></span>
-              </a>
+                {% if request.user.customer %}
+
+              <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log Out</span></span>
+            </a>
+              {% else %}
+
+              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log In</span></span>
+            </a>
+            <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+              <span class="navigation-links-text"><span>Sign Up</span></span>
+          </a>
+          
+              {% endif %}
               </nav>
               </div>
               <div class="header-btn-group">
@@ -182,7 +191,7 @@
             <div class="landing-page-hero">
               <div class="landing-page-content-container">
                 <h1 class="landing-page-text">Search for a Hotel</h1>
-                <form action="/f1/" method="POST">
+                <form action="" method="POST">
                   {% csrf_token %}
                 <div class="landing-page-container02">
                        <!-- <form action="" method="GET">   -->
@@ -223,16 +232,16 @@
                 </div>
                 <div class="landing-page-container09">
                   <div class="landing-page-container10">
-                    <button type="submit" class="landing-page-button button">
+                    <a href="{% url 'escapp:hotellist' %}"><button type="submit" class="landing-page-button button">
                       <span><span>Confirm Search Parameters</span></span>
-                    </button>
+                    </button></a>
                   </div>
                 </form>
 
-                    <div
-                      class="search-button-container search-button-root-class-name2"
+                    <!-- <div
+                      class="search-button-container search-button-root-class-name2" -->
                     >
-                      <div class="search-button-container1">
+                      <!-- <div class="search-button-container1">
                         <a
                         href="{% url 'escapp:hotellist' %}"
                         class="landing-page-navlink"
@@ -242,8 +251,8 @@
                             <span class="search-button-text2"></span>
                           </span>
                         </button>  </a>
-                      </div>
-                    </div>
+                      </div> -->
+                    <!-- </div> -->
                 
                 </div>
                 <div class="landing-page-container11"></div>
@@ -998,7 +1007,7 @@
 <body>
     <form action="/f1/" method="POST">
         {% csrf_token %}
-    <!-- <form action="" method="GET">  -->
+     <form action="" method="GET"> 
       <label for="browser">Choose your Destination Place:</label>
       <input list="Countries" name="country" id="country"><br>
       <datalist id="Countries">
@@ -1010,7 +1019,7 @@
             {% endfor %}
 
       </datalist>  
-    <!-- </form>  -->
+     </form>  
     <label for="start_date">Start Date :</label>
     <input type="date" id="start_date" name="start_date"><br><br>
     <label for="end_date">End Date :</label>
