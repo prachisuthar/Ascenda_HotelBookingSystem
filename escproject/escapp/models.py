@@ -84,7 +84,7 @@ class HotelList(models.Model):
     hotelName = models.CharField(max_length=250, blank=True, default="Not Available")
     slug = models.SlugField(unique = True, default=uuid.uuid1)
     address = models.CharField(max_length=250, blank=True)
-    image = models.ImageField(upload_to = "feat2", blank=True)
+    imageURL = models.CharField(max_length=250, blank = True, default = "None", null=True)
     cheapest_price = models.PositiveIntegerField(blank=True, default=0)
     hotel_id = models.CharField(max_length=250, blank=True, default = "")
 
@@ -134,6 +134,7 @@ class Feature3_info(models.Model):
     longitude = models.CharField(max_length=250, blank = True, default = "None", null=True)
     rating = models.CharField(max_length=250, blank = True, default = "None", null=True)
     amenities_ratings = models.CharField(max_length=250, blank = True, default = "None", null=True)
+    amenities = models.CharField(max_length=250, blank = True, default = "None", null=True)
     description = models.CharField(max_length=250, blank = True, default = "None", null=True)
     trustyou_score_overall = models.CharField(max_length=250, blank = True, default = "None", null=True)
     trustyou_score_solo = models.CharField(max_length=250, blank = True, default = "None", null=True)
@@ -144,6 +145,7 @@ class Feature3_info(models.Model):
     default_image_index = models.CharField(max_length=250, blank = True, default = "None", null=True)
     cloudflare_image_url = models.CharField(max_length=250, blank = True, default = "None", null=True)
     image_url_ForUse = models.CharField(max_length=250, blank = True, default = "None", null=True)
+    imageIndices = models.CharField(max_length=250, blank = True, default = "None", null=True)
 
 class HotelRoomsInfo(models.Model):
     booking_key = models.CharField(max_length=250, blank = True, default = "None", null=True)
@@ -169,7 +171,8 @@ class HotelRoomsInfo(models.Model):
     slug = models.SlugField(unique = True, default=uuid.uuid1)
     imageURL_forUse = models.CharField(max_length=250, blank = True, default = "None", null=True)
 
-
+class HotelPicturesModel(models.Model):
+    imageURL = models.CharField(max_length=250, blank = True, default = "None", null=True)
 
   
 

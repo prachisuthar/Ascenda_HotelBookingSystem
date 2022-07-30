@@ -23,5 +23,6 @@ urlpatterns = [
     path("accountinfo/", AccountinfoView.as_view(), name="accountinfo"),
     path("deleteaccount/", CheckDeleteAccountView.as_view(), name="deleteaccountcheck"),
     path("confirmdelete/", ConfirmDeleteView.as_view(), name="confirmdelete"),
+    path("hotelpictures/", HotelPictures.as_view(), name="hotelpictures"),
 
 ]

@@ -12,11 +12,10 @@
       <div class="row mt-4">
         {% for hotel in hotels_list%}
         <div class="col-md-4">
-          <h3>Hotel Name: {{hotel.hotelName}}</h>
-            <h4>Address: {{hotel.address}}</h>
-              <h5>Price of Cheapest Room: {{hotel.cheapest_price}}</h>
-              
-              
+          <h2>Hotel Name: {{hotel.hotelName}}</h><br />
+            <p>Address: {{hotel.address}}</p>
+              <p>Price of Cheapest Room: {{hotel.cheapest_price}}</p><br />
+                <img src= {{hotel.imageURL}} alt="Image not found" onerror="this.src='https://isa.ncsu.edu/wp-content/uploads/2020/07/imageNotAvailable_grid.png'" width="200" height="140"><br />
             <a href="{% url 'escapp:hotelinfo' hotel.slug %}"><button>View</button></a>
             
           
@@ -24,6 +23,24 @@
         </div>
         {% endfor %}
       </div>
+      <div class="pagination">
+        <span class="step-links">
+            {% if hotels_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ hotels_list.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ hotels_list.number }} of {{ hotels_list.paginator.num_pages }}.
+            </span>
+    
+            {% if hotels_list.has_next %}
+                <a href="?page={{ hotels_list.next_page_number }}">next</a>
+                <a href="?page={{ hotels_list.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
     </div>
     <style></style>
   </body>
