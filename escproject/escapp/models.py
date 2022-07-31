@@ -10,8 +10,8 @@ class Feature1(models.Model):
     uid = models.CharField(max_length=250, blank=True)
     guests_number = models.PositiveIntegerField(blank=True, default = 3)
     rooms_number = models.PositiveIntegerField(blank=True, default = 3)
-    start_date = models.DateField(blank=True, default = "2020-10-10")
-    end_date = models.DateField(blank=True, default = "2020-11-11")
+    start_date = models.DateField(blank=True, null =True) #default = "2020-10-10")
+    end_date = models.DateField(blank=True, null = True) #default = "2020-11-11")
 
 
 # json_file_path0 = "destinations.json"

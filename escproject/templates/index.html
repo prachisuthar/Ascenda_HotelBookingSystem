@@ -191,7 +191,7 @@
             <div class="landing-page-hero">
               <div class="landing-page-content-container">
                 <h1 class="landing-page-text">Search for a Hotel</h1>
-                <form action="" method="POST">
+                <form action="/f1/" method="POST">
                   {% csrf_token %}
                 <div class="landing-page-container02">
                        <!-- <form action="" method="GET">   -->
@@ -232,28 +232,13 @@
                 </div>
                 <div class="landing-page-container09">
                   <div class="landing-page-container10">
-                    <a href="{% url 'escapp:hotellist' %}"><button type="submit" class="landing-page-button button">
-                      <span><span>Confirm Search Parameters</span></span>
+                    <a href="127.0.0.1:8000/hotellist/"><button type="submit" class="landing-page-button button">
+                      <span><span> Search</span></span>
                     </button></a>
                   </div>
-                </form>
 
-                    <!-- <div
-                      class="search-button-container search-button-root-class-name2" -->
-                    >
-                      <!-- <div class="search-button-container1">
-                        <a
-                        href="{% url 'escapp:hotellist' %}"
-                        class="landing-page-navlink"
-                      >  <button type = "submit" class="search-button-button button">
-                          <span>
-                            <span>Search</span>
-                            <span class="search-button-text2"></span>
-                          </span>
-                        </button>  </a>
-                      </div> -->
-                    <!-- </div> -->
-                
+                </form>
+              
                 </div>
                 <div class="landing-page-container11"></div>
                 <div class="landing-page-container12"></div>
@@ -995,48 +980,3 @@
     </style>
   </body>
 </html> 
-<!-- <!DOCTYPE html>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/f1/" method="POST">
-        {% csrf_token %}
-     <form action="" method="GET"> 
-      <label for="browser">Choose your Destination Place:</label>
-      <input list="Countries" name="country" id="country"><br>
-      <datalist id="Countries">
-
-        {% for language in languages %}
-
-        <option value="{{language.country}}">
-
-            {% endfor %}
-
-      </datalist>  
-     </form>  
-    <label for="start_date">Start Date :</label>
-    <input type="date" id="start_date" name="start_date"><br><br>
-    <label for="end_date">End Date :</label>
-    <input type="date" id="end_date" name="end_date"><br><br>
-    <label for="guests_number">Number of People :</label>
-    <input type="number" id="guests_number" name="guests_number" min="1" max="100"><br>
-    <label for="rooms_number">Number of Rooms :</label>
-    <input type="number" id="rooms_number" name="rooms_number" min="1" max="100"><br>
-    <a href=" "><button type="submit">Confirm Search Parameters</button></a><br><br>
-
-    </form>
-    <a href="{% url 'escapp:index' %}"><button type = "submit" class="btn-primary">Begin Search</button></a><br><br>
-
-    <a href="{% url 'escapp:signup' %}"><button>sign up form</button></a><br>
-    <a href="{% url 'escapp:login' %}"><button>Log In form</button></a><br>
-    <a href="{% url 'escapp:booking' %}"><button>Booking form</button></a> 
-
-
-</body>
-</html> -->

@@ -24,9 +24,11 @@
                   <p>Free Cancellation: {{room.free_cancellation}}</p>
                   <p>Amenities: {{room.amenities}}</p>
 
-
+                  {% if request.user.customer %}
                   <a href="{% url 'escapp:startbooking' room.slug %}"><button>Book Room</button></a>
-              
+              {% else %}
+                  <button type="button" disabled>Log In to Book Room</button></a>
+              {% endif %}
               
                  
           

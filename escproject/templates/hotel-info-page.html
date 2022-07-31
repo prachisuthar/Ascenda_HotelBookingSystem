@@ -66,22 +66,36 @@
             </a>
             <div class="header-nav">
               <nav
-                class="navigation-links-nav navigation-links-root-class-name10"
-              >
-                <a href="landing-page.html" class="navigation-links-navlink">
-                  <span>Home</span>
-                </a>
-                <a href="about-page.html" class="navigation-links-navlink1">
-                  <span>About</span>
-                </a>
-                <span class="navigation-links-text"><span>Hotels</span></span>
-                <a href="contact-page.html" class="navigation-links-navlink2">
-                  <span>Contact</span>
-                </a>
-              </nav>
+              class="navigation-links-nav navigation-links-root-class-name10"
+            >
+              <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
+                <span>Home</span>
+              </a>
+              <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
+                <span>About</span>
+              </a>
+              <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
+                <span>Contact</span>
+              </a>
+              {% if request.user.customer %}
+
+            <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+              <span class="navigation-links-text"><span>Log Out</span></span>
+          </a>
+            {% else %}
+
+            <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+              <span class="navigation-links-text"><span>Log In</span></span>
+          </a>
+          <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+            <span class="navigation-links-text"><span>Sign Up</span></span>
+        </a>
+        
+            {% endif %}
+            </nav>
             </div>
             <div class="header-btn-group">
-              <a href="account-info-page.html" class="header-register button">
+              <a href="{% url 'escapp:accountinfo' %}" class="header-register button">
                 <span>My Account</span>
               </a>
             </div>

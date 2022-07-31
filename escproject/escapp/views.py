@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView, CreateView, View
 from .forms import *
 from django.urls import reverse_lazy
-from .forms import BookingForm, SignUpForm, LoginForm
+from .forms import BookingForm, SignUpForm, LoginForm, BookLoginForm
 from .models import *
 import json
 from django.contrib.auth import authenticate, login, logout
@@ -12,8 +12,6 @@ import pandas as pd
 import folium
 from flask import request
 from django.shortcuts import redirect
-from django.core.paginator import Paginator
-import re
 
 # Create your views here.
 def index(request):
@@ -48,8 +46,8 @@ def f1(request):
     def Qdest_id():
         return destination_id
 
-    return redirect(request,'index.html')
-    # return redirect("http://127.0.0.1:8000/hotellist/")
+    # return render(request,'hotellist.html')
+    return redirect("http://127.0.0.1:8000/hotellist/")
 
 class HotelListView(TemplateView):
     template_name = "hotellist.html"
@@ -79,7 +77,8 @@ class HotelListView(TemplateView):
             response_nonprices = requests.get('https://hotelapi.loyalty.dev/api/hotels?', params=query)
         r_nonprices = response_nonprices.json()
         for hotel in r_nonprices:
-            HotelList.objects.filter(hotel_id = hotel["id"]).update(hotelName=hotel['name'], address=hotel['address'], imageURL=(hotel['image_details']['prefix']+str(hotel['default_image_index'])+hotel['image_details']['suffix']))
+            HotelList.objects.filter(hotel_id = hotel["id"]).update(hotelName=hotel['name'], address=hotel['address'])
+        
         HotelList.objects.filter(hotelName="Not Available").delete()
 
         
@@ -94,14 +93,10 @@ class HotelListView(TemplateView):
             #HotelList.objects.filter(hotel_id = hotel["id"]).update(cheapest_price = hotel['lowest_price'])
 
 
-        all_hotels = HotelList.objects.all()
-        paginator = Paginator(all_hotels, 5)
-        page_number = self.request.GET.get('page')
-        hotels_list = paginator.get_page(page_number)
         context = super().get_context_data(**kwargs)
-        
+        # context['country_list'] = DestinationSearch.country.
 
-        context['hotels_list'] = hotels_list
+        context['hotels_list'] = HotelList.objects.all()
 
         return context
 
@@ -131,37 +126,12 @@ class HotelInfoView(TemplateView):
 
         Feature3_info.objects.create(hotel_id = jsonAs_list[0]['id'], hotel_name = jsonAs_list[0]['name'], hotel_address = jsonAs_list[0]['address'],
             latitude = jsonAs_list[0]['latitude'], longitude = jsonAs_list[0]['longitude'], rating = jsonAs_list[0]['rating'],
-            description = jsonAs_list[0]['description'], amenities_ratings = jsonAs_list[0]['amenities_ratings'],
+            amenities_ratings = jsonAs_list[0]['amenities_ratings'], description = jsonAs_list[0]['description'], 
             trustyou_score_overall = jsonAs_list[0]['trustyou.score.overall'], trustyou_score_solo = jsonAs_list[0]['trustyou.score.solo'],
             trustyou_score_family= jsonAs_list[0]['trustyou.score.family'], trustyou_score_business= jsonAs_list[0]['trustyou.score.business'],
             default_image_index = jsonAs_list[0]['default_image_index'], cloudflare_image_url = jsonAs_list[0]['image_details.prefix'],
-            image_details_suffix = jsonAs_list[0]['image_details.suffix']) #, imageIndices = jsonAs_list[0]['hires_image_index']
+            image_details_suffix = jsonAs_list[0]['image_details.suffix'])
         obj = Feature3_info.objects.first()
-        obj_id = obj.hotel_id
-        try:
-            amenities_new = str(hotel_info['amenities'])
-            chars_to_remove_amenities = [": ", "True", "{", "}", "'"]
-            for char in chars_to_remove_amenities:
-                amenities_new = amenities_new.replace(char,"")
-            amenities_new = re.sub(r"(\w)([A-Z])", r"\1 \2", amenities_new)
-            amenities_new = amenities_new.lower()
-            amenities_new = amenities_new.replace("t vin room", "TV in room")
-            amenities = amenities_new
-        except:
-            amenities = "currently not available on site"
-        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities = amenities)
-        try:
-            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = jsonAs_list[0]['hires_image_index'])
-        except:
-            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = "1")
-        amenitiesRatings = obj.amenities_ratings
-        chars_to_remove = ["[", "]","'name'",": '", "', 'score'", "{", "}"]
-        for char in chars_to_remove:
-            amenitiesRatings = amenitiesRatings.replace(char,"")
-        if amenitiesRatings == "":
-            amenitiesRatings = "None"
-        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities_ratings = amenitiesRatings)
-
         hotel_latitude = jsonAs_list[0]['latitude']
         hotel_longitude = jsonAs_list[0]['longitude']
 
@@ -232,22 +202,6 @@ class HotelRoomsView(TemplateView):
 
         return context
 
-class HotelPictures(TemplateView):
-    template_name = "hotelpictures.html"
-
-    def get_context_data(self, **kwargs):
-        HotelPicturesModel.objects.all().delete()
-        #each time u call the query u must clear the database!!! so that u dont see extra stuff
-        hotel_obj = Feature3_info.objects.first()
-        imageIndices_arr = (hotel_obj.imageIndices).split(",")
-        for element in imageIndices_arr:
-            HotelPicturesModel.objects.create(imageURL = hotel_obj.cloudflare_image_url + str(element) + hotel_obj.image_details_suffix)
-                
-        context = super().get_context_data(**kwargs)
-        context['hotel_pictures'] = HotelPicturesModel.objects.all()
-
-        return context
-
 class ViewMap(TemplateView):
     template_name = "hotelInfo_map.html"
 
@@ -280,21 +234,7 @@ class ViewMap(TemplateView):
 
         return super().get(request, *args, **kwargs)
 
-class StartBooking(TemplateView):
-    template_name = "startbooking.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        url_slug = self.kwargs['slug']
-        room = HotelRoomsInfo.objects.get(slug = url_slug)
-        context["room"] = room
-        #room.booking_key
-        #global hlatitude
-        #def hlatitude():
-            #return hotel_latitude
-
-        
-        return context
 
             
 class SignUpView(CreateView):
@@ -344,27 +284,46 @@ class LoginView(FormView):
         return super().form_valid(form)
 
 
-class BookLoginView(FormView):
-    template_name = "booklogin.html"
-    form_class = BookLoginForm
-    success_url = reverse_lazy("escapp:booking")
+# class BookLoginView(FormView):
+#     template_name = "booklogin.html"
+#     form_class = BookLoginForm
+#     success_url = reverse_lazy("escapp:startbooking room.slug")
 
-    def form_valid(self, form):
-        uname = form.cleaned_data.get("username")
-        pword = form.cleaned_data["password"]
-        usr = authenticate(username=uname, password=pword)
+#     def form_valid(self, form):
+#         uname = form.cleaned_data.get("username")
+#         pword = form.cleaned_data["password"]
+#         usr = authenticate(username=uname, password=pword)
         
-        if usr is not None and usr.customer:
-            login(self.request, usr)
-        else:
-            return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid Credentials"})
+#         if usr is not None and usr.customer:
+#             login(self.request, usr)
+#         else:
+#             return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid Credentials"})
 
-        return super().form_valid(form)
+#         return super().form_valid(form)
 
-class BookingView(CreateView):
+# class BookingView(CreateView):
+#     template_name = "booking.html"
+#     form_class = BookingForm
+#     success_url = reverse_lazy("escapp:index") 
+
+
+class StartBooking(CreateView):
     template_name = "booking.html"
     form_class = BookingForm
-    success_url = reverse_lazy("escapp:index") 
+    success_url = reverse_lazy("escapp:confirmtransaction") 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url_slug = self.kwargs['slug']
+        room = HotelRoomsInfo.objects.get(slug = url_slug)
+        context["room"] = room
+        #room.booking_key
+        #global hlatitude
+        #def hlatitude():
+            #return hotel_latitude
+
+        
+        return context
 
 class AboutView(TemplateView):
     template_name = "about.html"
@@ -388,4 +347,25 @@ class ConfirmDeleteView(TemplateView):
 
         return render(request, 'confirmdelete.html')     
 
+class HotelPictures(TemplateView):
+    template_name = "hotelpictures.html"
 
+    def get_context_data(self, **kwargs):
+        HotelPicturesModel.objects.all().delete()
+        #each time u call the query u must clear the database!!! so that u dont see extra stuff
+        hotel_obj = Feature3_info.objects.first()
+        imageIndices_arr = (hotel_obj.imageIndices).split(",")
+        for element in imageIndices_arr:
+            HotelPicturesModel.objects.create(imageURL = hotel_obj.cloudflare_image_url + str(element) + hotel_obj.image_details_suffix)
+                
+        context = super().get_context_data(**kwargs)
+        context['hotel_pictures'] = HotelPicturesModel.objects.all()
+
+        return context
+
+class ConfirmTransactionView(TemplateView):
+    template_name = "confirmtransaction.html"
+
+
+class BookingDoneView(TemplateView):
+    template_name = "bookingdone.html"
