@@ -1,41 +1,1040 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Hotel Info Page - Ascenda</title>
+    <meta property="og:title" content="Hotel Info Page - Ascenda" />
+    <meta property="og:title" content="Booking Confirmation Page - Ascenda" />
+    <meta property="og:title" content="About Page - Ascenda" />
+    <meta property="og:title" content="Login Page - Ascenda" />
+    <meta property="og:title" content="Previous Bookings Page - Ascenda" />
+    <meta property="og:title" content="Map Page - Ascenda" />
+    <meta property="og:title" content="Booking Form Page - Ascenda" />
+    <meta
+      property="og:title"
+      content="Registration Confirmation Page - Ascenda"
+    />
+    <meta property="og:title" content="Pre-Booking Login Page - Ascenda" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hotel Information</title>
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6 {  margin: 0;  padding: 0;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Poppins;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.55;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      data-tag="font"
+    />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <div>
+      <link href="./hotel-info-page.css" rel="stylesheet" />
 
+      <div class="hotel-info-page-container">
+        <div class="hotel-info-page-top-container">
+          <header
+            data-role="Header"
+            class="header-header header-root-class-name1"
+          >
+            <a href="landing-page.html" class="header-navlink">
+              <h1 class="header-logo"><span>Ascenda</span></h1>
+            </a>
+            <div class="header-nav">
+              <nav
+                class="navigation-links-nav navigation-links-root-class-name10"
+              >
+                <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
+                  <span>Home</span>
+                </a>
+                <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
+                  <span>About</span>
+                </a>
+                <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
+                  <span>Contact</span>
+                </a>
+                {% if request.user.customer %}
 
-      <div class="row mt-4">
-        
-        <div class="col-md-4">
-          <h1>Hotel Name: {{hotel1.hotel_name}}</h1>
-          <a href="{% url 'escapp:hotelinfo_map' %}"><button>View on Map</button></a>
-          <a href="{% url 'escapp:hotelpictures' %}"><button>View More Pictures of Hotel</button></a>
-            <h2>Address: {{hotel1.hotel_address}}</h2>
-            <img src= {{hotel1.image_url_ForUse}} alt="Image not found" onerror="this.src='https://isa.ncsu.edu/wp-content/uploads/2020/07/imageNotAvailable_grid.png'" width="600" height="400">
+              <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log Out</span></span>
+            </a>
+              {% else %}
+
+              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+                <span class="navigation-links-text"><span>Log In</span></span>
+            </a>
+            <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+              <span class="navigation-links-text"><span>Sign Up</span></span>
+          </a>
+          
+              {% endif %}
+              </nav>
+            </div>
+            <div class="header-btn-group">
+              <a href="{% url 'escapp:accountinfo' %}" class="header-register button">
+                <span>My Account</span>
+              </a>
+            </div>
+            <div data-type="BurgerMenu" class="header-burger-menu">
+              <svg viewBox="0 0 1024 1024" class="header-icon">
+                <path
+                  d="M128 554.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 298.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 810.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"
+                ></path>
+              </svg>
+            </div>
+            <div data-type="MobileMenu" class="header-mobile-menu">
+              <div class="header-nav1">
+                <div class="header-container">
+                  <img
+                    alt="image"
+                    src="https://presentation-website-assets.teleporthq.io/logos/logo.png"
+                    class="header-image"
+                  />
+                  <div data-type="CloseMobileMenu" class="header-menu-close">
+                    <svg viewBox="0 0 1024 1024" class="header-icon02">
+                      <path
+                        d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <nav
+                  class="navigation-links-nav navigation-links-root-class-name11"
+                >
+                  <a href="landing-page.html" class="navigation-links-navlink">
+                    <span>Home</span>
+                  </a>
+                  <a href="about-page.html" class="navigation-links-navlink1">
+                    <span>About</span>
+                  </a>
+                  <span class="navigation-links-text"><span>Hotels</span></span>
+                  <a href="contact-page.html" class="navigation-links-navlink2">
+                    <span>Contact</span>
+                  </a>
+                </nav>
+              </div>
+              <div>
+                <svg viewBox="0 0 950.8571428571428 1024" class="header-icon04">
+                  <path
+                    d="M925.714 233.143c-25.143 36.571-56.571 69.143-92.571 95.429 0.571 8 0.571 16 0.571 24 0 244-185.714 525.143-525.143 525.143-104.571 0-201.714-30.286-283.429-82.857 14.857 1.714 29.143 2.286 44.571 2.286 86.286 0 165.714-29.143 229.143-78.857-81.143-1.714-149.143-54.857-172.571-128 11.429 1.714 22.857 2.857 34.857 2.857 16.571 0 33.143-2.286 48.571-6.286-84.571-17.143-148-91.429-148-181.143v-2.286c24.571 13.714 53.143 22.286 83.429 23.429-49.714-33.143-82.286-89.714-82.286-153.714 0-34.286 9.143-65.714 25.143-93.143 90.857 112 227.429 185.143 380.571 193.143-2.857-13.714-4.571-28-4.571-42.286 0-101.714 82.286-184.571 184.571-184.571 53.143 0 101.143 22.286 134.857 58.286 41.714-8 81.714-23.429 117.143-44.571-13.714 42.857-42.857 78.857-81.143 101.714 37.143-4 73.143-14.286 106.286-28.571z"
+                  ></path></svg
+                ><svg
+                  viewBox="0 0 877.7142857142857 1024"
+                  class="header-icon06"
+                >
+                  <path
+                    d="M585.143 512c0-80.571-65.714-146.286-146.286-146.286s-146.286 65.714-146.286 146.286 65.714 146.286 146.286 146.286 146.286-65.714 146.286-146.286zM664 512c0 124.571-100.571 225.143-225.143 225.143s-225.143-100.571-225.143-225.143 100.571-225.143 225.143-225.143 225.143 100.571 225.143 225.143zM725.714 277.714c0 29.143-23.429 52.571-52.571 52.571s-52.571-23.429-52.571-52.571 23.429-52.571 52.571-52.571 52.571 23.429 52.571 52.571zM438.857 152c-64 0-201.143-5.143-258.857 17.714-20 8-34.857 17.714-50.286 33.143s-25.143 30.286-33.143 50.286c-22.857 57.714-17.714 194.857-17.714 258.857s-5.143 201.143 17.714 258.857c8 20 17.714 34.857 33.143 50.286s30.286 25.143 50.286 33.143c57.714 22.857 194.857 17.714 258.857 17.714s201.143 5.143 258.857-17.714c20-8 34.857-17.714 50.286-33.143s25.143-30.286 33.143-50.286c22.857-57.714 17.714-194.857 17.714-258.857s5.143-201.143-17.714-258.857c-8-20-17.714-34.857-33.143-50.286s-30.286-25.143-50.286-33.143c-57.714-22.857-194.857-17.714-258.857-17.714zM877.714 512c0 60.571 0.571 120.571-2.857 181.143-3.429 70.286-19.429 132.571-70.857 184s-113.714 67.429-184 70.857c-60.571 3.429-120.571 2.857-181.143 2.857s-120.571 0.571-181.143-2.857c-70.286-3.429-132.571-19.429-184-70.857s-67.429-113.714-70.857-184c-3.429-60.571-2.857-120.571-2.857-181.143s-0.571-120.571 2.857-181.143c3.429-70.286 19.429-132.571 70.857-184s113.714-67.429 184-70.857c60.571-3.429 120.571-2.857 181.143-2.857s120.571-0.571 181.143 2.857c70.286 3.429 132.571 19.429 184 70.857s67.429 113.714 70.857 184c3.429 60.571 2.857 120.571 2.857 181.143z"
+                  ></path></svg
+                ><svg
+                  viewBox="0 0 602.2582857142856 1024"
+                  class="header-icon08"
+                >
+                  <path
+                    d="M548 6.857v150.857h-89.714c-70.286 0-83.429 33.714-83.429 82.286v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571c0-144.571 88.571-223.429 217.714-223.429 61.714 0 114.857 4.571 130.286 6.857z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </header>
+          <div class="hotel-info-page-gallery">
+            <h1 class="hotel-info-page-text">{{hotel1.hotel_name}}</h1>
+            <p class="hotel-info-page-text06">Address: {{hotel1.hotel_address}}</p><br>
+            <img
+            alt="Image not found" onerror="this.src='https://isa.ncsu.edu/wp-content/uploads/2020/07/imageNotAvailable_grid.png'" width="600" height="400"
+              src={{hotel1.image_url_ForUse}}
+              class="hotel-info-page-image"
+            />
+            <div class="hotel-info-page-container01">
+              <a
+                href="{% url 'escapp:hotelpictures' %}"
+                class="hotel-info-page-navlink button"
+              >
+                <span class="hotel-info-page-text01">Gallery</span>
+              </a>
+              <a href="{% url 'escapp:hotelrooms' %}" class="hotel-info-page-navlink1 button">
+                <span class="hotel-info-page-text02">Rooms</span>
+              </a>
+              <a
+                href="{% url 'escapp:hotelinfo_map' %}"
+                class="hotel-info-page-navlink2 button"
+              >
+                <span class="hotel-info-page-text03">Map</span>
+              </a>
+            </div>
+          </div>
+          <div id="overview" class="hotel-info-page-container02">
+           <h1 class="hotel-info-page-text04">Overview</h1>
+            <!--  <div class="hotel-info-page-container03">
+              <span class="hotel-info-page-text05">Property Location</span>
+              <span class="hotel-info-page-text06">Location</span>
+            </div>
+            <div class="hotel-info-page-container04">
+              <span class="hotel-info-page-text07">Rooms</span>
+              <span class="hotel-info-page-text08">Rooms</span>
+            </div>
+            <div class="hotel-info-page-container05">
+              <span class="hotel-info-page-text09">Amenities</span>
+              <span class="hotel-info-page-text10">Location</span>
+            </div>
+            <div class="hotel-info-page-container06">
+              <span class="hotel-info-page-text11">Dining</span>
+              <span class="hotel-info-page-text12">Location</span>
+            </div>
+            <div class="hotel-info-page-container07">
+              <span class="hotel-info-page-text13">
+                Business and Other Amenities
+              </span>
+              <span class="hotel-info-page-text14">Location</span>
+            </div> -->
             
-              <p>{{hotel1.description | safe}}</p> 
-            
-            <p>Amenities: {{hotel1.amenities}}</p>
-            <p>TrustYou Score Overall: {{hotel1.trustyou_score_overall}}</p>
-            <p>TrustYou Score Solo: {{hotel1.trustyou_score_solo}}</p>
-            <p>TrustYou Score Couple: {{hotel1.trustyou_score_couple}}</p>
-            <p>TrustYou Score Family: {{hotel1.trustyou_score_family}}</p>
-            <p>TrustYou Score Business: {{hotel1.trustyou_score_business}}</p>
-            <p>Overall Rating: {{hotel1.rating}}</p>
-            <p>Amenities Ratings: {{hotel1.amenities_ratings}}</p>
-            
-            <a href="{% url 'escapp:hotelrooms' %}"><button>View Rooms Available For Booking</button></a><br>
-            
+            <div class="hotel-info-page-container03">
+              <!-- <span class="hotel-info-page-text05">{{hotel1.description | safe}}</span> -->
+              <span class="hotel-info-page-text06">{{hotel1.description | safe}}</span>
+            </div>
+           
+
+          </div>
+          <div id="overview" class="hotel-info-page-container02">
+            <h1 class="hotel-info-page-text04">Amenities</h1>
+         
+             
+             <div class="hotel-info-page-container03">
+               <span class="hotel-info-page-text06">{{hotel1.amenities}}</span>
+             </div>
+            </div>
+             
+
+          <div id="reviews" class="hotel-info-page-container08">
+            <h1 class="hotel-info-page-text15">Ratings</h1>
+            <div class="hotel-info-page-container09">
+              <span class="hotel-info-page-text16">TrustYou Score Overall : {{hotel1.trustyou_score_overall}}</span>
+              <span class="hotel-info-page-text17">TrustYou Score Solo : {{hotel1.trustyou_score_solo}}</span>
+              <span class="hotel-info-page-text18">TrustYou Score Couple : {{hotel1.trustyou_score_couple}}</span>
+              <span class="hotel-info-page-text19">TrustYou Score Family : {{hotel1.trustyou_score_family}}</span>
+              <span class="hotel-info-page-text20">
+                TrustYou Score Business : {{hotel1.trustyou_score_business}}
+              </span>
+              <span class="hotel-info-page-text21">Amenities Rating : {{hotel1.amenities_ratings}}</span>
+              <span class="hotel-info-page-text22">Overall Rating : {{hotel1.rating}}</span>
+            </div>
+            <!-- <div class="hotel-info-page-container10">
+              <span class="hotel-info-page-text23">TrustYou Score Overall</span>
+              <span class="hotel-info-page-text24">TrustYou Score Solo</span>
+              <span class="hotel-info-page-text25">TrustYou Score Couple</span>
+              <span class="hotel-info-page-text26">TrustYou Score Family</span>
+              <span class="hotel-info-page-text27">
+                TrustYou Score Business
+              </span>
+              <span class="hotel-info-page-text28">Amenities Rating</span>
+              <span class="hotel-info-page-text29">Overall Rating</span>
+            </div> -->
+          </div>
         </div>
-        
+        <div class="footer-footer footer-root-class-name1">
+          <footer class="footer-footer1">
+            <div class="footer-container">
+              <h1><span>Ascenda</span></h1>
+            </div>
+            <span class="footer-text1">
+              <span>Produced by SUTD ESC C2G7</span>
+            </span>
+            <div class="footer-icon-group">
+              <svg viewBox="0 0 950.8571428571428 1024" class="footer-icon">
+                <path
+                  d="M925.714 233.143c-25.143 36.571-56.571 69.143-92.571 95.429 0.571 8 0.571 16 0.571 24 0 244-185.714 525.143-525.143 525.143-104.571 0-201.714-30.286-283.429-82.857 14.857 1.714 29.143 2.286 44.571 2.286 86.286 0 165.714-29.143 229.143-78.857-81.143-1.714-149.143-54.857-172.571-128 11.429 1.714 22.857 2.857 34.857 2.857 16.571 0 33.143-2.286 48.571-6.286-84.571-17.143-148-91.429-148-181.143v-2.286c24.571 13.714 53.143 22.286 83.429 23.429-49.714-33.143-82.286-89.714-82.286-153.714 0-34.286 9.143-65.714 25.143-93.143 90.857 112 227.429 185.143 380.571 193.143-2.857-13.714-4.571-28-4.571-42.286 0-101.714 82.286-184.571 184.571-184.571 53.143 0 101.143 22.286 134.857 58.286 41.714-8 81.714-23.429 117.143-44.571-13.714 42.857-42.857 78.857-81.143 101.714 37.143-4 73.143-14.286 106.286-28.571z"
+                ></path></svg
+              ><svg viewBox="0 0 877.7142857142857 1024" class="footer-icon2">
+                <path
+                  d="M585.143 512c0-80.571-65.714-146.286-146.286-146.286s-146.286 65.714-146.286 146.286 65.714 146.286 146.286 146.286 146.286-65.714 146.286-146.286zM664 512c0 124.571-100.571 225.143-225.143 225.143s-225.143-100.571-225.143-225.143 100.571-225.143 225.143-225.143 225.143 100.571 225.143 225.143zM725.714 277.714c0 29.143-23.429 52.571-52.571 52.571s-52.571-23.429-52.571-52.571 23.429-52.571 52.571-52.571 52.571 23.429 52.571 52.571zM438.857 152c-64 0-201.143-5.143-258.857 17.714-20 8-34.857 17.714-50.286 33.143s-25.143 30.286-33.143 50.286c-22.857 57.714-17.714 194.857-17.714 258.857s-5.143 201.143 17.714 258.857c8 20 17.714 34.857 33.143 50.286s30.286 25.143 50.286 33.143c57.714 22.857 194.857 17.714 258.857 17.714s201.143 5.143 258.857-17.714c20-8 34.857-17.714 50.286-33.143s25.143-30.286 33.143-50.286c22.857-57.714 17.714-194.857 17.714-258.857s5.143-201.143-17.714-258.857c-8-20-17.714-34.857-33.143-50.286s-30.286-25.143-50.286-33.143c-57.714-22.857-194.857-17.714-258.857-17.714zM877.714 512c0 60.571 0.571 120.571-2.857 181.143-3.429 70.286-19.429 132.571-70.857 184s-113.714 67.429-184 70.857c-60.571 3.429-120.571 2.857-181.143 2.857s-120.571 0.571-181.143-2.857c-70.286-3.429-132.571-19.429-184-70.857s-67.429-113.714-70.857-184c-3.429-60.571-2.857-120.571-2.857-181.143s-0.571-120.571 2.857-181.143c3.429-70.286 19.429-132.571 70.857-184s113.714-67.429 184-70.857c60.571-3.429 120.571-2.857 181.143-2.857s120.571-0.571 181.143 2.857c70.286 3.429 132.571 19.429 184 70.857s67.429 113.714 70.857 184c3.429 60.571 2.857 120.571 2.857 181.143z"
+                ></path></svg
+              ><svg viewBox="0 0 602.2582857142856 1024" class="footer-icon4">
+                <path
+                  d="M548 6.857v150.857h-89.714c-70.286 0-83.429 33.714-83.429 82.286v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571c0-144.571 88.571-223.429 217.714-223.429 61.714 0 114.857 4.571 130.286 6.857z"
+                ></path>
+              </svg>
+            </div>
+          </footer>
+        </div>
       </div>
     </div>
-    <style></style>
+    <script src="https://unpkg.com/@teleporthq/teleport-custom-scripts"></script>
+    <style>
+      .navigation-links-nav {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+      }
+      .navigation-links-navlink {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        text-decoration: none;
+      }
+      .navigation-links-navlink1 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+        text-decoration: none;
+      }
+      .navigation-links-text {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+      }
+      .navigation-links-navlink2 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+        text-decoration: none;
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      @media(max-width: 767px) {
+        .navigation-links-nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .navigation-links-navlink {
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-navlink1 {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-text {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-navlink2 {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+      }
+      
+      .header-header {
+        width: 1000px;
+        display: flex;
+        position: relative;
+        max-width: 1400px;
+        align-items: center;
+        padding-top: 32px;
+        padding-left: 48px;
+        padding-right: 48px;
+        padding-bottom: 32px;
+        justify-content: space-between;
+      }
+      .header-navlink {
+        display: contents;
+      }
+      .header-logo {
+        color: var(--dl-color-primary-white);
+        text-decoration: none;
+      }
+      .header-nav {
+        display: flex;
+      }
+      .header-btn-group {
+        width: auto;
+        display: flex;
+        align-items: center;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .header-register {
+        color: var(--dl-color-primary-white);
+        padding-top: var(--dl-space-space-halfunit);
+        border-color: var(--dl-color-primary-brown);
+        margin-right: 0px;
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        text-decoration: none;
+        background-color: transparent;
+      }
+      .header-burger-menu {
+        display: none;
+      }
+      .header-icon {
+        width: 16px;
+        height: 16px;
+      }
+      .header-mobile-menu {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+        display: none;
+        padding: 32px;
+        z-index: 100;
+        position: absolute;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #fff;
+      }
+      .header-nav1 {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .header-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 48px;
+        justify-content: space-between;
+      }
+      .header-image {
+        height: 2rem;
+      }
+      .header-menu-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .header-icon02 {
+        width: 16px;
+        height: 16px;
+      }
+      .header-icon04 {
+        width: 16px;
+        height: 16px;
+        margin-right: 32px;
+      }
+      .header-icon06 {
+        width: 16px;
+        height: 16px;
+        margin-right: 32px;
+      }
+      .header-icon08 {
+        width: 16px;
+        height: 16px;
+      }
+      .header-root-class-name {
+        top: 146px;
+        left: 112px;
+        position: absolute;
+      }
+      .header-root-class-name1 {
+        margin-bottom: var(--dl-space-space-unit);
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      .header-root-class-name17 {
+        margin-bottom: var(--dl-space-space-unit);
+      }
+      .header-root-class-name18 {
+        margin-bottom: var(--dl-space-space-unit);
+      }
+      @media(max-width: 767px) {
+        .header-header {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+        .header-nav {
+          display: none;
+        }
+        .header-btn-group {
+          display: none;
+        }
+        .header-burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      @media(max-width: 479px) {
+        .header-header {
+          padding: var(--dl-space-space-unit);
+        }
+        .header-mobile-menu {
+          padding: 16px;
+        }
+      }
+      
+      .footer-footer {
+        color: var(--dl-color-gray-white);
+        width: 100%;
+        display: flex;
+        padding: var(--dl-space-space-tripleunit);
+        position: relative;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        background-color: var(--dl-color-primary-fadeddblue);
+      }
+      .footer-footer1 {
+        width: 100%;
+        display: flex;
+        max-width: 1400px;
+        align-items: center;
+        padding-top: 32px;
+        padding-left: 48px;
+        padding-right: 48px;
+        padding-bottom: 32px;
+        justify-content: space-between;
+      }
+      .footer-container {
+        flex: 0 0 auto;
+        width: auto;
+        height: auto;
+        display: flex;
+        align-items: space-between;
+        flex-direction: column;
+      }
+      .footer-text1 {
+        font-family: Roboto;
+      }
+      .footer-icon-group {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .footer-icon {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+        margin-right: 32px;
+      }
+      .footer-icon2 {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+        margin-right: 32px;
+      }
+      .footer-icon4 {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+      }
+      .footer-root-class-name {
+        opacity: 1;
+        align-self: center;
+        background-color: transparent;
+      }
+      
+      
+      .footer-root-class-name3 {
+        background-color: transparent;
+      }
+      .footer-root-class-name4 {
+        background-color: transparent;
+      }
+      .footer-root-class-name5 {
+        background-color: transparent;
+      }
+      
+      
+      
+      .footer-root-class-name9 {
+        background-color: transparent;
+      }
+      .footer-root-class-name10 {
+        background-color: transparent;
+      }
+      .footer-root-class-name11 {
+        background-color: transparent;
+      }
+      .footer-root-class-name12 {
+        background-color: transparent;
+      }
+      
+      .footer-root-class-name14 {
+        background-color: transparent;
+      }
+      
+      
+      @media(max-width: 767px) {
+        .footer-footer1 {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+      }
+      @media(max-width: 479px) {
+        .footer-footer1 {
+          padding: var(--dl-space-space-unit);
+          flex-direction: column;
+        }
+      }
+      
+      .hotel-info-page-container {
+        width: 100%;
+        display: flex;
+        overflow: auto;
+        min-height: 100vh;
+        align-items: center;
+        flex-direction: column;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .hotel-info-page-top-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-width: 0px;
+        flex-direction: column;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .hotel-info-page-gallery {
+        width: 1050px;
+        height: auto;
+        display: flex;
+        padding: var(--dl-space-space-halfunit);
+        max-width: 1400px;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .hotel-info-page-text {
+        color: var(--dl-color-primary-brown);
+        font-size: 45px;
+        font-family: Roboto;
+      }
+      .hotel-info-page-image {
+        width: 789px;
+        height: 499px;
+        object-fit: cover;
+      }
+      .hotel-info-page-container01 {
+        display: flex;
+        margin-top: var(--dl-space-space-unit);
+        align-items: center;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: row;
+        justify-content: center;
+      }
+      .hotel-info-page-navlink {
+        font-size: 23px;
+        align-self: center;
+        margin-top: 0px;
+        font-family: Roboto;
+        margin-left: var(--dl-space-space-halfunit);
+        padding-top: var(--dl-space-space-halfunit);
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        margin-right: var(--dl-space-space-halfunit);
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        margin-bottom: 0px;
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        text-decoration: none;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .hotel-info-page-text01 {
+        color: var(--dl-color-primary-white);
+      }
+      .hotel-info-page-navlink1 {
+        font-size: 23px;
+        align-self: center;
+        margin-top: 0px;
+        font-family: Roboto;
+        margin-left: var(--dl-space-space-halfunit);
+        padding-top: var(--dl-space-space-halfunit);
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        margin-right: var(--dl-space-space-halfunit);
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        margin-bottom: 0px;
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        text-decoration: none;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .hotel-info-page-text02 {
+        color: var(--dl-color-primary-white);
+      }
+      .hotel-info-page-navlink2 {
+        font-size: 23px;
+        align-self: center;
+        margin-top: 0px;
+        font-family: Roboto;
+        margin-left: var(--dl-space-space-halfunit);
+        padding-top: var(--dl-space-space-halfunit);
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        margin-right: var(--dl-space-space-halfunit);
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        margin-bottom: 0px;
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        text-decoration: none;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .hotel-info-page-text03 {
+        color: var(--dl-color-primary-white);
+      }
+      .hotel-info-page-container02 {
+        width: 1015px;
+        height: 100%;
+        display: flex;
+        padding: var(--dl-space-space-unit);
+        align-items: flex-start;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        border-radius: var(--dl-radius-radius-radius2);
+        margin-bottom: var(--dl-space-space-doubleunit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text04 {
+        color: var(--dl-color-primary-brown);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 700;
+      }
+      .hotel-info-page-container03 {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text05 {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .hotel-info-page-text06 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container04 {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text07 {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .hotel-info-page-text08 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container05 {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text09 {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .hotel-info-page-text10 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container06 {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text11 {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .hotel-info-page-text12 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container07 {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text13 {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .hotel-info-page-text14 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container08 {
+        width: 1015px;
+        height: auto;
+        display: flex;
+        padding: var(--dl-space-space-unit);
+        align-items: flex-start;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        border-radius: var(--dl-radius-radius-radius4);
+        margin-bottom: var(--dl-space-space-doubleunit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text15 {
+        color: var(--dl-color-primary-brown);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container09 {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        display: flex;
+        position: relative;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text16 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text17 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text18 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text19 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text20 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text21 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text22 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-container10 {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+        display: flex;
+        position: relative;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hotel-info-page-text23 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text24 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text25 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text26 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text27 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text28 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      .hotel-info-page-text29 {
+        color: var(--dl-color-primary-white);
+        font-family: Roboto;
+      }
+      @media(max-width: 767px) {
+        .hotel-info-page-gallery {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+      }
+      @media(max-width: 479px) {
+        .hotel-info-page-gallery {
+          padding: var(--dl-space-space-unit);
+          flex-direction: column;
+        }
+      }
+      
+    </style>
+    <style>
+      :root {
+        --dl-color-gray-900: #D9D9D9;
+        --dl-size-size-unit: 1rem;
+        --dl-color-gray-black: #000000;
+        --dl-color-gray-white: #FFFFFF;
+        --dl-space-space-unit: 1em;
+        --dl-color-primary-grey: #edeae5ff;
+        --dl-size-size-halfunit: 0.5rem;
+        --dl-color-primary-brown: #b69d74ff;
+        --dl-color-primary-white: #f5f5efff;
+        --dl-radius-radius-round: 50%;
+        --dl-size-size-doubleunit: 2rem;
+        --dl-size-size-tripleunit: 3rem;
+        --dl-space-space-halfunit: 0.5em;
+        --dl-radius-radius-radius2: 2px;
+        --dl-radius-radius-radius4: 4px;
+        --dl-radius-radius-radius8: 8px;
+        --dl-space-space-quadruple: 4em;
+        --dl-color-primary-darkblue: #1f2839ff;
+        --dl-space-space-doubleunit: 2em;
+        --dl-space-space-tripleunit: 3em;
+        --dl-color-primary-fadeddblue: #1f2839b8;
+      }
+      .teleport-show {
+        display: flex !important;
+      }
+      .button {
+        font-size: 14px;
+        font-family: Poppins;
+        font-weight: 600;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .list-item {
+        display: list-item;
+      }
+      .list {
+        width: 100%;
+        margin: 1em 0px 1em 0px;
+        display: block;
+        padding: 0px 0px 0px 1.5rem;
+        list-style-type: none;
+        list-style-position: outside;
+      }
+      .textarea {
+        color: var(--dl-color-gray-black);
+        cursor: auto;
+        padding: 0.5rem;
+        font-family: Poppins;
+        border-color: var(--dl-color-gray-black);
+        border-width: 1px;
+        border-radius: 4px;
+        background-color: var(--dl-color-gray-white);
+      }
+      .input {
+        color: var(--dl-color-gray-black);
+        cursor: auto;
+        padding: 0.5rem 1rem;
+        font-family: Poppins;
+        border-color: var(--dl-color-gray-black);
+        border-width: 1px;
+        border-radius: 4px;
+        background-color: var(--dl-color-gray-white);
+      }
+      .subheading {
+        font-size: 1.6rem;
+        font-family: Poppins;
+        font-weight: 400;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .heading {
+        font-size: 3rem;
+        font-family: Poppins;
+        font-weight: 700;
+        line-height: 1.55;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .content {
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 400;
+        line-height: 1.55;
+        text-transform: none;
+        text-decoration: none;
+      }
+      
+    </style>
   </body>
 </html>
-

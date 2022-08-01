@@ -12,6 +12,8 @@ import pandas as pd
 import folium
 from flask import request
 from django.shortcuts import redirect
+from django.core.paginator import Paginator
+import re
 
 # Create your views here.
 def index(request):
@@ -77,7 +79,7 @@ class HotelListView(TemplateView):
             response_nonprices = requests.get('https://hotelapi.loyalty.dev/api/hotels?', params=query)
         r_nonprices = response_nonprices.json()
         for hotel in r_nonprices:
-            HotelList.objects.filter(hotel_id = hotel["id"]).update(hotelName=hotel['name'], address=hotel['address'])
+            HotelList.objects.filter(hotel_id = hotel["id"]).update(hotelName=hotel['name'], address=hotel['address'], imageURL=(hotel['image_details']['prefix']+str(hotel['default_image_index'])+hotel['image_details']['suffix']))
         
         HotelList.objects.filter(hotelName="Not Available").delete()
 
@@ -92,11 +94,14 @@ class HotelListView(TemplateView):
         #for hotel in r_prices['hotels']:
             #HotelList.objects.filter(hotel_id = hotel["id"]).update(cheapest_price = hotel['lowest_price'])
 
-
+        all_hotels = HotelList.objects.all()
+        paginator = Paginator(all_hotels, 5)
+        page_number = self.request.GET.get('page')
+        hotels_list = paginator.get_page(page_number)
         context = super().get_context_data(**kwargs)
-        # context['country_list'] = DestinationSearch.country.
+            
 
-        context['hotels_list'] = HotelList.objects.all()
+        context['hotels_list'] = hotels_list
 
         return context
 
@@ -126,12 +131,37 @@ class HotelInfoView(TemplateView):
 
         Feature3_info.objects.create(hotel_id = jsonAs_list[0]['id'], hotel_name = jsonAs_list[0]['name'], hotel_address = jsonAs_list[0]['address'],
             latitude = jsonAs_list[0]['latitude'], longitude = jsonAs_list[0]['longitude'], rating = jsonAs_list[0]['rating'],
-            amenities_ratings = jsonAs_list[0]['amenities_ratings'], description = jsonAs_list[0]['description'], 
+            description = jsonAs_list[0]['description'], amenities_ratings = jsonAs_list[0]['amenities_ratings'],
             trustyou_score_overall = jsonAs_list[0]['trustyou.score.overall'], trustyou_score_solo = jsonAs_list[0]['trustyou.score.solo'],
             trustyou_score_family= jsonAs_list[0]['trustyou.score.family'], trustyou_score_business= jsonAs_list[0]['trustyou.score.business'],
             default_image_index = jsonAs_list[0]['default_image_index'], cloudflare_image_url = jsonAs_list[0]['image_details.prefix'],
-            image_details_suffix = jsonAs_list[0]['image_details.suffix'])
+            image_details_suffix = jsonAs_list[0]['image_details.suffix']) #, imageIndices = jsonAs_list[0]['hires_image_index']
         obj = Feature3_info.objects.first()
+        obj_id = obj.hotel_id
+        try:
+            amenities_new = str(hotel_info['amenities'])
+            chars_to_remove_amenities = [": ", "True", "{", "}", "'"]
+            for char in chars_to_remove_amenities:
+                amenities_new = amenities_new.replace(char,"")
+            amenities_new = re.sub(r"(\w)([A-Z])", r"\1 \2", amenities_new)
+            amenities_new = amenities_new.lower()
+            amenities_new = amenities_new.replace("t vin room", "TV in room")
+            amenities = amenities_new
+        except:
+            amenities = "currently not available on site"
+        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities = amenities)
+        try:
+            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = jsonAs_list[0]['hires_image_index'])
+        except:
+            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = "1")
+        amenitiesRatings = obj.amenities_ratings
+        chars_to_remove = ["[", "]","'name'",": '", "', 'score'", "{", "}"]
+        for char in chars_to_remove:
+            amenitiesRatings = amenitiesRatings.replace(char,"")
+        if amenitiesRatings == "":
+            amenitiesRatings = "None"
+        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities_ratings = amenitiesRatings)
+
         hotel_latitude = jsonAs_list[0]['latitude']
         hotel_longitude = jsonAs_list[0]['longitude']
 
@@ -317,13 +347,34 @@ class StartBooking(CreateView):
         url_slug = self.kwargs['slug']
         room = HotelRoomsInfo.objects.get(slug = url_slug)
         context["room"] = room
-        #room.booking_key
+        booking_key = room.booking_key
+        global bookingKey_forUse
+        def bookingKey_forUse():
+            return bookingKey_forUse
         #global hlatitude
         #def hlatitude():
             #return hotel_latitude
+            # bookingkey = bookingKey_forUse()
 
         
         return context
+
+    def form_valid(self,form):
+        cvv = form.cleaned_data.get("cvv")
+        credit_card_no = form.cleaned_data.get("credit_card_no")
+        expiry = form.cleaned_data.get("expiry")
+
+
+        if len(str(cvv)) != 3:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "CVV can only be 3 digits. Please re-enter your CVV"})
+
+        if len(str(credit_card_no)) != 16:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Number can only be 16 digits. Please re-enter your Credit Card Number"})
+
+        if len(str(expiry)) != 4:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Expiry Date can only be 4 digits. Please re-enter it in the format of MMYY"})
+
+        return super().form_valid(form)
 
 class AboutView(TemplateView):
     template_name = "about.html"
@@ -369,3 +420,7 @@ class ConfirmTransactionView(TemplateView):
 
 class BookingDoneView(TemplateView):
     template_name = "bookingdone.html"
+
+
+class BookingHistoryView(TemplateView):
+    template_name = "bookinghistory.html"

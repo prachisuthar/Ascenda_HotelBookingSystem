@@ -88,7 +88,17 @@ class HotelList(models.Model):
     cheapest_price = models.PositiveIntegerField(blank=True, default=0)
     hotel_id = models.CharField(max_length=250, blank=True, default = "")
 
+
+COLOR_CHOICES = (
+    ('DBS','DBS'),
+    ('OCBC', 'OCBC'),
+    ('HSBC','HSBC'),
+    ('Credit Suisse','Credit Suisse'),
+    ('American Express','American Express'),
+)
+
 class Booking(models.Model):
+    booking_key = models.CharField(max_length=1000)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
     phone_number = models.PositiveIntegerField()
@@ -98,6 +108,7 @@ class Booking(models.Model):
     expiry = models.PositiveBigIntegerField()
     cvv = models.PositiveIntegerField()
     billing_address = models.CharField(max_length=500)
+    bank = models.CharField(max_length=20, choices=COLOR_CHOICES, default='green')
 
 class HotelPricesF2(models.Model):
     hotel_id = models.CharField(max_length=250, blank = True)

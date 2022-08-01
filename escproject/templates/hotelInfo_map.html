@@ -6,10 +6,30 @@
     {{map.header.render|safe}}
 </head>
 <body>
-  <div><h6>  Location of hotel as represented by green icon below</h6></div>
+  <!-- <a href=""><h1>X</h1></a> -->
+  <h6>  <center> Location of hotel</center></h6>
+
+  <style>
+    h6{
+      font-size: 30px;
+      color: white;
+    }
+    h1{
+      font-size: 30px;
+      color: white;
+      text-align:end;
+
+
+    }
+    body{
+      background-color: #1f2839ff;
+    }
+  </style>
+
   {{map.html.render|safe}}
   <script>
     {{map.script.render|safe}}
   </script>
+  
 </body>
 </html>

@@ -26,6 +26,8 @@ urlpatterns = [
     path("hotelpictures/", HotelPictures.as_view(), name="hotelpictures"),
     path("confirmtransaction/", ConfirmTransactionView.as_view(), name="confirmtransaction"),
     path("bookingdone/", BookingDoneView.as_view(), name="bookingdone"),
+    path("bookinghistory/", BookingHistoryView.as_view(), name="bookinghistory"),
+
 
 
 ]

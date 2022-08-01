@@ -32,4 +32,4 @@ class BookLoginForm(forms.Form):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ["first_name", "last_name", "phone_number","email", "request", "credit_card_no","billing_address", "cvv", "expiry"]
+        fields = ["first_name", "last_name", "phone_number","email", "request", "bank", "credit_card_no","billing_address", "cvv", "expiry"]

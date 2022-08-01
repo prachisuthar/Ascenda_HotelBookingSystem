@@ -156,6 +156,11 @@
           </span>
           <div class="booking-form-page-container02">
             <div class="booking-form-page-container03">
+              {% if error %}
+              
+              <li style="color: white">{{error}}</li>
+             
+              {% endif %}
               <div class="booking-form-page-container04">
                 <span class="booking-form-page-text03">First Name</span>
                 {{form.first_name}}
@@ -180,13 +185,19 @@
               </div>
               <div class="booking-form-page-container09">
                 <span class="booking-form-page-text08">
+                  <span>Bank</span>
+                </span>
+                {{form.bank}}
+              </div>
+              <div class="booking-form-page-container09">
+                <span class="booking-form-page-text08">
                   <span>Credit Card Number</span>
                 </span>
                 {{form.credit_card_no}}
               </div>
               <div class="booking-form-page-container10">
                 <span class="booking-form-page-text10">
-                  <span>Credit Card Expiry Date</span>
+                  <span>Credit Card Expiry Date (MMYY)</span>
                 </span>
                 {{form.expiry}}
               </div>
@@ -202,9 +213,11 @@
               </div>
             </div>
           </div>
+         
+  
           <div class="booking-form-page-container13">
             <a
-              href="confirm-transaction-page.html"
+              href=""
               class="booking-form-page-navlink button"
             >
             <button id="booking_button" class="booking-form-page-navlink button">
