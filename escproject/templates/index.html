@@ -37,7 +37,7 @@
     </style>
     <style data-tag="default-style-sheet">
       html {
-        font-family: Poppins;
+        font-family: Roboto;
         font-size: 16px;
       }
 
@@ -55,7 +55,7 @@
     </style>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       data-tag="font"
     />
     <link
@@ -95,15 +95,15 @@
                 {% if request.user.customer %}
 
               <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
-                <span class="navigation-links-text"><span>Log Out</span></span>
+                <span>Log Out</span>
             </a>
               {% else %}
 
               <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                <span class="navigation-links-text"><span>Log In</span></span>
+                <span>Log In</span>
             </a>
             <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
-              <span class="navigation-links-text"><span>Sign Up</span></span>
+              <span>Sign Up</span>
           </a>
           
               {% endif %}
@@ -153,9 +153,7 @@
                       <span>Hotels</span>
                     </span>
                     <a
-                      href="contact-page.html"
-                      class="navigation-links-navlink2"
-                    >
+                      href="contact-page.html" class="navigation-links-navlink2">
                       <span>Contact</span>
                     </a>
                   </nav>
@@ -197,7 +195,7 @@
                        <!-- <form action="" method="GET">   -->
 
                   <span class="landing-page-text1">Destination</span>
-                  <input list="Countries" name="country" id="country">
+                  <input list="Countries" name="country" id="country" class="landing-page-textinput">
                   <datalist id="Countries">
             
                     {% for language in languages %}
@@ -213,21 +211,21 @@
                 <div class="landing-page-container03">
                   <div class="landing-page-container04">
                     <span class="landing-page-text2">Start Date</span>
-                    <input type="date" id="start_date" name="start_date">
+                    <input type="date" id="start_date" name="start_date" class="landing-page-select">
                   </div>
                   <div class="landing-page-container05">
                     <span class="landing-page-text3">End Date</span>
-                    <input type="date" id="end_date" name="end_date">
+                    <input type="date" id="end_date" name="end_date" class="landing-page-select">
                   </div>
                 </div>
                 <div class="landing-page-container06">
                   <div class="landing-page-container07">
                     <span class="landing-page-text4">No. of Rooms</span>
-                    <input type="number" id="rooms_number" name="rooms_number" min="1" max="100">
+                    <input type="number" id="rooms_number" name="rooms_number" min="1" max="100" class="landing-page-select2">
                   </div>
                   <div class="landing-page-container08">
                     <span class="landing-page-text5">No. of Guests</span>
-                    <input type="number" id="guests_number" name="guests_number" min="1" max="100">
+                    <input type="number" id="guests_number" name="guests_number" min="1" max="100" class="landing-page-select2">
                   </div>
                 </div>
                 <div class="landing-page-container09">
@@ -313,6 +311,13 @@
         font-weight: 400;
         margin-left: 32px;
         text-decoration: none;
+      }
+      .navigation-links-navlink3 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
       }
       
       
@@ -720,8 +725,8 @@
         margin-bottom: var(--dl-space-space-halfunit);
       }
       .landing-page-textinput {
-        flex: 0;
-        width: 610px;
+        flex: 1;
+        width: 100%;
         height: 41px;
         align-self: flex-start;
         margin-top: 0px;
@@ -811,7 +816,7 @@
       .landing-page-container08 {
         flex: 0 0 auto;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-direction: column;
         justify-content: center;
       }
@@ -920,7 +925,7 @@
       }
       .button {
         font-size: 14px;
-        font-family: Poppins;
+        font-family: Roboto;
         font-weight: 600;
         text-transform: none;
         text-decoration: none;
@@ -940,7 +945,7 @@
         color: var(--dl-color-gray-black);
         cursor: auto;
         padding: 0.5rem;
-        font-family: Poppins;
+        font-family: Roboto;
         border-color: var(--dl-color-gray-black);
         border-width: 1px;
         border-radius: 4px;
@@ -950,7 +955,7 @@
         color: var(--dl-color-gray-black);
         cursor: auto;
         padding: 0.5rem 1rem;
-        font-family: Poppins;
+        font-family: Roboto;
         border-color: var(--dl-color-gray-black);
         border-width: 1px;
         border-radius: 4px;
@@ -958,14 +963,14 @@
       }
       .subheading {
         font-size: 1.6rem;
-        font-family: Poppins;
+        font-family: Roboto;
         font-weight: 400;
         text-transform: none;
         text-decoration: none;
       }
       .heading {
         font-size: 3rem;
-        font-family: Poppins;
+        font-family: Roboto;
         font-weight: 700;
         line-height: 1.55;
         text-transform: none;
@@ -973,7 +978,7 @@
       }
       .content {
         font-size: 16px;
-        font-family: Poppins;
+        font-family: Roboto;
         font-weight: 400;
         line-height: 1.55;
         text-transform: none;
