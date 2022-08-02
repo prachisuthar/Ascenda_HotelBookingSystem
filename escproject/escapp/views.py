@@ -457,6 +457,13 @@ class HotelPictures(TemplateView):
 class BookingDoneView(TemplateView):
     template_name = "bookingdone.html"
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['reference_key'] = Booking.objects.last().booking_key
+   
+        return context
+
 
 class BookingHistoryView(TemplateView):
     template_name = "bookinghistory.html"

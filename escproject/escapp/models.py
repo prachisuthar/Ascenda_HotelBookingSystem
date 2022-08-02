@@ -3,7 +3,6 @@ import json
 from django.contrib.auth.models import User 
 import uuid
 from datetime import datetime
-from django_cryptography.fields import encrypt
 
 # Create your models here.
 
@@ -106,7 +105,7 @@ class Booking(models.Model):
     phone_number = models.PositiveIntegerField()
     email = models.EmailField()
     request = models.CharField(max_length=5000)
-    credit_card_no = encrypt(models.PositiveIntegerField())
+    credit_card_no = models.PositiveIntegerField()
     expiry = models.PositiveBigIntegerField()
     cvv = models.PositiveIntegerField()
     billing_address = models.CharField(max_length=500)
