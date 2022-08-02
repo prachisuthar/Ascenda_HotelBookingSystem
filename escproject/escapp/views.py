@@ -350,7 +350,15 @@ class StartBooking(CreateView):
         booking_key = room.booking_key
         global bookingKey_forUse
         def bookingKey_forUse():
-            return bookingKey_forUse
+            return booking_key
+
+    # def store_key(request):
+    #     if request.method=='POST':
+    #         key = request.POST[bookingKey_forUse]
+
+    #     return key
+
+        
         #global hlatitude
         #def hlatitude():
             #return hotel_latitude
@@ -375,6 +383,18 @@ class StartBooking(CreateView):
             return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Expiry Date can only be 4 digits. Please re-enter it in the format of MMYY"})
 
         return super().form_valid(form)
+
+
+class ConfirmTransactionView(TemplateView):
+    template_name = "confirmtransaction.html"
+
+    def get_context_data(self, **kwargs):
+
+        form_obj = Booking.objects.last()
+        cvv_of_obj = form_obj.cvv
+        Booking.objects.filter(cvv = cvv_of_obj).update(booking_key = bookingKey_forUse())
+
+        return super().get_context_data(**kwargs)
 
 class AboutView(TemplateView):
     template_name = "about.html"
@@ -414,8 +434,6 @@ class HotelPictures(TemplateView):
 
         return context
 
-class ConfirmTransactionView(TemplateView):
-    template_name = "confirmtransaction.html"
 
 
 class BookingDoneView(TemplateView):

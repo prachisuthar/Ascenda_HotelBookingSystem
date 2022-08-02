@@ -19,6 +19,7 @@ class SignUpForm(forms.ModelForm):
            raise forms.ValidationError("Username already exists. Please choose another username.")
 
         return uname 
+    
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput())
@@ -33,3 +34,4 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ["first_name", "last_name", "phone_number","email", "request", "bank", "credit_card_no","billing_address", "cvv", "expiry"]
+
