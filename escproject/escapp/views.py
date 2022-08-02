@@ -48,8 +48,12 @@ def f1(request):
     def Qdest_id():
         return destination_id
 
-    # return render(request,'hotellist.html')
-    return redirect("http://127.0.0.1:8000/hotellist/")
+    if end_date > start_date:
+        return redirect("http://127.0.0.1:8000/hotellist/")
+
+    else:
+        return render(request, "index.html", {"error": "Please input a valid date range."})
+
 
 class HotelListView(TemplateView):
     template_name = "hotellist.html"
@@ -429,13 +433,6 @@ class CheckDeleteAccountView(TemplateView):
 class ConfirmDeleteView(TemplateView):
     template_name = "confirmdelete.html"
 
-    def del_user(request, username):    
-
-        u = User.objects.get(username = username)
-        u.delete()
-
-        return render(request, 'confirmdelete.html')     
-
 class HotelPictures(TemplateView):
     template_name = "hotelpictures.html"
 
@@ -467,3 +464,6 @@ class BookingDoneView(TemplateView):
 
 class BookingHistoryView(TemplateView):
     template_name = "bookinghistory.html"
+
+
+

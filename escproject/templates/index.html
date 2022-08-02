@@ -235,12 +235,15 @@
                     <a href="127.0.0.1:8000/hotellist/"><button type="submit" class="landing-page-button button">
                       <span><span> Search</span></span>
                     </button></a>
+                 
                   </div>
 
                 </form>
               
-                </div>
-                <div class="landing-page-container11"></div>
+                </div><br>
+                <div class="landing-page-container11">  {% if error %}
+                  <p style="color: white">{{error}}</p>
+                  {% endif %}</div>
                 <div class="landing-page-container12"></div>
               </div>
             </div>
@@ -860,7 +863,7 @@
         text-decoration: none;
       }
       .landing-page-container11 {
-        border: 2px dashed rgba(120, 120, 120, 0.4);
+        border: 2px rgba(120, 120, 120, 0.4);
         display: flex;
         align-items: flex-start;
         flex-direction: column;
