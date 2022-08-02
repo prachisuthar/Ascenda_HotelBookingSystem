@@ -314,27 +314,45 @@ class LoginView(FormView):
         return super().form_valid(form)
 
 
-# class BookLoginView(FormView):
-#     template_name = "booklogin.html"
-#     form_class = BookLoginForm
-#     success_url = reverse_lazy("escapp:startbooking room.slug")
+class BookLoginView(FormView):
+    template_name = "booklogin.html"
+    form_class = BookLoginForm
+    success_url = reverse_lazy("escapp:accountinfo")
 
-#     def form_valid(self, form):
-#         uname = form.cleaned_data.get("username")
-#         pword = form.cleaned_data["password"]
-#         usr = authenticate(username=uname, password=pword)
+    def form_valid(self, form):
+        uname = form.cleaned_data.get("username")
+        pword = form.cleaned_data["password"]
+        usr = authenticate(username=uname, password=pword)
         
-#         if usr is not None and usr.customer:
-#             login(self.request, usr)
-#         else:
-#             return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid Credentials"})
+        if usr is not None and usr.customer:
+            login(self.request, usr)
+        else:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid Credentials"})
 
-#         return super().form_valid(form)
+        return super().form_valid(form)
 
-# class BookingView(CreateView):
-#     template_name = "booking.html"
-#     form_class = BookingForm
-#     success_url = reverse_lazy("escapp:index") 
+
+class DeleteUserView(FormView):
+    template_name = "deleteuser.html"
+    form_class = LoginForm
+    success_url = reverse_lazy("escapp:confirmdelete")
+
+    def form_valid(self, form):
+        uname = form.cleaned_data.get("username")
+        pword = form.cleaned_data["password"]
+        usr = authenticate(username=uname, password=pword)
+        
+        if usr is not None and usr.customer:
+            User.objects.filter(username=uname).delete()
+        else:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Invalid Credentials"})
+
+        return super().form_valid(form)
+
+class BookingView(CreateView):
+    template_name = "booking.html"
+    form_class = BookingForm
+    success_url = reverse_lazy("escapp:index") 
 
 
 class StartBooking(CreateView):

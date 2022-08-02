@@ -12,7 +12,7 @@ urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("login/", LoginView.as_view(), name="login"),
-    # path("booklogin/", BookLoginView.as_view(), name="booklogin"),
+    path("booklogin/", BookLoginView.as_view(), name="booklogin"),
     # path("booking/", BookingView.as_view(), name="booking"),
     path("about/", AboutView.as_view(), name="about"),
     path("contact/", ContactView.as_view(), name="contact"),
@@ -27,6 +27,8 @@ urlpatterns = [
     path("confirmtransaction/", ConfirmTransactionView.as_view(), name="confirmtransaction"),
     path("bookingdone/", BookingDoneView.as_view(), name="bookingdone"),
     path("bookinghistory/", BookingHistoryView.as_view(), name="bookinghistory"),
+    path("deleteuser/", DeleteUserView.as_view(), name="deleteuser"),
+
 
 
 
