@@ -15,6 +15,18 @@ from django.shortcuts import redirect
 from django.core.paginator import Paginator
 import re
 
+# import sys
+
+# import django.db
+# import django.db.models
+# from django.utils.six import PY2, string_types
+# from django.utils.functional import cached_property
+# from django.core import validators
+# from django.conf import settings
+# from django.core.exceptions import ImproperlyConfigured
+
+# import cryptography.fernet
+
 # Create your views here.
 def index(request):
     languages = Feature1.objects.all()
@@ -417,6 +429,53 @@ class ConfirmTransactionView(TemplateView):
         Booking.objects.filter(cvv = cvv_of_obj).update(booking_key = bookingKey_forUse())
 
         return super().get_context_data(**kwargs)
+
+    #     def get_crypter():
+    #     configured_keys = getattr(settings, 'FIELD_ENCRYPTION_KEY')
+
+    #     if configured_keys is None:
+    #         raise ImproperlyConfigured('FIELD_ENCRYPTION_KEY must be defined in settings')
+
+
+    #         # Allow the use of key rotation
+    #     if isinstance(configured_keys, (tuple, list)):
+    #         keys = [cryptography.fernet.Fernet(str(k)) for k in configured_keys]
+    #     else:
+    #             # else turn the single key into a list of one
+    #         keys = [cryptography.fernet.Fernet(str(configured_keys)), ]
+
+    #     if len(keys) == 0:
+    #         raise ImproperlyConfigured('No keys defined in setting FIELD_ENCRYPTION_KEY')
+
+    #     return cryptography.fernet.MultiFernet(keys)
+    # global CRYPTER
+    # CRYPTER = get_crypter()
+
+    # def cvv(form):
+    #     global cvv
+    #     cvv = form.cleaned_data.get("cvv")
+    #     global cvv_encoded
+    #     cvv_encoded = CRYPTER.encrypt(cvv.encode('utf-8'))
+    #     return cvv_encoded 
+
+    # def credit_card(form):
+    #     credit_card_no = form.cleaned_data.get("credit_card_no")
+    #     global credit_card_no_encoded
+    #     credit_card_no_encoded = CRYPTER.encrypt(credit_card_no .encode('utf-8'))
+    #     return credit_card_no_encoded
+        
+    # def expiry(form):
+    #     expiry= form.cleaned_data.get("expiry")
+    #     global expiry_encoded
+    #     expiry_encoded = CRYPTER.encrypt(expiry .encode('utf-8'))
+    #     return  expiry_encoded
+
+
+    # def get_context_data(self, **kwargs):
+
+    #     Booking.objects.filter(cvv =cvv).update(cvv = cvv_encoded,credit_card_no=credit_card_no_encoded , expiry = expiry_encoded )
+   
+    #     return super().get_context_data(**kwargs)
 
 class AboutView(TemplateView):
     template_name = "about.html"
