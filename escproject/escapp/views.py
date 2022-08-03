@@ -33,6 +33,10 @@ def index(request):
     languages = Feature1.objects.all()
     return render(request,'index.html',{"languages":languages})
 
+def index2(request):
+    languages = Feature1HotelSearch.objects.all()
+    return render(request,'specifichotel.html',{"languages":languages})
+
 
 def f1(request):
     if request.method=='POST':
@@ -67,6 +71,42 @@ def f1(request):
     else:
         return render(request, "index.html", {"error": "Please input a valid date range."})
 
+
+def f2(request):
+    if request.method=='POST':
+        hotel_name=request.POST['hotel_name']
+        start_date=request.POST['start_date']
+        end_date=request.POST['end_date']
+        guests_number=request.POST['guests_number']
+        rooms_number=request.POST['rooms_number']
+
+    #f1=Feature1.objects.create(country = country, start_date = start_date, end_date = end_date, guests_number = guests_number, rooms_number = rooms_number)
+    Feature1HotelSearch.objects.filter(hotel_name = hotel_name).update(start_date = start_date, end_date = end_date, guests_number = guests_number, rooms_number = rooms_number)
+    global Qhotel, Qstart_date, Qend_date, Qguests_number, Qrooms_number, Qdest_id, hotel_id
+    def Qhotel():
+        return hotel_name
+    def Qstart_date():
+        return start_date
+    def Qend_date():
+        return end_date
+    def Qguests_number():
+        return guests_number
+    def Qrooms_number():
+        return rooms_number
+    #to obtain destination id 
+    hotel_entry = Feature1HotelSearch.objects.filter(hotel_name = hotel_name).first()
+    destination_id = hotel_entry.dest_id
+    hotelID = hotel_entry.hotel_id
+    def Qdest_id():
+        return destination_id
+    def hotel_id():
+        return hotelID
+    
+    if end_date > start_date:
+        return redirect("http://127.0.0.1:8000/hotelinfo_v2/")
+
+    else:
+        return render(request, "specifichotel.html", {"error": "Please input a valid date range."})
 
 class HotelListView(TemplateView):
     template_name = "hotellist.html"
@@ -198,6 +238,84 @@ class HotelInfoView(TemplateView):
         #context = { "hotel_name": hotel.hotelName, "cheapest_price": hotel.cheapest_price, "address": hotel.address, "hotel_id":hotel.hotel_id}
 
         return context
+
+
+class HotelInfoView_V2(TemplateView):
+    template_name = "hotelinfo.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        hotel = Feature1HotelSearch.objects.get(hotel_name = Qhotel())
+        
+        hotelID = hotel.hotel_id
+        global hotel_ID
+        def hotel_ID():
+            return hotelID
+        #call hotel info API
+        api_link = "https://hotelapi.loyalty.dev/api/hotels/"
+        new_api_link = api_link + hotelID
+        for i in range(4):
+            response = requests.get(new_api_link)
+        hotel_info = response.json()
+        Feature3_info.objects.all().delete()
+        hotel_infoDF0 = pd.json_normalize(hotel_info) #,  record_path = "amenities_ratings"
+        json_hotel_info = hotel_infoDF0.to_json(orient="records")
+        jsonAs_list = json.loads(json_hotel_info)
+
+        Feature3_info.objects.create(hotel_id = jsonAs_list[0]['id'], hotel_name = jsonAs_list[0]['name'], hotel_address = jsonAs_list[0]['address'],
+            latitude = jsonAs_list[0]['latitude'], longitude = jsonAs_list[0]['longitude'], rating = jsonAs_list[0]['rating'],
+            description = jsonAs_list[0]['description'], amenities_ratings = jsonAs_list[0]['amenities_ratings'],
+            trustyou_score_overall = jsonAs_list[0]['trustyou.score.overall'], trustyou_score_solo = jsonAs_list[0]['trustyou.score.solo'],
+            trustyou_score_family= jsonAs_list[0]['trustyou.score.family'], trustyou_score_business= jsonAs_list[0]['trustyou.score.business'],
+            default_image_index = jsonAs_list[0]['default_image_index'], cloudflare_image_url = jsonAs_list[0]['image_details.prefix'],
+            image_details_suffix = jsonAs_list[0]['image_details.suffix']) #, imageIndices = jsonAs_list[0]['hires_image_index']
+        obj = Feature3_info.objects.first()
+        obj_id = obj.hotel_id
+        try:
+            amenities_new = str(hotel_info['amenities'])
+            chars_to_remove_amenities = [": ", "True", "{", "}", "'"]
+            for char in chars_to_remove_amenities:
+                amenities_new = amenities_new.replace(char,"")
+            amenities_new = re.sub(r"(\w)([A-Z])", r"\1 \2", amenities_new)
+            amenities_new = amenities_new.lower()
+            amenities_new = amenities_new.replace("t vin room", "TV in room")
+            amenities = amenities_new
+        except:
+            amenities = "currently not available on site"
+        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities = amenities)
+        try:
+            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = jsonAs_list[0]['hires_image_index'])
+        except:
+            Feature3_info.objects.filter(hotel_id = obj_id).update(imageIndices = "1")
+        amenitiesRatings = obj.amenities_ratings
+        chars_to_remove = ["[", "]","'name'",": '", "', 'score'", "{", "}"]
+        for char in chars_to_remove:
+            amenitiesRatings = amenitiesRatings.replace(char,"")
+        if amenitiesRatings == "":
+            amenitiesRatings = "None"
+        Feature3_info.objects.filter(hotel_id = obj_id).update(amenities_ratings = amenitiesRatings)
+
+        hotel_latitude = jsonAs_list[0]['latitude']
+        hotel_longitude = jsonAs_list[0]['longitude']
+
+        global hlatitude
+        def hlatitude():
+            return hotel_latitude
+        global hlongitude
+        def hlongitude():
+            return hotel_longitude
+        Feature3_info.objects.filter(hotel_id = hotelID).update(image_url_ForUse = Feature3_info.objects.first().cloudflare_image_url + Feature3_info.objects.first().default_image_index + Feature3_info.objects.first().image_details_suffix)
+        hotel1 = Feature3_info.objects.first()
+
+        context["hotel1"] = hotel1
+
+        # context['country_list'] = DestinationSearch.country.
+
+        #context = { "hotel_name": hotel.hotelName, "cheapest_price": hotel.cheapest_price, "address": hotel.address, "hotel_id":hotel.hotel_id}
+
+        return context
+
 
 class HotelRoomsView(TemplateView):
     template_name = "hotelrooms.html"

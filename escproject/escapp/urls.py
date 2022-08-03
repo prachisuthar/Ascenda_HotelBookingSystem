@@ -5,6 +5,7 @@ from . import views
 app_name = "escapp"
 urlpatterns = [
     path("", views.index, name = "index"),
+    path("index2/", views.index2, name = "index2"),
     # path("", HomeView.as_view(), name='index'),
     path("hotellist/", HotelListView.as_view(), name="hotellist"),
     path("f1/", views.f1, name = "f1"),
@@ -28,6 +29,9 @@ urlpatterns = [
     path("bookingdone/", BookingDoneView.as_view(), name="bookingdone"),
     path("bookinghistory/", BookingHistoryView.as_view(), name="bookinghistory"),
     path("deleteuser/", DeleteUserView.as_view(), name="deleteuser"),
+    path("f2/", views.f2, name = "f2"),
+    path("hotelsearched/", HotelInfoView_V2.as_view(), name="hotelinfo_v2"),
+
 
 
 

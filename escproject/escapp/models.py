@@ -190,3 +190,28 @@ class HotelPicturesModel(models.Model):
 
 
 
+class Feature1HotelSearch(models.Model):
+    hotel_name = models.CharField(max_length=250, blank=True, default="-")
+    hotel_id = models.CharField(max_length=250, blank=True, default="-")
+    dest_id = models.CharField(max_length=250, blank=True, default="-")
+    guests_number = models.PositiveIntegerField(blank=True, default = 3)
+    rooms_number = models.PositiveIntegerField(blank=True, default = 3)
+    start_date = models.DateField(blank=True, default = "2020-10-10")
+    end_date = models.DateField(blank=True, default = "2020-11-11")
+
+
+# json_file_path1 = "Singapore_Hotels.json"
+
+# with open(json_file_path1, 'r', encoding="utf8") as j:
+#     searchResults1 = json.loads(j.read())
+
+# for searchResult1 in searchResults1['results']: 
+#     Feature1HotelSearch.objects.create(hotel_name = searchResult1['name'], hotel_id = searchResult1['id'], dest_id = "RsBU")
+
+# json_file_path2 = "KL_Hotels.json"
+
+# with open(json_file_path2, 'r', encoding="utf8") as j:
+#     searchResults2 = json.loads(j.read())
+
+# for searchResult2 in searchResults2['results']: 
+#     Feature1HotelSearch.objects.create(hotel_name = searchResult2['name'], hotel_id = searchResult2['id'], dest_id = "EzoR")

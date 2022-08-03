@@ -2,8 +2,11 @@
 
 <html lang="en">
   <head>
-    <title>Specific Hotel Page - Ascenda</title>
-    <meta property="og:title" content="Specific Hotel Page - Ascenda" />
+    <title>Ascenda</title>
+    <meta property="og:title" content="Ascenda" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Register Page - Ascenda" />
     <meta property="og:title" content="Hotel Search Results - Ascenda" />
     <meta property="og:title" content="Contact Page - Ascenda" />
@@ -11,17 +14,14 @@
       property="og:title"
       content="Delete Account Confirmation  Page - Ascenda"
     />
-    <meta property="og:title" content="Rooms Page - Ascenda" />
     <meta property="og:title" content="Account Info Page - Ascenda" />
     <meta property="og:title" content="Delete Account Check Page - Ascenda" />
     <meta property="og:title" content="Confirm Transaction Page - Ascenda" />
     <meta property="og:title" content="Hotel Info Page - Ascenda" />
     <meta property="og:title" content="Booking Confirmation Page - Ascenda" />
-    <meta property="og:title" content="HotelPictures - Ascenda" />
     <meta property="og:title" content="About Page - Ascenda" />
     <meta property="og:title" content="Login Page - Ascenda" />
     <meta property="og:title" content="Previous Bookings Page - Ascenda" />
-    <meta property="og:title" content="Map Page - Ascenda" />
     <meta property="og:title" content="Booking Form Page - Ascenda" />
     <meta
       property="og:title"
@@ -37,7 +37,7 @@
     </style>
     <style data-tag="default-style-sheet">
       html {
-        font-family: Poppins;
+        font-family: Roboto;
         font-size: 16px;
       }
 
@@ -55,7 +55,7 @@
     </style>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       data-tag="font"
     />
     <link
@@ -67,36 +67,50 @@
   </head>
   <body>
     <div>
-      <link href="./specific-hotel-page.css" rel="stylesheet" />
+      <link href="./landing-page.css" rel="stylesheet" />
 
-      <div class="specific-hotel-page-container">
-        <div class="specific-hotel-page-top-container">
-          <div class="specific-hotel-page-container01">
+      <div class="landing-page-container">
+        <div class="landing-page-top-container">
+          <div class="landing-page-container01">
             <header
               data-role="Header"
-              class="header-header header-root-class-name21"
+              class="header-header header-root-class-name4"
             >
               <a href="landing-page.html" class="header-navlink">
                 <h1 class="header-logo"><span>Ascenda</span></h1>
               </a>
               <div class="header-nav">
                 <nav
-                  class="navigation-links-nav navigation-links-root-class-name10"
-                >
-                  <a href="landing-page.html" class="navigation-links-navlink">
-                    <span>Home</span>
-                  </a>
-                  <a href="about-page.html" class="navigation-links-navlink1">
-                    <span>About</span>
-                  </a>
-                  <span class="navigation-links-text"><span>Hotels</span></span>
-                  <a href="contact-page.html" class="navigation-links-navlink2">
-                    <span>Contact</span>
-                  </a>
-                </nav>
+                class="navigation-links-nav navigation-links-root-class-name10"
+              >
+                <a href="{% url 'escapp:index' %}" class="navigation-links-navlink">
+                  <span>Home</span>
+                </a>
+                <a href="{% url 'escapp:about' %}" class="navigation-links-navlink1">
+                  <span>About</span>
+                </a>
+                <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
+                  <span>Contact</span>
+                </a>
+                {% if request.user.customer %}
+
+              <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+                <span>Log Out</span>
+            </a>
+              {% else %}
+
+              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+                <span>Log In</span>
+            </a>
+            <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+              <span>Sign Up</span>
+          </a>
+          
+              {% endif %}
+              </nav>
               </div>
               <div class="header-btn-group">
-                <a href="account-info-page.html" class="header-register button">
+                <a href="{% url 'escapp:accountinfo' %}" class="header-register button">
                   <span>My Account</span>
                 </a>
               </div>
@@ -139,9 +153,7 @@
                       <span>Hotels</span>
                     </span>
                     <a
-                      href="contact-page.html"
-                      class="navigation-links-navlink2"
-                    >
+                      href="contact-page.html" class="navigation-links-navlink2">
                       <span>Contact</span>
                     </a>
                   </nav>
@@ -172,83 +184,75 @@
                 </div>
               </div>
             </header>
-            <div class="specific-hotel-page-hero">
-              <div class="specific-hotel-page-content-container">
-                <h1 class="specific-hotel-page-text">
-                  Search for a Specific Hotel
-                </h1>
-                <div class="specific-hotel-page-destination-container">
-                  <span class="specific-hotel-page-text1">Hotel Name</span>
-                  <input
-                    type="text"
-                    placeholder="placeholder"
-                    class="specific-hotel-page-textinput input"
-                  />
+
+      
+            <div class="landing-page-hero">
+              <div class="landing-page-content-container">
+                <h1 class="landing-page-text">Search for a Hotel</h1>
+                <form action="/f2/" method="POST">
+                  {% csrf_token %}
+                <div class="landing-page-container02">
+                       <!-- <form action="" method="GET">   -->
+
+                  <span class="landing-page-text1">Destination</span>
+                  <input list="Countries" name="country" id="country" class="landing-page-textinput">
+                  <datalist id="Countries">
+            
+                    {% for language in languages %}
+            
+                    <option value="{{language.country}}">
+            
+                        {% endfor %}
+            
+                  </datalist>
+                       <!-- </form>   -->
+
                 </div>
-                <div class="specific-hotel-page-container02">
-                  <div class="specific-hotel-page-container03">
-                    <span class="specific-hotel-page-text2">Start Date</span>
-                    <select class="specific-hotel-page-select">
-                      <option value="Option 1">Option 1</option>
-                      <option value="Option 2">Option 2</option>
-                      <option value="Option 3">Option 3</option>
-                    </select>
+                <div class="landing-page-container03">
+                  <div class="landing-page-container04">
+                    <span class="landing-page-text2">Start Date</span>
+                    <input type="date" id="start_date" name="start_date" class="landing-page-select">
                   </div>
-                  <div class="specific-hotel-page-container04">
-                    <span class="specific-hotel-page-text3">End Date</span>
-                    <select class="specific-hotel-page-select1">
-                      <option value="Option 1">Option 1</option>
-                      <option value="Option 2">Option 2</option>
-                      <option value="Option 3">Option 3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="specific-hotel-page-container05">
-                  <div class="specific-hotel-page-container06">
-                    <span class="specific-hotel-page-text4">No. of Rooms</span>
-                    <select class="specific-hotel-page-select2">
-                      <option value="Option 1">Option 1</option>
-                      <option value="Option 2">Option 2</option>
-                      <option value="Option 3">Option 3</option>
-                    </select>
-                  </div>
-                  <div class="specific-hotel-page-container07">
-                    <span class="specific-hotel-page-text5">Pax</span>
-                    <select class="specific-hotel-page-select3">
-                      <option value="Option 1">Option 1</option>
-                      <option value="Option 2">Option 2</option>
-                      <option value="Option 3">Option 3</option>
-                    </select>
+                  <div class="landing-page-container05">
+                    <span class="landing-page-text3">End Date</span>
+                    <input type="date" id="end_date" name="end_date" class="landing-page-select">
                   </div>
                 </div>
-                <div class="specific-hotel-page-container08">
-                  <a
-                    href="hotel-search-results.html"
-                    class="specific-hotel-page-navlink"
-                  >
-                    <div
-                      class="search-button-container search-button-root-class-name4"
-                    >
-                      <div class="search-button-container1">
-                        <button class="search-button-button button">
-                          <span>
-                            <span>Search</span>
-                            <span class="search-button-text2"></span>
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </a>
-                  <div class="specific-hotel-page-container09">
-                    <button class="specific-hotel-page-button button">
-                      <span><span>Back</span></span>
-                    </button>
+                <div class="landing-page-container06">
+                  <div class="landing-page-container07">
+                    <span class="landing-page-text4">No. of Rooms</span>
+                    <input type="number" id="rooms_number" name="rooms_number" min="1" max="100" class="landing-page-select2">
+                  </div>
+                  <div class="landing-page-container08">
+                    <span class="landing-page-text5">No. of Guests</span>
+                    <input type="number" id="guests_number" name="guests_number" min="1" max="100" class="landing-page-select2">
                   </div>
                 </div>
+                <div class="landing-page-container09">
+                  <div class="landing-page-container10">
+                    <a href="127.0.0.1:8000/hotelinfo_v2/"><button type="submit" class="landing-page-button button">
+                      <span><span>Search</span></span>
+                    </button></a>
+                  
+                  </div>
+                  <!-- <div style = "position:relative; left:300px; top:2px;" class="landing-page-container09">
+                    <div class="landing-page-container10">
+                      <a href="{% url 'escapp:index' %}"><button class="landing-page-button button">
+                        <span><span>Back</span></span>
+                      </button></a>
+                   
+                    </div> -->
+                  </form>
+   
+              
+                </div><br>
+                <div class="landing-page-container11">  {% if error %}
+                  <p style="color: white">{{error}}</p>
+                  {% endif %}</div>
               </div>
             </div>
           </div>
-          <div class="footer-footer footer-root-class-name19">
+          <div class="footer-footer footer-root-class-name">
             <footer class="footer-footer1">
               <div class="footer-container">
                 <h1><span>Ascenda</span></h1>
@@ -278,633 +282,734 @@
     </div>
     <script src="https://unpkg.com/@teleporthq/teleport-custom-scripts"></script>
     <style>
+      .navigation-links-nav {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+      }
+      .navigation-links-navlink {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        text-decoration: none;
+      }
+      .navigation-links-navlink1 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+        text-decoration: none;
+      }
+      .navigation-links-text {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+      }
+      .navigation-links-navlink2 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+        text-decoration: none;
+      }
+      .navigation-links-navlink3 {
+        color: var(--dl-color-primary-white);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-left: 32px;
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      @media(max-width: 767px) {
         .navigation-links-nav {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            flex-direction: row;
-          }
-          .navigation-links-navlink {
-            color: var(--dl-color-primary-white);
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            text-decoration: none;
-          }
-          .navigation-links-navlink1 {
-            color: var(--dl-color-primary-white);
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-left: 32px;
-            text-decoration: none;
-          }
-          .navigation-links-text {
-            color: var(--dl-color-primary-white);
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-left: 32px;
-          }
-          .navigation-links-navlink2 {
-            color: var(--dl-color-primary-white);
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-left: 32px;
-            text-decoration: none;
-          }
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          @media(max-width: 767px) {
-            .navigation-links-nav {
-              align-items: flex-start;
-              flex-direction: column;
-            }
-            .navigation-links-navlink {
-              margin-bottom: var(--dl-space-space-unit);
-            }
-            .navigation-links-navlink1 {
-              margin-left: 0;
-              margin-bottom: var(--dl-space-space-unit);
-            }
-            .navigation-links-text {
-              margin-left: 0;
-              margin-bottom: var(--dl-space-space-unit);
-            }
-            .navigation-links-navlink2 {
-              margin-left: 0;
-              margin-bottom: var(--dl-space-space-unit);
-            }
-          }
-          
-          .header-header {
-            width: 1000px;
-            display: flex;
-            position: relative;
-            max-width: 1400px;
-            align-items: center;
-            padding-top: 32px;
-            padding-left: 48px;
-            padding-right: 48px;
-            padding-bottom: 32px;
-            justify-content: space-between;
-          }
-          .header-navlink {
-            display: contents;
-          }
-          .header-logo {
-            color: var(--dl-color-primary-white);
-            text-decoration: none;
-          }
-          .header-nav {
-            display: flex;
-          }
-          .header-btn-group {
-            width: auto;
-            display: flex;
-            align-items: center;
-            border-color: var(--dl-color-primary-brown);
-            border-width: 1px;
-            flex-direction: row;
-            justify-content: space-between;
-          }
-          .header-register {
-            color: var(--dl-color-primary-white);
-            padding-top: var(--dl-space-space-halfunit);
-            border-color: var(--dl-color-primary-brown);
-            margin-right: 0px;
-            padding-left: var(--dl-space-space-doubleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-doubleunit);
-            padding-bottom: var(--dl-space-space-halfunit);
-            text-decoration: none;
-            background-color: transparent;
-          }
-          .header-burger-menu {
-            display: none;
-          }
-          .header-icon {
-            width: 16px;
-            height: 16px;
-          }
-          .header-mobile-menu {
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            height: 100vh;
-            display: none;
-            padding: 32px;
-            z-index: 100;
-            position: absolute;
-            flex-direction: column;
-            justify-content: space-between;
-            background-color: #fff;
-          }
-          .header-nav1 {
-            display: flex;
-            align-items: flex-start;
-            flex-direction: column;
-          }
-          .header-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin-bottom: 48px;
-            justify-content: space-between;
-          }
-          .header-image {
-            height: 2rem;
-          }
-          .header-menu-close {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .header-icon02 {
-            width: 16px;
-            height: 16px;
-          }
-          .header-icon04 {
-            width: 16px;
-            height: 16px;
-            margin-right: 32px;
-          }
-          .header-icon06 {
-            width: 16px;
-            height: 16px;
-            margin-right: 32px;
-          }
-          .header-icon08 {
-            width: 16px;
-            height: 16px;
-          }
-          .header-root-class-name {
-            top: 146px;
-            left: 112px;
-            position: absolute;
-          }
-          .header-root-class-name1 {
-            margin-bottom: var(--dl-space-space-unit);
-          }
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          .header-root-class-name17 {
-            margin-bottom: var(--dl-space-space-unit);
-          }
-          .header-root-class-name18 {
-            margin-bottom: var(--dl-space-space-unit);
-          }
-          
-          
-          
-          @media(max-width: 767px) {
-            .header-header {
-              padding-left: 32px;
-              padding-right: 32px;
-            }
-            .header-nav {
-              display: none;
-            }
-            .header-btn-group {
-              display: none;
-            }
-            .header-burger-menu {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-          }
-          @media(max-width: 479px) {
-            .header-header {
-              padding: var(--dl-space-space-unit);
-            }
-            .header-mobile-menu {
-              padding: 16px;
-            }
-          }
-          
-          .search-button-container {
-            display: flex;
-            position: relative;
-          }
-          .search-button-container1 {
-            display: flex;
-            border-color: var(--dl-color-primary-brown);
-            border-width: 1px;
-          }
-          .search-button-button {
-            color: var(--dl-color-primary-brown);
-            font-size: 20px;
-            padding-top: var(--dl-space-space-halfunit);
-            border-width: 0px;
-            padding-left: var(--dl-space-space-doubleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-doubleunit);
-            padding-bottom: var(--dl-space-space-halfunit);
-            background-color: transparent;
-          }
-          .search-button-text2 {
-            background-color: #fce181ff;
-          }
-          .search-button-root-class-name {
-            align-self: flex-end;
-          }
-          .search-button-root-class-name1 {
-            left: 0px;
-            bottom: 0px;
-            position: 0px;
-            align-self: flex-end;
-          }
-          .search-button-root-class-name2 {
-            left: 0px;
-            bottom: 0px;
-            position: 0px;
-            align-self: flex-end;
-          }
-          .search-button-root-class-name3 {
-            align-self: flex-end;
-          }
-          .search-button-root-class-name4 {
-            left: 0px;
-            bottom: 0px;
-            position: 0px;
-            align-self: flex-end;
-          }
-          
-          .footer-footer {
-            color: var(--dl-color-gray-white);
-            width: 100%;
-            display: flex;
-            padding: var(--dl-space-space-tripleunit);
-            position: relative;
-            align-items: center;
-            flex-direction: row;
-            justify-content: center;
-            background-color: var(--dl-color-primary-fadeddblue);
-          }
-          .footer-footer1 {
-            width: 100%;
-            display: flex;
-            max-width: 1400px;
-            align-items: center;
-            padding-top: 32px;
-            padding-left: 48px;
-            padding-right: 48px;
-            padding-bottom: 32px;
-            justify-content: space-between;
-          }
-          .footer-container {
-            flex: 0 0 auto;
-            width: auto;
-            height: auto;
-            display: flex;
-            align-items: space-between;
-            flex-direction: column;
-          }
-          .footer-text1 {
-            font-family: Roboto;
-          }
-          .footer-icon-group {
-            display: flex;
-            align-items: center;
-            flex-direction: row;
-            justify-content: space-between;
-          }
-          .footer-icon {
-            fill: var(--dl-color-primary-white);
-            width: 20px;
-            height: 20px;
-            margin-right: 32px;
-          }
-          .footer-icon2 {
-            fill: var(--dl-color-primary-white);
-            width: 20px;
-            height: 20px;
-            margin-right: 32px;
-          }
-          .footer-icon4 {
-            fill: var(--dl-color-primary-white);
-            width: 20px;
-            height: 20px;
-          }
-          .footer-root-class-name {
-            opacity: 1;
-            align-self: center;
-            background-color: transparent;
-          }
-          
-          
-          .footer-root-class-name3 {
-            background-color: transparent;
-          }
-          .footer-root-class-name4 {
-            background-color: transparent;
-          }
-          .footer-root-class-name5 {
-            background-color: transparent;
-          }
-          
-          
-          
-          .footer-root-class-name9 {
-            background-color: transparent;
-          }
-          .footer-root-class-name10 {
-            background-color: transparent;
-          }
-          .footer-root-class-name11 {
-            background-color: transparent;
-          }
-          .footer-root-class-name12 {
-            background-color: transparent;
-          }
-          
-          .footer-root-class-name14 {
-            background-color: transparent;
-          }
-          
-          
-          
-          
-          .footer-root-class-name19 {
-            opacity: 1;
-            align-self: center;
-            background-color: transparent;
-          }
-          @media(max-width: 767px) {
-            .footer-footer1 {
-              padding-left: 32px;
-              padding-right: 32px;
-            }
-          }
-          @media(max-width: 479px) {
-            .footer-footer1 {
-              padding: var(--dl-space-space-unit);
-              flex-direction: column;
-            }
-          }
-          
-          .specific-hotel-page-container {
-            width: 100%;
-            height: auto;
-            display: flex;
-            min-height: 100vh;
-            align-items: center;
-            flex-direction: column;
-          }
-          .specific-hotel-page-top-container {
-            width: 100%;
-            height: 1002px;
-            display: flex;
-            align-items: center;
-            border-width: 0px;
-            flex-direction: column;
-            background-size: cover;
-            background-color: var(--dl-color-primary-darkblue);
-            background-image: url("https://images.unsplash.com/photo-1559414059-34fe0a59e57a?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDExOXx8aG90ZWx8ZW58MHx8fHwxNjU5NTE3NTk1&ixlib=rb-1.2.1&w=1500");
-          }
-          .specific-hotel-page-container01 {
-            width: 100%;
-            height: 795px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: flex-start;
-          }
-          .specific-hotel-page-hero {
-            width: auto;
-            height: auto;
-            display: flex;
-            padding: var(--dl-space-space-doubleunit);
-            flex-wrap: wrap;
-            max-width: 1000px;
-            margin-top: var(--dl-space-space-doubleunit);
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            background-color: var(--dl-color-primary-darkblue);
-          }
-          .specific-hotel-page-content-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            position: relative;
-            align-items: flex-start;
-            padding-top: var(--dl-space-space-doubleunit);
-            border-color: var(--dl-color-primary-brown);
-            border-width: 1px;
-            padding-left: var(--dl-space-space-tripleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-tripleunit);
-            flex-direction: column;
-            padding-bottom: var(--dl-space-space-doubleunit);
-            justify-content: flex-start;
-            background-color: var(--dl-color-primary-darkblue);
-          }
-          .specific-hotel-page-text {
-            color: var(--dl-color-primary-white);
-            font-size: 3em;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 700;
-          }
-          .specific-hotel-page-destination-container {
-            width: 100%;
-            height: 85px;
-            display: flex;
-            position: relative;
-            align-items: flex-start;
-            margin-bottom: var(--dl-space-space-unit);
-            flex-direction: column;
-            justify-content: center;
-          }
-          .specific-hotel-page-text1 {
-            color: var(--dl-color-primary-brown);
-            font-size: 23px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .specific-hotel-page-textinput {
-            flex: 0;
-            width: 610px;
-            height: 41px;
-            align-self: flex-start;
-            margin-top: 0px;
-            border-width: 0px;
-            text-transform: capitalize;
-          }
-          .specific-hotel-page-container02 {
-            flex: 0 0 auto;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin-bottom: var(--dl-space-space-unit);
-            flex-direction: row;
-            justify-content: flex-start;
-          }
-          .specific-hotel-page-container03 {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: flex-start;
-            margin-right: var(--dl-space-space-unit);
-            flex-direction: column;
-            justify-content: center;
-          }
-          .specific-hotel-page-text2 {
-            color: var(--dl-color-primary-brown);
-            font-size: 23px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .specific-hotel-page-select {
-            width: 270px;
-            height: 43px;
-          }
-          .specific-hotel-page-container04 {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-          }
-          .specific-hotel-page-text3 {
-            color: var(--dl-color-primary-brown);
-            font-size: 23px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .specific-hotel-page-select1 {
-            width: 270px;
-            height: 43px;
-          }
-          .specific-hotel-page-container05 {
-            flex: 0 0 auto;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            margin-bottom: var(--dl-space-space-unit);
-            flex-direction: row;
-            justify-content: flex-start;
-          }
-          .specific-hotel-page-container06 {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: flex-start;
-            margin-right: var(--dl-space-space-unit);
-            flex-direction: column;
-            justify-content: center;
-          }
-          .specific-hotel-page-text4 {
-            color: var(--dl-color-primary-brown);
-            font-size: 23px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .specific-hotel-page-select2 {
-            width: 200px;
-            height: 43px;
-          }
-          .specific-hotel-page-container07 {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-          }
-          .specific-hotel-page-text5 {
-            color: var(--dl-color-primary-brown);
-            font-size: 23px;
-            align-self: flex-start;
-            font-style: normal;
-            font-family: Roboto;
-            font-weight: 400;
-            margin-bottom: var(--dl-space-space-halfunit);
-          }
-          .specific-hotel-page-select3 {
-            width: 200px;
-            height: 43px;
-          }
-          .specific-hotel-page-container08 {
-            flex: 0 0 auto;
-            width: 100%;
-            height: auto;
-            display: flex;
-            margin-top: var(--dl-space-space-unit);
-            align-items: center;
-            margin-bottom: 0px;
-            justify-content: space-between;
-          }
-          .specific-hotel-page-navlink {
-            display: contents;
-          }
-          .specific-hotel-page-component1 {
-            text-decoration: none;
-          }
-          .specific-hotel-page-container09 {
-            display: flex;
-            border-color: var(--dl-color-primary-brown);
-            border-width: 1px;
-            justify-content: flex-end;
-          }
-          .specific-hotel-page-button {
-            color: var(--dl-color-primary-brown);
-            font-size: 20px;
-            padding-top: var(--dl-space-space-halfunit);
-            border-width: 0px;
-            padding-left: var(--dl-space-space-doubleunit);
-            border-radius: var(--dl-radius-radius-radius2);
-            padding-right: var(--dl-space-space-doubleunit);
-            padding-bottom: var(--dl-space-space-halfunit);
-            background-color: transparent;
-          }
-          @media(max-width: 991px) {
-            .specific-hotel-page-hero {
-              padding-left: var(--dl-space-space-tripleunit);
-              padding-right: var(--dl-space-space-tripleunit);
-            }
-          }
-          @media(max-width: 767px) {
-            .specific-hotel-page-hero {
-              justify-content: center;
-            }
-            .specific-hotel-page-content-container {
-              align-items: center;
-            }
-          }
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .navigation-links-navlink {
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-navlink1 {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-text {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+        .navigation-links-navlink2 {
+          margin-left: 0;
+          margin-bottom: var(--dl-space-space-unit);
+        }
+      }
+      
+      .header-header {
+        width: 1000px;
+        display: flex;
+        position: relative;
+        max-width: 1400px;
+        align-items: center;
+        padding-top: 32px;
+        padding-left: 48px;
+        padding-right: 48px;
+        padding-bottom: 32px;
+        justify-content: space-between;
+      }
+      .header-navlink {
+        display: contents;
+      }
+      .header-logo {
+        color: var(--dl-color-primary-white);
+        text-decoration: none;
+      }
+      .header-nav {
+        display: flex;
+      }
+      .header-btn-group {
+        width: auto;
+        display: flex;
+        align-items: center;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .header-register {
+        color: var(--dl-color-primary-white);
+        padding-top: var(--dl-space-space-halfunit);
+        border-color: var(--dl-color-primary-brown);
+        margin-right: 0px;
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        text-decoration: none;
+        background-color: transparent;
+      }
+      .header-burger-menu {
+        display: none;
+      }
+      .header-icon {
+        width: 16px;
+        height: 16px;
+      }
+      .header-mobile-menu {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+        display: none;
+        padding: 32px;
+        z-index: 100;
+        position: absolute;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #fff;
+      }
+      .header-nav1 {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .header-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 48px;
+        justify-content: space-between;
+      }
+      .header-image {
+        height: 2rem;
+      }
+      .header-menu-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .header-icon02 {
+        width: 16px;
+        height: 16px;
+      }
+      .header-icon04 {
+        width: 16px;
+        height: 16px;
+        margin-right: 32px;
+      }
+      .header-icon06 {
+        width: 16px;
+        height: 16px;
+        margin-right: 32px;
+      }
+      .header-icon08 {
+        width: 16px;
+        height: 16px;
+      }
+      .header-root-class-name {
+        top: 146px;
+        left: 112px;
+        position: absolute;
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      @media(max-width: 767px) {
+        .header-header {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+        .header-nav {
+          display: none;
+        }
+        .header-btn-group {
+          display: none;
+        }
+        .header-burger-menu {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      @media(max-width: 479px) {
+        .header-header {
+          padding: var(--dl-space-space-unit);
+        }
+        .header-mobile-menu {
+          padding: 16px;
+        }
+      }
+      
+      .search-button-container {
+        display: flex;
+        position: relative;
+      }
+      .search-button-container1 {
+        display: flex;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+      }
+      .search-button-button {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        padding-top: var(--dl-space-space-halfunit);
+        border-width: 0px;
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        background-color: transparent;
+      }
+      .search-button-text2 {
+        background-color: #fce181ff;
+      }
+      .search-button-root-class-name {
+        align-self: flex-end;
+      }
+      .search-button-root-class-name1 {
+        left: 0px;
+        bottom: 0px;
+        position: 0px;
+        align-self: flex-end;
+      }
+      .search-button-root-class-name2 {
+        left: 0px;
+        bottom: 0px;
+        position: 0px;
+        align-self: flex-end;
+      }
+      .search-button-root-class-name3 {
+        align-self: flex-end;
+      }
+      
+      .footer-footer {
+        color: var(--dl-color-gray-white);
+        width: 100%;
+        display: flex;
+        padding: var(--dl-space-space-tripleunit);
+        position: relative;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        background-color: var(--dl-color-primary-fadeddblue);
+      }
+      .footer-footer1 {
+        width: 100%;
+        display: flex;
+        max-width: 1400px;
+        align-items: center;
+        padding-top: 32px;
+        padding-left: 48px;
+        padding-right: 48px;
+        padding-bottom: 32px;
+        justify-content: space-between;
+      }
+      .footer-container {
+        flex: 0 0 auto;
+        width: auto;
+        height: auto;
+        display: flex;
+        align-items: space-between;
+        flex-direction: column;
+      }
+      .footer-text1 {
+        font-family: Roboto;
+      }
+      .footer-icon-group {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+      .footer-icon {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+        margin-right: 32px;
+      }
+      .footer-icon2 {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+        margin-right: 32px;
+      }
+      .footer-icon4 {
+        fill: var(--dl-color-primary-white);
+        width: 20px;
+        height: 20px;
+      }
+      .footer-root-class-name {
+        opacity: 1;
+        align-self: center;
+        background-color: transparent;
+      }
+      
+      
+      .footer-root-class-name3 {
+        background-color: transparent;
+      }
+      .footer-root-class-name4 {
+        background-color: transparent;
+      }
+      .footer-root-class-name5 {
+        background-color: transparent;
+      }
+      
+      
+      
+      .footer-root-class-name9 {
+        background-color: transparent;
+      }
+      .footer-root-class-name10 {
+        background-color: transparent;
+      }
+      .footer-root-class-name11 {
+        background-color: transparent;
+      }
+      .footer-root-class-name12 {
+        background-color: transparent;
+      }
+      
+      @media(max-width: 767px) {
+        .footer-footer1 {
+          padding-left: 32px;
+          padding-right: 32px;
+        }
+      }
+      @media(max-width: 479px) {
+        .footer-footer1 {
+          padding: var(--dl-space-space-unit);
+          flex-direction: column;
+        }
+      }
+      
+      .landing-page-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        flex-direction: column;
+      }
+      .landing-page-top-container {
+        width: 100%;
+        height: 1002px;
+        display: flex;
+        align-items: center;
+        border-width: 0px;
+        flex-direction: column;
+        background-size: cover;
+        background-color: var(--dl-color-primary-darkblue);
+        background-image: url("https://images.unsplash.com/photo-1564574685150-74a84d02d695?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDY5fHxob3RlbHxlbnwwfHx8fDE2NTg1NjExMDk&ixlib=rb-1.2.1&w=1500");
+      }
+      .landing-page-container01 {
+        width: 100%;
+        height: 795px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .landing-page-hero {
+        width: auto;
+        height: auto;
+        display: flex;
+        padding: var(--dl-space-space-doubleunit);
+        flex-wrap: wrap;
+        max-width: 1000px;
+        margin-top: var(--dl-space-space-doubleunit);
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .landing-page-content-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: relative;
+        align-items: flex-start;
+        padding-top: var(--dl-space-space-doubleunit);
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        padding-left: var(--dl-space-space-tripleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-tripleunit);
+        flex-direction: column;
+        padding-bottom: var(--dl-space-space-doubleunit);
+        justify-content: flex-start;
+        background-color: var(--dl-color-primary-darkblue);
+      }
+      .landing-page-text {
+        color: var(--dl-color-primary-white);
+        font-size: 3em;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 700;
+      }
+      .landing-page-container02 {
+        width: 100%;
+        height: 85px;
+        display: flex;
+        position: relative;
+        align-items: flex-start;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: center;
+      }
+      .landing-page-text1 {
+        color: var(--dl-color-primary-brown);
+        font-size: 23px;
+        align-self: flex-start;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .landing-page-textinput {
+        flex: 1;
+        width: 100%;
+        height: 41px;
+        align-self: flex-start;
+        margin-top: 0px;
+        border-width: 0px;
+        text-transform: capitalize;
+      }
+      .landing-page-container03 {
+        flex: 0 0 auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+      .landing-page-container04 {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: flex-start;
+        margin-right: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: center;
+      }
+      .landing-page-text2 {
+        color: var(--dl-color-primary-brown);
+        font-size: 23px;
+        align-self: flex-start;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .landing-page-select {
+        width: 270px;
+        height: 43px;
+      }
+      .landing-page-container05 {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .landing-page-text3 {
+        color: var(--dl-color-primary-brown);
+        font-size: 23px;
+        align-self: flex-start;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .landing-page-select1 {
+        width: 270px;
+        height: 43px;
+      }
+      .landing-page-container06 {
+        flex: 0 0 auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--dl-space-space-unit);
+        flex-direction: row;
+        justify-content: flex-start;
+      }
+      .landing-page-container07 {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: flex-start;
+        margin-right: var(--dl-space-space-unit);
+        flex-direction: column;
+        justify-content: center;
+      }
+      .landing-page-text4 {
+        color: var(--dl-color-primary-brown);
+        font-size: 23px;
+        align-self: flex-start;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .landing-page-select2 {
+        width: 200px;
+        height: 43px;
+      }
+      .landing-page-container08 {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .landing-page-text5 {
+        color: var(--dl-color-primary-brown);
+        font-size: 23px;
+        align-self: flex-start;
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 400;
+        margin-bottom: var(--dl-space-space-halfunit);
+      }
+      .landing-page-select3 {
+        width: 200px;
+        height: 43px;
+      }
+      .landing-page-container09 {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0px;
+        justify-content: space-between;
+      }
+      .landing-page-container10 {
+        display: flex;
+        align-self: flex-end;
+        border-color: var(--dl-color-primary-brown);
+        border-width: 1px;
+        margin-right: var(--dl-space-space-tripleunit);
+      }
+      .landing-page-button {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        align-self: flex-end;
+        padding-top: var(--dl-space-space-halfunit);
+        border-width: 0px;
+        padding-left: var(--dl-space-space-doubleunit);
+        border-radius: var(--dl-radius-radius-radius2);
+        padding-right: var(--dl-space-space-doubleunit);
+        padding-bottom: var(--dl-space-space-halfunit);
+        background-color: transparent;
+      }
+      .specific-hotel-container {
+        color: var(--dl-color-primary-brown);
+        font-size: 20px;
+        width: auto;
+        height: auto;
+        display: flex;
+        position: relative;
+        align-items: flex-end;
+        align-self: flex-end;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .specific-hotel-navlink {
+        color: var(--dl-color-primary-brown);
+        font-style: normal;
+        font-family: Roboto;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .landing-page-navlink {
+        display: contents;
+      }
+      .landing-page-component1 {
+        text-decoration: none;
+      }
+      .landing-page-container11 {
+        border: 2px rgba(120, 120, 120, 0.4);
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .landing-page-container12 {
+        border: 2px dashed rgba(120, 120, 120, 0.4);
+        display: flex;
+        position: relative;
+      }
+      @media(max-width: 991px) {
+        .landing-page-hero {
+          padding-left: var(--dl-space-space-tripleunit);
+          padding-right: var(--dl-space-space-tripleunit);
+        }
+      }
+      @media(max-width: 767px) {
+        .landing-page-hero {
+          justify-content: center;
+        }
+        .landing-page-content-container {
+          align-items: center;
+        }
+      }
+      
+    </style>
+
+    <style>
+      :root {
+        --dl-color-gray-900: #D9D9D9;
+        --dl-size-size-unit: 1rem;
+        --dl-color-gray-black: #000000;
+        --dl-color-gray-white: #FFFFFF;
+        --dl-space-space-unit: 1em;
+        --dl-color-primary-grey: #edeae5ff;
+        --dl-size-size-halfunit: 0.5rem;
+        --dl-color-primary-brown: #b69d74ff;
+        --dl-color-primary-white: #f5f5efff;
+        --dl-radius-radius-round: 50%;
+        --dl-size-size-doubleunit: 2rem;
+        --dl-size-size-tripleunit: 3rem;
+        --dl-space-space-halfunit: 0.5em;
+        --dl-radius-radius-radius2: 2px;
+        --dl-radius-radius-radius4: 4px;
+        --dl-radius-radius-radius8: 8px;
+        --dl-space-space-quadruple: 4em;
+        --dl-color-primary-darkblue: #1f2839ff;
+        --dl-space-space-doubleunit: 2em;
+        --dl-space-space-tripleunit: 3em;
+        --dl-color-primary-fadeddblue: #1f2839b8;
+      }
+      .teleport-show {
+        display: flex !important;
+      }
+      .button {
+        font-size: 14px;
+        font-family: Roboto;
+        font-weight: 600;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .list-item {
+        display: list-item;
+      }
+      .list {
+        width: 100%;
+        margin: 1em 0px 1em 0px;
+        display: block;
+        padding: 0px 0px 0px 1.5rem;
+        list-style-type: none;
+        list-style-position: outside;
+      }
+      .textarea {
+        color: var(--dl-color-gray-black);
+        cursor: auto;
+        padding: 0.5rem;
+        font-family: Roboto;
+        border-color: var(--dl-color-gray-black);
+        border-width: 1px;
+        border-radius: 4px;
+        background-color: var(--dl-color-gray-white);
+      }
+      .input {
+        color: var(--dl-color-gray-black);
+        cursor: auto;
+        padding: 0.5rem 1rem;
+        font-family: Roboto;
+        border-color: var(--dl-color-gray-black);
+        border-width: 1px;
+        border-radius: 4px;
+        background-color: var(--dl-color-gray-white);
+      }
+      .subheading {
+        font-size: 1.6rem;
+        font-family: Roboto;
+        font-weight: 400;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .heading {
+        font-size: 3rem;
+        font-family: Roboto;
+        font-weight: 700;
+        line-height: 1.55;
+        text-transform: none;
+        text-decoration: none;
+      }
+      .content {
+        font-size: 16px;
+        font-family: Roboto;
+        font-weight: 400;
+        line-height: 1.55;
+        text-transform: none;
+        text-decoration: none;
+      }
+      
     </style>
   </body>
-</html>
+</html> 
