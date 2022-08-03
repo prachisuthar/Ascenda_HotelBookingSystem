@@ -297,17 +297,17 @@
             <div class="pagination">
               <span class="step-links">
                   {% if hotels_list.has_previous %}
-                      <a href="?page=1"><span class="hotel2container-text2">&laquo; first</span></a>
-                      <a href="?page={{ hotels_list.previous_page_number }}"><span class="hotel2container-text2">previous</span></a>
+                      <a href="?page=1"><span class="steplinks">&laquo; first</span></a>
+                      <a href="?page={{ hotels_list.previous_page_number }}"><span class="steplinks">previous</span></a>
                   {% endif %}
           
-                  <span class="hotel2container-text2" class="current">
+                  <span class="page-of" class="current">
                       Page {{ hotels_list.number }} of {{ hotels_list.paginator.num_pages }}.
                   </span>
           
                   {% if hotels_list.has_next %}
-                      <a href="?page={{ hotels_list.next_page_number }}"><span class="hotel2container-text2">next</span></a>
-                      <a href="?page={{ hotels_list.paginator.num_pages }}"><span class="hotel2container-text2">last &raquo;</span></a>
+                      <a href="?page={{ hotels_list.next_page_number }}"><span class="steplinks">next</span></a>
+                      <a href="?page={{ hotels_list.paginator.num_pages }}"><span class="steplinks">last &raquo;</span></a>
                   {% endif %}
               </span>
           </div>
@@ -857,7 +857,7 @@
       
       .hotel2container-hotel2container {
         flex: 0 0 auto;
-        width: 1031px;
+        width: 900px;
         display: flex;
         position: relative;
         align-self: center;
@@ -957,6 +957,19 @@
       .hotel2container-root-class-name1 {
         margin-bottom: 0px;
       }
+      .page-of{
+        color: var(--dl-color-primary-white);
+        font-size: 23px;
+        font-family: Roboto;
+        text-align: center;
+      }
+      .steplinks{
+        color: var(--dl-color-primary-white);
+        font-size: 23px;
+        font-family: Roboto;
+        margin-left: var(--dl-space-space-doubleunit);
+        margin-right: var(--dl-space-space-doubleunit);
+      }
       
       .footer-footer {
         color: var(--dl-color-gray-white);
@@ -967,7 +980,7 @@
         align-items: center;
         flex-direction: row;
         justify-content: center;
-        background-color: var(--dl-color-primary-fadeddblue);
+        background-color: var(--dl-color-primary-darkblue);
       }
       .footer-footer1 {
         width: 100%;

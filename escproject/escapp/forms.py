@@ -5,10 +5,12 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 class SignUpForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput())
-    password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
-    
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "register-page-textinput input"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-page-textinput input"}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-page-textinput input"}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={"class": "register-page-textinput input"}))
+    full_name = forms.CharField(widget=forms.TextInput(attrs={"class": "register-page-textinput input"}))
+
     class Meta:
         model = Customer
         fields = ["username", "password", "full_name", "password", "confirm_password", "email"]
@@ -22,13 +24,13 @@ class SignUpForm(forms.ModelForm):
     
 
 class LoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput())
-    password = forms.CharField(widget=forms.PasswordInput()) 
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "login-page-textinput input"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "login-page-textinput input"})) 
 
 
 class BookLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput())
-    password = forms.CharField(widget=forms.PasswordInput()) 
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "login-page-textinput input"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "login-page-textinput input"})) 
 
 class BookingForm(forms.ModelForm):
     class Meta:

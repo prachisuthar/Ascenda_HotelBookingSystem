@@ -196,32 +196,23 @@
                 /> -->
                 {{form.username}}
               </div>
-              <div class="register-page-container3">
-                <div class="register-page-container4">
-                  <span class="register-page-text4">Password</span>
-                  <!-- <input
-                    type="text"
-                    placeholder="placeholder"
-                    class="register-page-textinput2 input"
-                  /> -->
-                  {{form.password}}
-                </div>
-                <div class="register-page-container3">
-                  <div class="register-page-container4">
-                    <span class="register-page-text4">Re-Enter Password</span>
-                    <!-- <input
-                      type="text"
-                      placeholder="placeholder"
-                      class="register-page-textinput2 input"
-                    /> -->
-                    {{form.confirm_password}}
-                  </div>
-
-                  {% if error %}
-                  <p style="color: white">{{error}}</p>
-                  {% endif %}
-          
-
+              <div class="register-page-container2">
+                <span class="register-page-text4">Password</span>
+                <!-- <input
+                  type="text"
+                  placeholder="placeholder"
+                  class="register-page-textinput2 input"
+                /> -->
+                {{form.password}}
+              </div>
+              <div class="register-page-container2">
+                <span class="register-page-text4">Re-Enter Password</span>
+                <!-- <input
+                  type="text"
+                  placeholder="placeholder"
+                  class="register-page-textinput2 input"
+                /> -->
+                {{form.confirm_password}}
               </div>
               <div class="register-page-container6">
                 <a
@@ -231,6 +222,13 @@
                   <button class="register-page-navlink button" id="sigup_button" type="submit"><span class="register-page-text6">Register</span></button>
                 </a>
               </div>
+
+                  {% if error %}
+                  <p style="color: white">{{error}}</p>
+                  {% endif %}
+          
+              </div>
+            </div>
             </form>
 
               <div class="register-page-container7"></div>
@@ -775,6 +773,7 @@
         border-color: var(--dl-color-primary-brown);
         border-width: 1px;
         justify-content: flex-start;
+        margin-top: var(--dl-space-space-unit);
       }
       .register-page-navlink {
         color: var(--dl-color-primary-brown);

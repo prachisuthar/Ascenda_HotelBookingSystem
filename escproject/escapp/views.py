@@ -1,3 +1,4 @@
+from tkinter import Widget
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView, CreateView, View
 from .forms import *
