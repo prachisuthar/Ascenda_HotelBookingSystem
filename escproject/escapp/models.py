@@ -33,7 +33,7 @@ class Feature1(models.Model):
     #searchResults1 = json.loads(j.read())
 
 #for searchResult1 in searchResults1['results']: 
-    #DestinationSearch.objects.create(country = searchResult1['name'], pax=1, start_date = "2000-10-11", end_date = "2000-11-12")
+    #DestinationSearch.objects.create(country = searchResult1['name'], pax=1, start_date = "2000-10-11", epnd_date = "2000-11-12")
 
 #json_file_path2 = "KL_Hotels.json"
 
