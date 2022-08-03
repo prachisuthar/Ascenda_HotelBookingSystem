@@ -105,9 +105,9 @@ class Booking(models.Model):
     phone_number = models.PositiveIntegerField()
     email = models.EmailField()
     request = models.CharField(max_length=5000)
-    credit_card_no = models.PositiveIntegerField()
-    expiry = models.PositiveBigIntegerField()
-    cvv = models.PositiveIntegerField()
+    credit_card_no = models.CharField(max_length=16)
+    expiry = models.CharField(max_length=4)
+    cvv = models.CharField(max_length=3)
     billing_address = models.CharField(max_length=500)
     bank = models.CharField(max_length=20, choices=COLOR_CHOICES, default='green')
 

@@ -387,6 +387,8 @@ class StartBooking(CreateView):
         def bookingKey_forUse():
             return booking_key
 
+
+
     # def store_key(request):
     #     if request.method=='POST':
     #         key = request.POST[bookingKey_forUse]
@@ -401,6 +403,7 @@ class StartBooking(CreateView):
 
         
         return context
+    
 
     def form_valid(self,form):
         cvv = form.cleaned_data.get("cvv")
@@ -408,14 +411,14 @@ class StartBooking(CreateView):
         expiry = form.cleaned_data.get("expiry")
 
 
-        if len(str(cvv)) != 3:
-            return render(self.request, self.template_name, {"form": self.form_class, "error": "CVV can only be 3 digits. Please re-enter your CVV"})
+        if len(str(cvv)) != 3 or isinstance(cvv, int) == False:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "CVV can only be 3 digits and must be numerical. Please re-enter your CVV"})
 
-        if len(str(credit_card_no)) != 16:
-            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Number can only be 16 digits. Please re-enter your Credit Card Number"})
+        if len(str(credit_card_no)) != 16 or isinstance(credit_card_no, int) == False:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Number can only be 16 digits and must be numerical. Please re-enter your Credit Card Number"})
 
-        if len(str(expiry)) != 4:
-            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Expiry Date can only be 4 digits. Please re-enter it in the format of MMYY"})
+        if len(str(expiry)) != 4 or isinstance(expiry, int) == False:
+            return render(self.request, self.template_name, {"form": self.form_class, "error": "Credit Card Expiry Date can only be 4 digits and must be numerical. Please re-enter it in the format of MMYY"})
 
         return super().form_valid(form)
 
@@ -428,6 +431,20 @@ class ConfirmTransactionView(TemplateView):
         form_obj = Booking.objects.last()
         cvv_of_obj = form_obj.cvv
         Booking.objects.filter(cvv = cvv_of_obj).update(booking_key = bookingKey_forUse())
+
+        mask = Booking.objects.last().credit_card_no
+        mask_credit = str(mask)
+        masked = mask_credit[:6] + len(mask_credit[5:-4])*"*"+mask_credit[-4:]
+        Booking.objects.filter(credit_card_no = mask_credit).update(credit_card_no = masked)
+
+        new_cvv = form_obj.cvv
+        mask_cvv = len(new_cvv)*"*"
+        Booking.objects.filter(cvv = new_cvv).update(cvv = mask_cvv)
+
+        new_expiry = form_obj.expiry
+        mask_expiry = len(new_expiry)*"*"
+        Booking.objects.filter(expiry = new_expiry).update(expiry = mask_expiry)
+
 
         return super().get_context_data(**kwargs)
 
