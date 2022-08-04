@@ -34,6 +34,9 @@ def index(request):
     return render(request,'index.html',{"languages":languages})
 
 def index2(request):
+    for row in Feature1HotelSearch.objects.all().reverse():
+        if Feature1HotelSearch.objects.filter(hotel_name=row.hotel_name).count() > 1:
+            row.delete()
     languages = Feature1HotelSearch.objects.all()
     return render(request,'specifichotel.html',{"languages":languages})
 
