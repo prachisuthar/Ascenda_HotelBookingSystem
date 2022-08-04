@@ -498,10 +498,10 @@ class DeleteUserView(FormView):
 class BookingView(CreateView):
     template_name = "booking.html"
     form_class = BookingForm
-    success_url = reverse_lazy("escapp:index") 
+    success_url = reverse_lazy("escapp:confirmtransaction") 
 
 
-class StartBooking(CreateView):
+class StartBooking(TemplateView):
     template_name = "startbooking.html"
 
 
