@@ -110,6 +110,8 @@ class Booking(models.Model):
     cvv = models.CharField(max_length=3)
     billing_address = models.CharField(max_length=500)
     bank = models.CharField(max_length=20, choices=COLOR_CHOICES, default='green')
+    room_type = models.CharField(max_length=1000,default="-")
+    hotel_id = models.CharField(max_length=1000,default="-")
 
 class HotelPricesF2(models.Model):
     hotel_id = models.CharField(max_length=250, blank = True)
@@ -186,7 +188,10 @@ class HotelRoomsInfo(models.Model):
 class HotelPicturesModel(models.Model):
     imageURL = models.CharField(max_length=250, blank = True, default = "None", null=True)
 
-  
+class UserPreviousBookings(models.Model):
+    booking_key = models.CharField(max_length=250, blank=True, default="-")
+    room_type = models.CharField(max_length=250, blank=True, default="-")
+    hotel_name = models.CharField(max_length=250, blank=True, default="-") 
 
 
 
