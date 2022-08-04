@@ -5,8 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previous Bookings</title>
+
 </head>
 <body>
+    <div class="row mt-4">
+        {% for language in languages%}
+        <div class="col-md-4">
+          <h2>Hotel Name: {{language.hotel_name}}</h><br />
+            <h2>Room Type: {{language.room_type}}</h><br />
+          <h2>Booking Key: {{language.booking_key}}</h><br />
+           
+
+            
+          
+          
+        </div>
+        {% endfor %}
+      </div>
     
 </body>
 </html>

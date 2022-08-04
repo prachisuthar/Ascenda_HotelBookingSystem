@@ -87,12 +87,21 @@
               <a href="{% url 'escapp:contact' %}" class="navigation-links-navlink2">
                 <span>Contact</span>
               </a>
-              <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
-                  <span>Log In</span>
-              </a>
-              <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
-                <span>Sign Up</span>
-            </a>
+              {% if request.user.customer %}
+  
+            <a href="{% url 'escapp:logout' %}" class="navigation-links-navlink3">
+              <span>Log Out</span>
+          </a>
+            {% else %}
+  
+            <a href="{% url 'escapp:login' %}" class="navigation-links-navlink3">
+              <span>Log In</span>
+          </a>
+          <a href="{% url 'escapp:signup' %}" class="navigation-links-navlink3">
+            <span>Sign Up</span>
+        </a>
+        
+            {% endif %}
             </nav>
             </div>
             <div class="header-btn-group">
@@ -215,8 +224,9 @@
                 {{form.confirm_password}}
               </div>
               <div class="register-page-container6">
+              
                 <a
-                  href=" "
+                  href="{% url 'escapp:index' %}"
                   
                 >
                   <button class="register-page-navlink button" id="sigup_button" type="submit"><span class="register-page-text6">Register</span></button>
@@ -229,7 +239,7 @@
           
               </div>
             </div>
-            </form>
+          </form>
 
               <div class="register-page-container7"></div>
               <div class="register-page-container8"></div>

@@ -106,7 +106,7 @@ def f2(request):
         return hotelID
     
     if end_date > start_date:
-        return redirect("http://127.0.0.1:8000/hotelinfo_v2/")
+        return redirect("http://127.0.0.1:8000/hotelsearched/")
 
     else:
         return render(request, "specifichotel.html", {"error": "Please input a valid date range."})
@@ -498,12 +498,11 @@ class DeleteUserView(FormView):
 class BookingView(CreateView):
     template_name = "booking.html"
     form_class = BookingForm
-    success_url = reverse_lazy("escapp:index") 
+    success_url = reverse_lazy("escapp:confirmtransaction") 
 
 
-class StartBooking(CreateView):
+class StartBooking(TemplateView):
     template_name = "startbooking.html"
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -514,8 +513,10 @@ class StartBooking(CreateView):
         global bookingKey_forUse
         def bookingKey_forUse():
             return booking_key
-
-
+        room_type = room.roomNormalizedDescription
+        global roomType_forUse
+        def roomType_forUse():
+            return room_type
 
     # def store_key(request):
     #     if request.method=='POST':
@@ -558,7 +559,7 @@ class ConfirmTransactionView(TemplateView):
 
         form_obj = Booking.objects.last()
         cvv_of_obj = form_obj.cvv
-        Booking.objects.filter(cvv = cvv_of_obj).update(booking_key = bookingKey_forUse())
+        Booking.objects.filter(cvv = cvv_of_obj).update(booking_key = bookingKey_forUse(), room_type = roomType_forUse(), hotel_id = hotel_ID())
 
         mask = Booking.objects.last().credit_card_no
         mask_credit = str(mask)
@@ -648,9 +649,18 @@ class BookingDoneView(TemplateView):
    
         return context
 
+def BookingHistory(request):
+    UserPreviousBookings.objects.all().delete()
+    user_email = request.user.customer.email
+    
+    user_booking = Booking.objects.filter(email=user_email).first()
+    hotelID = user_booking.hotel_id
+    hotel_obj = Feature1HotelSearch.objects.filter(hotel_id = hotelID).first()
+    hotelName = hotel_obj.hotel_name
+    UserPreviousBookings.objects.create(booking_key = user_booking.booking_key, room_type = user_booking.room_type, hotel_name = hotelName) 
+    languages = UserPreviousBookings.objects.all()
+    return render(request,'bookinghistory.html',{"languages":languages})
 
-class BookingHistoryView(TemplateView):
-    template_name = "bookinghistory.html"
 
 
 

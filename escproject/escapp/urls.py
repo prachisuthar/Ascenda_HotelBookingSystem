@@ -26,10 +26,10 @@ urlpatterns = [
     path("confirmdelete/", ConfirmDeleteView.as_view(), name="confirmdelete"),
     path("confirmtransaction/", ConfirmTransactionView.as_view(), name="confirmtransaction"),
     path("bookingdone/", BookingDoneView.as_view(), name="bookingdone"),
-    path("bookinghistory/", BookingHistoryView.as_view(), name="bookinghistory"),
     path("deleteuser/", DeleteUserView.as_view(), name="deleteuser"),
     path("f2/", views.f2, name = "f2"),
-    path("hotelsearched/", HotelInfoView_V2.as_view(), name="hotelinfo_v2"),
+    path("hotelsearched/", HotelInfoView_V2.as_view(), name="hotelsearched"),
+    path("bookinghistory/", views.BookingHistory, name = "bookinghistory"),
 
 
 
