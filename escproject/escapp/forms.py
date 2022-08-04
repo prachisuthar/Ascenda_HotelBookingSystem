@@ -1,4 +1,6 @@
+from turtle import textinput
 from django import forms
+from matplotlib import widgets
 from .models import *
 from .views import * 
 from django.forms import ModelForm
@@ -36,4 +38,16 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ["first_name", "last_name", "phone_number","email", "request", "bank", "credit_card_no","billing_address", "cvv", "expiry"]
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "booking-form-page-textinput4"}),
+            "last_name": forms.TextInput(attrs={"class": "booking-form-page-textinput4"}),
+            "phone_number": forms.TextInput(attrs={"class": "booking-form-page-textinput4", "type": "number"}),
+            "email": forms.EmailInput(attrs={"class": "booking-form-page-textinput4"}),
+            "request": forms.TextInput(attrs={"class": "booking-form-page-textinput4"}),
+            # "bank": forms.TextInput(attrs={"class": "booking-form-page-textinput4"}),
+            "credit_card_no": forms.TextInput(attrs={"class": "booking-form-page-textinput4", "type": "number"}),
+            "billing_address": forms.TextInput(attrs={"class": "booking-form-page-textinput4"}),
+            "cvv": forms.TextInput(attrs={"class": "booking-form-page-textinput4", "type": "number"}),
+            "expiry": forms.TextInput(attrs={"class": "booking-form-page-textinput4", "type": "number"}),
+        }
 

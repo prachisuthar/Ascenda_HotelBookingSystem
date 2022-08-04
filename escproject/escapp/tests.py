@@ -174,22 +174,14 @@ from escapp.models import *
 
 # test case 1
 
-class BaseTest(TestCase):
+class LoginTestCase(TestCase):
     def setUp(self):
-        self.signup_url=reverse('escapp:signup')
         self.login_url=reverse('escapp:login')
-        self.booking_url=reverse('escapp:booking')
-        self.signup={
-            'username': 'test2',
-            'password': 'test_password',
-            'full_name': 'tester',
-            'confirm_password': 'test_password'
-        }
         self.password_mismatch={
-            'username': 'test3',
-            'password': 'test_password',
-            'full_name': 'tester',
-            'confirm_password': 'wrong_password'
+        'username': 'test3',
+        'password': 'test_password',
+        'full_name': 'tester',
+        'confirm_password': 'wrong_password'
         }
         self.login={
             'username': 'test2',
@@ -199,21 +191,46 @@ class BaseTest(TestCase):
             'username': 'test2',
             'password': 'wrong_password',
         }
-        self.booking={
-            'first_name': 'bob',
-            'last_name': 'tan',
-            'phone_number': '83245344',
-            'email': 'bob_tan@gmail.com',
-            'request': 'NA',
-            'card_no': '1234123412341234',
-            'billing': '8 somapah rd',
-            'cvv': '123',
-            'expiry': '0524',
-        }
-
         return super().setUp()
 
-class RegisterTest(BaseTest):
+class LoginTest(LoginTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.login_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+
+    def test_username_exists(self):
+        response=self.client.post(self.login_url,self.password_mismatch,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_can_login(self):
+        response=self.client.post(self.login_url,self.login,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_incorrect_credentials(self):
+        response=self.client.post(self.login_url,self.incorrect_credentials,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+class RegisterTestCase(TestCase):
+    def setUp(self):
+        self.signup_url=reverse('escapp:signup')
+        self.signup={
+            'username': 'test2',
+            'password': 'test_password',
+            'email': 'tester@gmail.com',
+            'full_name': 'tester',
+            'confirm_password': 'test_password'
+        }
+        self.signup_new={
+            'username': 'tester1235',
+            'password': 'test_password1',
+            'email': 'tester1235@gmail.com',
+            'full_name': 'tester bester2',
+            'confirm_password': 'test_password1'
+        }
+        return super().setUp()
+
+class RegisterTest(RegisterTestCase):
     def test_can_view_page_correctly(self):
         response = self.client.get(self.signup_url)
         self.assertEqual(response.status_code, 200)
@@ -223,25 +240,133 @@ class RegisterTest(BaseTest):
         response=self.client.post(self.signup_url,self.signup,format='text/html')
         self.assertEqual(response.status_code, 302)
 
-    def test_username_exists(self):
-        response=self.client.post(self.signup_url,self.password_mismatch,format='text/html')
+    def test_can_register_user2(self):
+        response=self.client.post(self.signup_url,self.signup_new,format='text/html')
         self.assertEqual(response.status_code, 302)
 
-    def test_can_login(self):
-        response=self.client.post(self.login_url,self.login,format='text/html')
-        self.assertEqual(response.status_code, 200)
+class DestinationSearchTestCase(TestCase):
+    def setUp(self):
+        self.landing_url=reverse('escapp:index')
 
-    def test_incorrect_credentials(self):
-        response=self.client.post(self.login_url,self.incorrect_credentials,format='text/html')
+        return super().setUp()
+
+
+class BookingTestCase(TestCase):
+    def setUp(self):
+        self.booking_url=reverse('escapp:startbooking')
+        self.login_url=reverse('escapp:login')
+
+        self.login={
+            'username': 'test2',
+            'password': 'test_password',
+        }
+        self.booking={
+                'first_name': 'bob',
+                'last_name': 'tan',
+                'phone_number': '83245344',
+                'email': 'bob_tan@gmail.com',
+                'request': 'NA',
+                'card_no': '1234123412341234',
+                'billing': '8 somapah rd',
+                'cvv': '123',
+                'expiry': '0524',
+            }
+
+        return super().setUp()
+
+# class BookingTest(BookingTestCase):
+#     def test_can_view_page_correctly(self):
+#         response=self.client.post(self.login_url,self.login,format='text/html')
+#         self.assertEqual(response.status_code, 200)
+
+#         response = self.client.get(self.booking_url)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'login.html')
+
+class DestinationSearchTestCase(TestCase):
+    def setUp(self):
+        self.index_url=reverse('escapp:index')
+        self.hotellist_url=reverse('escapp:hotellist')
+
+        self.singapore_search={
+            'country': 'Singapore, Singapore',
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '05012023',
+            'end_date': '09012023',
+        }
+        self.kl_search={
+            'country': 'Kuala Lumpur, Malaysia',
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '05/01/2023',
+            'end_date': '09/01/2023',
+        }
+        self.rome_search={
+            'country': 'Rome, Italy',
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '05/01/2023',
+            'end_date': '09/01/2023',
+        }
+        self.wrong_date={
+            'country': 'Singapore, Singapore',
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '09/01/2023',
+            'end_date': '05/01/2023',
+        }
+        self.many_guests={
+            'country': 'Singapore, Singapore',
+            'guests_number': '8',
+            'rooms_number': '1',
+            'start_date': '05/01/2023',
+            'end_date': '09/01/2023',
+        }
+        return super().setUp()
+
+class DestinationSearchTest(DestinationSearchTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.index_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+
+    def test_search_singapore_hotels(self):
+        response=self.client.post(self.index_url,self.singapore_search,format='text/html')
+        self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(response, 'hotellist.html')
+    
+    def test_search_kl_hotels(self):
+        response=self.client.post(self.index_url,self.kl_search,format='text/html')
+        self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(response, 'hotellist.html')
+    
+    def test_search_other_hotels(self):
+        response=self.client.post(self.index_url,self.rome_search,format='text/html')
         self.assertEqual(response.status_code, 200)
     
-    def test_can_book(self):
-        response=self.client.post(self.booking_url,self.booking,format='text/html')
+    def test_search_wrong_date(self):
+        response=self.client.post(self.index_url,self.wrong_date,format='text/html')
         self.assertEqual(response.status_code, 200)
 
+    def test_search_many_guests(self):
+        response=self.client.post(self.index_url,self.many_guests,format='text/html')
+        self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(response, 'hotellist.html')
+
+class HotelListTestCase(TestCase):
+    def setUp(self):
+        self.index_url=reverse('escapp:hotellist')
+
+    # def test_view_singapore_hotels(self):
+
+
+
     
-
-
+    
+    # def test_can_book(self):
+    #     response=self.client.post(self.booking_url,self.booking,format='text/html')
+    #     self.assertEqual(response.status_code, 200)
 
 # class Feature1TestCase(TestCase):
 #     def test_feature1_exists(self):
