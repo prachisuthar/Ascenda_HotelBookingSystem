@@ -188,7 +188,7 @@
                       <span>Description : {{room.roomNormalizedDescription}}</span>
                     </span>
                   </div>
-                  {% if request.user.customer %}
+          
                   <div class="room-container-container2">
                     <a
                       href="{% url 'escapp:startbooking' room.slug %}"
@@ -199,18 +199,7 @@
                       </span>
                     </a>
                   </div>
-                  {% else %}
-                  <div class="room-container-container2">
-                    <a
-                      href="{% url 'escapp:booklogin' %}"
-                      class="room-container-navlink button"
-                    >
-                      <span class="room-container-text03">
-                        <span>Log In to Book Room</span>
-                      </span>
-                    </a>
-                  </div>
-                  {% endif %}
+                
                 </div>
                 <div class="room-container-container3">
                   <!-- <span class="room-container-text05">

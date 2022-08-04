@@ -239,6 +239,14 @@ class HotelInfoView(TemplateView):
         # context['country_list'] = DestinationSearch.country.
 
         #context = { "hotel_name": hotel.hotelName, "cheapest_price": hotel.cheapest_price, "address": hotel.address, "hotel_id":hotel.hotel_id}
+        HotelPicturesModel.objects.all().delete()
+        #each time u call the query u must clear the database!!! so that u dont see extra stuff
+        hotel_obj = Feature3_info.objects.first()
+        imageIndices_arr = (hotel_obj.imageIndices).split(",")
+        for element in imageIndices_arr:
+            HotelPicturesModel.objects.create(imageURL = hotel_obj.cloudflare_image_url + str(element) + hotel_obj.image_details_suffix)
+                
+        context['hotel_pictures'] = HotelPicturesModel.objects.all()
 
         return context
 
@@ -455,7 +463,7 @@ class LoginView(FormView):
 class BookLoginView(FormView):
     template_name = "booklogin.html"
     form_class = BookLoginForm
-    success_url = reverse_lazy("escapp:accountinfo")
+    success_url = reverse_lazy("escapp:booking")
 
     def form_valid(self, form):
         uname = form.cleaned_data.get("username")
@@ -494,9 +502,8 @@ class BookingView(CreateView):
 
 
 class StartBooking(CreateView):
-    template_name = "booking.html"
-    form_class = BookingForm
-    success_url = reverse_lazy("escapp:confirmtransaction") 
+    template_name = "startbooking.html"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -630,24 +637,6 @@ class CheckDeleteAccountView(TemplateView):
 
 class ConfirmDeleteView(TemplateView):
     template_name = "confirmdelete.html"
-
-class HotelPictures(TemplateView):
-    template_name = "hotelpictures.html"
-
-    def get_context_data(self, **kwargs):
-        HotelPicturesModel.objects.all().delete()
-        #each time u call the query u must clear the database!!! so that u dont see extra stuff
-        hotel_obj = Feature3_info.objects.first()
-        imageIndices_arr = (hotel_obj.imageIndices).split(",")
-        for element in imageIndices_arr:
-            HotelPicturesModel.objects.create(imageURL = hotel_obj.cloudflare_image_url + str(element) + hotel_obj.image_details_suffix)
-                
-        context = super().get_context_data(**kwargs)
-        context['hotel_pictures'] = HotelPicturesModel.objects.all()
-
-        return context
-
-
 
 class BookingDoneView(TemplateView):
     template_name = "bookingdone.html"

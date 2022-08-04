@@ -12,7 +12,8 @@
       <div class="row mt-4">
         
         <div class="col-md-4">
-          <h1>Room Type: {{room.roomNormalizedDescription}}</h1>
+          <a href="{% url 'escapp:booking' %}"><button>Booking form</button></a>
+          <a href="{% url 'escapp:booklogin' %}"><button>Log In</button></a>
           <h2>Please confirm that this is the room which you would like to book.</h2>
           
         </div>
