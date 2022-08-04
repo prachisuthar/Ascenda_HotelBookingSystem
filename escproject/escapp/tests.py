@@ -1,3 +1,4 @@
+from multiprocessing.connection import Client
 from django.test import TestCase
 
 '''
@@ -165,27 +166,29 @@ class CustomerTestCase(self):
 
 from django.urls import reverse
 from escapp.models import *
+from django.contrib.auth.models import User
+from django.test import Client
 
-
-# class BaseTest(TestCase):
-#     def setUp(self):
-#         self.signup_url=reverse('signup.html')
-#         return super().setUp()
-
-# test case 1
-
+##----------------Login Page----------------##
 class LoginTestCase(TestCase):
     def setUp(self):
         self.login_url=reverse('escapp:login')
-        self.password_mismatch={
-        'username': 'test3',
-        'password': 'test_password',
-        'full_name': 'tester',
-        'confirm_password': 'wrong_password'
-        }
-        self.login={
+        self.signup_url=reverse('escapp:signup')
+
+        self.signup={
             'username': 'test2',
             'password': 'test_password',
+            'email': 'tester@gmail.com',
+            'full_name': 'tester',
+            'confirm_password': 'test_password'
+        }
+        self.password_mismatch={
+            'username': 'test3',
+            'password': 'wrong_password',
+        }
+        self.login={
+            'username': 'test3',
+            'password': 'test3',
         }
         self.incorrect_credentials={
             'username': 'test2',
@@ -210,7 +213,9 @@ class LoginTest(LoginTestCase):
     def test_incorrect_credentials(self):
         response=self.client.post(self.login_url,self.incorrect_credentials,format='text/html')
         self.assertEqual(response.status_code, 200)
+##------------------------------------------##
 
+##----------------Signup Page----------------##
 class RegisterTestCase(TestCase):
     def setUp(self):
         self.signup_url=reverse('escapp:signup')
@@ -243,6 +248,7 @@ class RegisterTest(RegisterTestCase):
     def test_can_register_user2(self):
         response=self.client.post(self.signup_url,self.signup_new,format='text/html')
         self.assertEqual(response.status_code, 302)
+##-------------------------------------------##
 
 class DestinationSearchTestCase(TestCase):
     def setUp(self):
@@ -250,39 +256,7 @@ class DestinationSearchTestCase(TestCase):
 
         return super().setUp()
 
-
-class BookingTestCase(TestCase):
-    def setUp(self):
-        self.booking_url=reverse('escapp:startbooking')
-        self.login_url=reverse('escapp:login')
-
-        self.login={
-            'username': 'test2',
-            'password': 'test_password',
-        }
-        self.booking={
-                'first_name': 'bob',
-                'last_name': 'tan',
-                'phone_number': '83245344',
-                'email': 'bob_tan@gmail.com',
-                'request': 'NA',
-                'card_no': '1234123412341234',
-                'billing': '8 somapah rd',
-                'cvv': '123',
-                'expiry': '0524',
-            }
-
-        return super().setUp()
-
-# class BookingTest(BookingTestCase):
-#     def test_can_view_page_correctly(self):
-#         response=self.client.post(self.login_url,self.login,format='text/html')
-#         self.assertEqual(response.status_code, 200)
-
-#         response = self.client.get(self.booking_url)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'login.html')
-
+##----------------Feature 1----------------##
 class DestinationSearchTestCase(TestCase):
     def setUp(self):
         self.index_url=reverse('escapp:index')
@@ -353,16 +327,121 @@ class DestinationSearchTest(DestinationSearchTestCase):
         response=self.client.post(self.index_url,self.many_guests,format='text/html')
         self.assertEqual(response.status_code, 200)
         # self.assertTemplateUsed(response, 'hotellist.html')
+##------------------------------------------##
 
 class HotelListTestCase(TestCase):
     def setUp(self):
         self.index_url=reverse('escapp:hotellist')
 
-    # def test_view_singapore_hotels(self):
+##----------------About Page----------------##
+class AboutPageTestCase(TestCase):
+    def setUp(self):
+        self.about_url=reverse('escapp:about')
+        return super().setUp()
+
+class AboutPageTest(AboutPageTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.about_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'about.html')
+##-----------------------------------------##
+
+##----------------Account Page----------------##
+class AccountPageTestCase(TestCase):
+    def setUp(self):
+        self.account_url=reverse('escapp:accountinfo')
+        return super().setUp()
+
+class AccountPageTest(AccountPageTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.account_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accountinfo.html')
+##-----------------------------------------##
+
+##----------------Account Page----------------##
+class ContactPageTestCase(TestCase):
+    def setUp(self):
+        self.contact_url=reverse('escapp:contact')
+        return super().setUp()
+
+class ContactPageTest(ContactPageTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.contact_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'contact.html')
+##-----------------------------------------##
+
+##----------------Booking Form----------------##
+# class BookingTestCase(TestCase):
+#     def setUp(self):
+#         self.booking_url=reverse('escapp:startbooking')
+#         self.login_url=reverse('escapp:login')
+
+#         # self.user = get_user_model().objects.create_user
+
+#         self.login={
+#             'username': 'test3',
+#             'password': 'test3',
+#         }
+#         self.booking={
+#                 'first_name': 'bob',
+#                 'last_name': 'tan',
+#                 'phone_number': '83245344',
+#                 'email': 'bob_tan@gmail.com',
+#                 'request': 'NA',
+#                 'card_no': '1234123412341234',
+#                 'billing': '8 somapah rd',
+#                 'cvv': '123',
+#                 'expiry': '0524',
+#             }
+#         # user = User.objects.create(username='testuser')
+#         # user.set_password('12345')
 
 
+#         # self.client.get(self.login_url)
+#         # self.client.post(self.login_url,self.login,format='text/html')
 
-    
+#         return super().setUp()
+
+# class BookingTest(BookingTestCase):
+
+#     def test_can_view_page_correctly(self):
+#         # self.client.login(username="Blob1", password="Blob1")
+#         user = User.objects.create(username='testuser')
+#         user.is_active=True
+#         user.save()
+#         # self.client.force_login(User.objects.get_or_create(username='testuser')[0])
+#         response = self.client.get(self.booking_url)
+#         self.assertEqual(response.status_code, 200)
+#         self.assertTemplateUsed(response, 'booking.html')
+##-----------------------------------------##
+
+##----------------Account Info----------------##
+class AccountInfoTestCase(TestCase):
+    def setUp(self):
+        self.accountinfo_url=reverse('escapp:accountinfo')
+        return super().setUp()
+
+class AccountInfoTest(AccountInfoTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.accountinfo_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accountinfo.html')
+##-----------------------------------------##
+
+##----------------Delete Account----------------##
+class DeleteAccountTestCase(TestCase):
+    def setUp(self):
+        self.deleteaccount_url=reverse('escapp:deleteaccountcheck')
+        return super().setUp()
+
+class DeleteAccountTest(DeleteAccountTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.deleteaccount_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'checkdeleteaccount.html')
+##-----------------------------------------##
     
     # def test_can_book(self):
     #     response=self.client.post(self.booking_url,self.booking,format='text/html')
