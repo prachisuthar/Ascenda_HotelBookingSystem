@@ -27,7 +27,7 @@ class SignUpForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-page-textinput input"}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "register-page-textinput input"}))
     email = forms.CharField(widget=forms.EmailInput(attrs={"class": "register-page-textinput input"}))
-    full_name = forms.CharField(widget=forms.TextInput(attrs={"class": "register-page-textinput input"}))
+    # full_name = forms.CharField(widget=forms.TextInput(attrs={"class": "register-page-textinput input"}))
 
     class Meta:
         model = Customer

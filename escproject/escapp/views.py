@@ -325,6 +325,15 @@ class HotelInfoView_V2(TemplateView):
 
         #context = { "hotel_name": hotel.hotelName, "cheapest_price": hotel.cheapest_price, "address": hotel.address, "hotel_id":hotel.hotel_id}
 
+        HotelPicturesModel.objects.all().delete()
+        #each time u call the query u must clear the database!!! so that u dont see extra stuff
+        hotel_obj = Feature3_info.objects.first()
+        imageIndices_arr = (hotel_obj.imageIndices).split(",")
+        for element in imageIndices_arr:
+            HotelPicturesModel.objects.create(imageURL = hotel_obj.cloudflare_image_url + str(element) + hotel_obj.image_details_suffix)
+                
+        context['hotel_pictures'] = HotelPicturesModel.objects.all()
+        
         return context
 
 
