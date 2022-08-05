@@ -15,10 +15,11 @@ url = "http://127.0.0.1:8000/"
 
 driver = webdriver.Chrome(PATH)
 driver.get(url)
-driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
 
 print(driver.title)
 # print(driver.page_source)
+driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
+
 
 def sleep_quit ():
     time.sleep(3)
