@@ -1,10 +1,12 @@
 from multiprocessing.connection import Client
 from django.test import TestCase
 
-'''
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 # from selenium.webdriver.common.keys import Keys
 
@@ -13,12 +15,13 @@ url = "http://127.0.0.1:8000/"
 
 driver = webdriver.Chrome(PATH)
 driver.get(url)
+driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
 
 print(driver.title)
 # print(driver.page_source)
 
 def sleep_quit ():
-    time.sleep(5)
+    time.sleep(3)
     driver.quit()
 
 def go_to_page(page_id):
@@ -29,15 +32,16 @@ def go_to_page(page_id):
     elif page_id == "signup":
         search = driver.find_element(By.CSS_SELECTOR, 'a[href*="signup"]')
         search.click()
-    elif page_id == "booking":
-        search = driver.find_element_by_id(By.CSS_SELECTOR, 'a[href*="booking"]')
-        search.click()
+    # elif page_id == "booking":
+    #     search = driver.find_element_by_id(By.CSS_SELECTOR, 'a[href*="booking"]')
+    #     search.click()
 
 
-def signup (username, password, fullname, confirm_password):
+def signup (username, password, fullname, confirm_password, email):
     driver.find_element(By.NAME, "username").send_keys(username)
     driver.find_element(By.NAME, "password").send_keys(password)
     driver.find_element(By.NAME, "full_name").send_keys(fullname)
+    driver.find_element(By.NAME, "email").send_keys(email)
     driver.find_element(By.NAME, "confirm_password").send_keys(confirm_password)
 
     driver.find_element(By.ID, 'signup_button').click()
@@ -109,10 +113,24 @@ def invalid_email():
     book("bob", "tan", "98463923", "bob_tan@@gmail.com", "NA", "8564734583491234", "8 somapah rd", "123", "523")
     sleep_quit() 
 
+def search(country, startdate, enddate, guest, room):
+    driver.find_element(By.ID, "country").send_keys(country)
+    driver.find_element(By.ID, "start_date").send_keys(startdate)
+    driver.find_element(By.ID, "end_date").send_keys(enddate)
+    driver.find_element(By.ID, "guests_number").send_keys(guest)
+    driver.find_element(By.ID, "rooms_number").send_keys(room)
+
+    driver.find_element(By.ID, "submit_button").click()
+
+def book_hotel():
+    # regular_login()
+    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    sleep_quit()
 
 
-regular_login()
-'''
+# book_hotel()
+# regular_login()
+
 
 
 
@@ -175,13 +193,6 @@ class LoginTestCase(TestCase):
         self.login_url=reverse('escapp:login')
         self.signup_url=reverse('escapp:signup')
 
-        self.signup={
-            'username': 'test2',
-            'password': 'test_password',
-            'email': 'tester@gmail.com',
-            'full_name': 'tester',
-            'confirm_password': 'test_password'
-        }
         self.password_mismatch={
             'username': 'test3',
             'password': 'wrong_password',
@@ -213,6 +224,7 @@ class LoginTest(LoginTestCase):
     def test_incorrect_credentials(self):
         response=self.client.post(self.login_url,self.incorrect_credentials,format='text/html')
         self.assertEqual(response.status_code, 200)
+
 ##------------------------------------------##
 
 ##----------------Signup Page----------------##
@@ -233,6 +245,20 @@ class RegisterTestCase(TestCase):
             'full_name': 'tester bester2',
             'confirm_password': 'test_password1'
         }
+        self.wrong_password={
+            'username': 'tester456',
+            'password': 'test_password1',
+            'email': 'tester125@gmail.com',
+            'full_name': 'tester bester3',
+            'confirm_password': 'wrongpassword'
+        }
+        self.existing_user={
+            'username': 'tester456',
+            'password': 'test_password2',
+            'email': 'tester135@gmail.com',
+            'full_name': 'tester bester4',
+            'confirm_password': 'test_password2'
+        }
         return super().setUp()
 
 class RegisterTest(RegisterTestCase):
@@ -248,13 +274,15 @@ class RegisterTest(RegisterTestCase):
     def test_can_register_user2(self):
         response=self.client.post(self.signup_url,self.signup_new,format='text/html')
         self.assertEqual(response.status_code, 302)
+
+    def test_wrong_password(self):
+        response=self.client.post(self.signup_url,self.wrong_password,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_existing_user(self):
+        response=self.client.post(self.signup_url,self.existing_user,format='text/html')
+        self.assertEqual(response.status_code, 302)
 ##-------------------------------------------##
-
-class DestinationSearchTestCase(TestCase):
-    def setUp(self):
-        self.landing_url=reverse('escapp:index')
-
-        return super().setUp()
 
 ##----------------Feature 1----------------##
 class DestinationSearchTestCase(TestCase):
@@ -329,9 +357,9 @@ class DestinationSearchTest(DestinationSearchTestCase):
         # self.assertTemplateUsed(response, 'hotellist.html')
 ##------------------------------------------##
 
-class HotelListTestCase(TestCase):
-    def setUp(self):
-        self.index_url=reverse('escapp:hotellist')
+# class HotelListTestCase(TestCase):
+#     def setUp(self):
+#         self.index_url=reverse('escapp:hotellist')
 
 ##----------------About Page----------------##
 class AboutPageTestCase(TestCase):
@@ -441,6 +469,19 @@ class DeleteAccountTest(DeleteAccountTestCase):
         response = self.client.get(self.deleteaccount_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'checkdeleteaccount.html')
+##-----------------------------------------##
+
+##----------------Delete Account----------------##
+class ConfirmDeleteTestCase(TestCase):
+    def setUp(self):
+        self.confirmdelete_url=reverse('escapp:confirmdelete')
+        return super().setUp()
+
+class ConfirmDeleteTest(ConfirmDeleteTestCase):
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.confirmdelete_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'confirmdelete.html')
 ##-----------------------------------------##
     
     # def test_can_book(self):
