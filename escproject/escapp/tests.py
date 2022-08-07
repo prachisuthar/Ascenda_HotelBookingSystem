@@ -1,12 +1,13 @@
 from multiprocessing.connection import Client
 from django.test import TestCase
 
-
+import pytest;
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 # from selenium.webdriver.common.keys import Keys
 
@@ -18,12 +19,38 @@ driver.get(url)
 
 print(driver.title)
 # print(driver.page_source)
-driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
+# driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
 
 
 def sleep_quit ():
     time.sleep(3)
     driver.quit()
+
+##-------------------------------Fuzzing-----------------------------------##
+# paths = (
+#     '/',
+#     '/home'
+# )
+
+# @pytest.mark.django_db()
+# @pytest.mark.parametrize('path', paths)
+# def test_xss_patterns(selenium, live_server, settings, xss_pattern, path):
+#     setattr(settings, 'XSS_PATTERN', xss_pattern.string)
+#     selenium.get('%s%s' % (live_server.url, path), )
+#     assert not xss_pattern.succeeded(selenium), xss_pattern.message
+
+# @pytest.fixture(scope='session')
+# def session_capabilities(session_capabilities):
+#     session_capabilities['goog:loggingPrefs'] = {'browser': 'ALL'}
+#     return session_capabilities
+
+
+# @pytest.fixture
+# def chrome_options(chrome_options):
+#     chrome_options.headless = True
+#     return chrome_options
+##-------------------------------Fuzzing-----------------------------------##
+
 
 def go_to_page(page_id):
     if page_id == "login":
@@ -81,8 +108,9 @@ def signup_password_mismatch():
 # test case 3
 def regular_login():
     go_to_page("login")
-    login("test", "test_password")
-    sleep_quit()
+    login("testerman", "testerman")
+    time.sleep(2)
+    # sleep_quit()
 
 # test case 4
 def wrong_user_login():
@@ -124,17 +152,38 @@ def search(country, startdate, enddate, guest, room):
     driver.find_element(By.ID, "submit_button").click()
 
 def book_hotel():
-    # regular_login()
+    regular_login()
     search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    time.sleep(1)
+    driver.find_element(By.ID, "view_button").click()
+    time.sleep(1)
+    room = driver.find_element(By.ID, "rooms_button")
+    driver.execute_script("arguments[0].scrollIntoView();", room)
+    actions = ActionChains(driver)
+    actions.move_to_element(room)
+    actions.click()
+    actions.perform()
+    # room.click()
+    time.sleep(1)
+    # driver.find_element(By.ID, "book_button").click()
+    
+
     sleep_quit()
 
 
-# book_hotel()
+book_hotel()
 # regular_login()
 
-
-
-
+def scroll_shim(passed_in_driver, object):
+    x = object.location['x']
+    y = object.location['y']
+    scroll_by_coord = 'window.scrollTo(%s,%s);' % (
+        x,
+        y
+    )
+    scroll_nav_out_of_way = 'window.scrollBy(0, -120);'
+    passed_in_driver.execute_script(scroll_by_coord)
+    passed_in_driver.execute_script(scroll_nav_out_of_way)
 
 """
 country = "Singapore"
@@ -199,8 +248,8 @@ class LoginTestCase(TestCase):
             'password': 'wrong_password',
         }
         self.login={
-            'username': 'test3',
-            'password': 'test3',
+            'username': 'testerman',
+            'password': 'testerman',
         }
         self.incorrect_credentials={
             'username': 'test2',
@@ -484,6 +533,77 @@ class ConfirmDeleteTest(ConfirmDeleteTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'confirmdelete.html')
 ##-----------------------------------------##
+
+class BookingFormTestCase(TestCase):
+    def setUp(self):
+        self.login_url=reverse('escapp:booklogin')
+        self.booking_url=reverse('escapp:booking')
+        self.login={
+            'username': 'testerman',
+            'password': 'testerman',
+        }
+        self.normal_booking={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'bob_tan@gmail.com',
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.too_many_cardno={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'bob_tan@gmail.com',
+            'request': 'NA',
+            'card_no': '12341234123412342342342345324',
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.too_many_cvv={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'bob_tan@gmail.com',
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': '8 somapah rd',
+            'cvv': '123456',
+            'expiry': '0524',
+        }
+        return super().setUp()
+
+class BookingFormTest(BookingFormTestCase):
+    # def test_can_login(self):
+    #     response=self.client.post(self.login_url,self.login,format='text/html')
+    #     self.assertEqual(response.status_code, 200)
+    
+    def test_can_view_page_correctly(self):
+        response = self.client.get(self.booking_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'booking.html')
+
+    def test_normal_booking(self):
+        response=self.client.post(self.booking_url,self.normal_booking,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_too_many_cardno(self):
+        response=self.client.post(self.booking_url,self.too_many_cardno,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_too_many_cvv(self):
+        response=self.client.post(self.booking_url,self.too_many_cvv,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+
+    
+
+    
+
     
     # def test_can_book(self):
     #     response=self.client.post(self.booking_url,self.booking,format='text/html')
