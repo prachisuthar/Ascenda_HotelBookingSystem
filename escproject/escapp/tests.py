@@ -21,7 +21,6 @@ print(driver.title)
 # print(driver.page_source)
 # driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
 
-
 def sleep_quit ():
     time.sleep(3)
     driver.quit()
@@ -80,6 +79,16 @@ def login (username, password):
 
     driver.find_element(By.ID, "login_button").click()
 
+def scroll_and_click(button_id):
+    button = driver.find_element(By.ID, button_id)
+    driver.execute_script("arguments[0].scrollIntoView();", button)
+    time.sleep(1)
+    actions = ActionChains(driver)
+    actions.move_to_element(button)
+    actions.click()
+    actions.perform()
+
+
 def book(first_name, last_name, phone_number, email, request, card_no, billing, cvv, expiry):
     driver.find_element(By.NAME, "first_name").send_keys(first_name)
     driver.find_element(By.NAME, "last_name").send_keys(last_name)
@@ -91,7 +100,17 @@ def book(first_name, last_name, phone_number, email, request, card_no, billing, 
     driver.find_element(By.NAME, "cvv").send_keys(cvv)
     driver.find_element(By.NAME, "expiry").send_keys(expiry)
 
-    driver.find_element(By.ID, "book_button").click()
+    scroll_and_click("booking_button")
+    
+
+def search(country, startdate, enddate, guest, room):
+    driver.find_element(By.ID, "country").send_keys(country)
+    driver.find_element(By.ID, "start_date").send_keys(startdate)
+    driver.find_element(By.ID, "end_date").send_keys(enddate)
+    driver.find_element(By.ID, "guests_number").send_keys(guest)
+    driver.find_element(By.ID, "rooms_number").send_keys(room)
+
+    driver.find_element(By.ID, "submit_button").click() 
 
 # test case 1
 def regular_signup():
@@ -140,50 +159,46 @@ def credit_card_many_numbers():
 def invalid_email():
     go_to_page("booking")
     book("bob", "tan", "98463923", "bob_tan@@gmail.com", "NA", "8564734583491234", "8 somapah rd", "123", "523")
-    sleep_quit() 
+    sleep_quit()    
 
-def search(country, startdate, enddate, guest, room):
-    driver.find_element(By.ID, "country").send_keys(country)
-    driver.find_element(By.ID, "start_date").send_keys(startdate)
-    driver.find_element(By.ID, "end_date").send_keys(enddate)
-    driver.find_element(By.ID, "guests_number").send_keys(guest)
-    driver.find_element(By.ID, "rooms_number").send_keys(room)
-
-    driver.find_element(By.ID, "submit_button").click()
-
-def book_hotel():
+def full_booking_run():
     regular_login()
     search("Singapore, Singapore", "18092022", "19092022", "2", "2")
     time.sleep(1)
     driver.find_element(By.ID, "view_button").click()
     time.sleep(1)
-    room = driver.find_element(By.ID, "rooms_button")
-    driver.execute_script("arguments[0].scrollIntoView();", room)
-    actions = ActionChains(driver)
-    actions.move_to_element(room)
-    actions.click()
-    actions.perform()
-    # room.click()
+    scroll_and_click("rooms_button")
     time.sleep(1)
-    # driver.find_element(By.ID, "book_button").click()
-    
+    driver.find_element(By.ID, "book_button").click()
+    time.sleep(1)
+    driver.find_element(By.ID, "payment_button").click()
+    book("tester", "man", "98766543", "testerman@gmail.com", "extra pillows please", "1111222233334444", "8 somapah rd", "123", "1124")
+    time.sleep(1)
+    driver.find_element(By.ID, "confirm_transaction_button").click()
+    sleep_quit()
+
+def book_without_login():
+    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    time.sleep(1)
+    driver.find_element(By.ID, "view_button").click()
+    time.sleep(1)
+    scroll_and_click("rooms_button")
+    time.sleep(1)
+    driver.find_element(By.ID, "book_button").click()
+    time.sleep(1)
+    driver.find_element(By.ID, "booking_login_button").click()
+    time.sleep(1)
+    login("testerman", "testerman")
+    book("tester", "man", "98766543", "testerman@gmail.com", "extra pillows please", "1111222233334444", "8 somapah rd", "123", "1124")
+    time.sleep(1)
+    driver.find_element(By.ID, "confirm_transaction_button").click()
 
     sleep_quit()
 
 
-book_hotel()
+full_booking_run()
+# book_without_login()
 # regular_login()
-
-def scroll_shim(passed_in_driver, object):
-    x = object.location['x']
-    y = object.location['y']
-    scroll_by_coord = 'window.scrollTo(%s,%s);' % (
-        x,
-        y
-    )
-    scroll_nav_out_of_way = 'window.scrollBy(0, -120);'
-    passed_in_driver.execute_script(scroll_by_coord)
-    passed_in_driver.execute_script(scroll_nav_out_of_way)
 
 """
 country = "Singapore"
