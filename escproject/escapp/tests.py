@@ -1,53 +1,5 @@
 from multiprocessing.connection import Client
 from django.test import TestCase
-
-"""
-country = "Singapore"
-start_date = "03-02-2022"
-end_date = "03-06-2022"
-guests_number ="5"
-rooms_number ="2"
-
-driver.find_element(By.NAME,"country").send_keys(country)
-driver.find_element("name","start_date").send_keys(start_date)
-driver.find_element("name","end_date").send_keys(end_date )
-driver.find_element("name","guests_number").send_keys(guests_number)
-driver.find_element("name","rooms_number").send_keys(rooms_number)
-#driver.find_element(By.X.PATH, "button").click()
-#transfer_input = driver.element_to_be_clickable((By.XPATH, 'button'))
-#transfer_input.click()
-# button = driver.find_element_by_css_selector('button')
-# button.click()
-#driver.find_elements(By.XPATH, 'button').click()
-driver.find_element(By.ID, 'button').click()
-driver.find_element("name","a").click()    
-"""
-
-"""
-from django.test import TestCase
-# import django
-import os
-import sys
-
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "escapp.escproject.settings")
-# django.setup()
-# Create your tests here.
-# from .models import Customer
-# from . import models
-from .models import Customer
-# import models.Customer
-
-
-# class Feature1TestCase(TestCase):
-#     def test_feature1_exists(self):
-#         qs = Feature1.objects.all()  #taking all teh objects and check if it exists
-#         self.assertTrue(qs.exists())
-
-class CustomerTestCase(self):
-    self.customer = Customer.objects.create(full_name='aish')
-    self.assertEquals(str(self.customer),'aish')
-"""
-
 from django.urls import reverse
 from escapp.models import *
 from django.contrib.auth.models import User
@@ -266,51 +218,6 @@ class ContactPageTest(ContactPageTestCase):
         self.assertTemplateUsed(response, 'contact.html')
 ##-----------------------------------------##
 
-##----------------Booking Form----------------##
-# class BookingTestCase(TestCase):
-#     def setUp(self):
-#         self.booking_url=reverse('escapp:startbooking')
-#         self.login_url=reverse('escapp:login')
-
-#         # self.user = get_user_model().objects.create_user
-
-#         self.login={
-#             'username': 'test3',
-#             'password': 'test3',
-#         }
-#         self.booking={
-#                 'first_name': 'bob',
-#                 'last_name': 'tan',
-#                 'phone_number': '83245344',
-#                 'email': 'bob_tan@gmail.com',
-#                 'request': 'NA',
-#                 'card_no': '1234123412341234',
-#                 'billing': '8 somapah rd',
-#                 'cvv': '123',
-#                 'expiry': '0524',
-#             }
-#         # user = User.objects.create(username='testuser')
-#         # user.set_password('12345')
-
-
-#         # self.client.get(self.login_url)
-#         # self.client.post(self.login_url,self.login,format='text/html')
-
-#         return super().setUp()
-
-# class BookingTest(BookingTestCase):
-
-#     def test_can_view_page_correctly(self):
-#         # self.client.login(username="Blob1", password="Blob1")
-#         user = User.objects.create(username='testuser')
-#         user.is_active=True
-#         user.save()
-#         # self.client.force_login(User.objects.get_or_create(username='testuser')[0])
-#         response = self.client.get(self.booking_url)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'booking.html')
-##-----------------------------------------##
-
 ##----------------Account Info----------------##
 class AccountInfoTestCase(TestCase):
     def setUp(self):
@@ -394,9 +301,6 @@ class BookingFormTestCase(TestCase):
         return super().setUp()
 
 class BookingFormTest(BookingFormTestCase):
-    # def test_can_login(self):
-    #     response=self.client.post(self.login_url,self.login,format='text/html')
-    #     self.assertEqual(response.status_code, 200)
     
     def test_can_view_page_correctly(self):
         response = self.client.get(self.booking_url)
