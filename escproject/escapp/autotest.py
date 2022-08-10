@@ -193,7 +193,7 @@ def fuzz_search():
     rooms = randnum(1)
     guests = randnum(1)
     search(destination, start, end, rooms, guests)
-    sleep_quit(5)
+    sleep_quit()
 
 def fuzz_signup():
     go_to_page("signup")
@@ -229,7 +229,7 @@ def fuzz_booking():
     driver.find_element(By.ID, "confirm_transaction_button").click()
     sleep_quit()
 
-# fuzz_search()
+fuzz_search()
 # fuzz_signup()
 # fuzz_login()
 # fuzz_booking()
