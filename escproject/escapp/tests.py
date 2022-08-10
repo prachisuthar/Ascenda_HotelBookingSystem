@@ -1,4 +1,5 @@
 from multiprocessing.connection import Client
+from random import randint
 from django.test import TestCase
 from django.urls import reverse
 from escapp.models import *
@@ -23,6 +24,14 @@ class LoginTestCase(TestCase):
             'username': 'test2',
             'password': 'wrong_password',
         }
+        self.fuzzed_login={
+            'username': Fuzzer().randword(5),
+            'password': Fuzzer().randword(5),
+        }
+        self.fuzzed_jargon={
+            'username': Fuzzer().rand_punctuation(5),
+            'password': Fuzzer().rand_punctuation(5),
+        }
         return super().setUp()
 
 class LoginTest(LoginTestCase):
@@ -43,12 +52,21 @@ class LoginTest(LoginTestCase):
         response=self.client.post(self.login_url,self.incorrect_credentials,format='text/html')
         self.assertEqual(response.status_code, 200)
 
+    def test_fuzzed_login(self):
+        response=self.client.post(self.login_url,self.fuzzed_login,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fuzzed_jargon(self):
+        response=self.client.post(self.login_url,self.fuzzed_jargon,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
 ##------------------------------------------##
 
 ##----------------Signup Page----------------##
 class RegisterTestCase(TestCase):
     def setUp(self):
         self.signup_url=reverse('escapp:signup')
+        self.index_url=reverse('escapp:index')
         self.signup={
             'username': 'test2',
             'password': 'test_password',
@@ -77,6 +95,34 @@ class RegisterTestCase(TestCase):
             'full_name': 'tester bester4',
             'confirm_password': 'test_password2'
         }
+        self.fuzzed={
+            'username': 'tester456',
+            'password': Fuzzer().rand_punctuation(8),
+            'email': Fuzzer('tester135@gmail.com').trim(),
+            'full_name': 'tester bester4',
+            'confirm_password': Fuzzer().rand_punctuation(8)
+        }
+        self.fuzzed_username={
+            'username': Fuzzer().rand_punctuation(5),
+            'password': 'test_password1',
+            'email': 'tester1235@gmail.com',
+            'full_name': 'tester bester2',
+            'confirm_password': 'test_password1'
+        }
+        self.fuzzed_password={
+            'username': Fuzzer().randword(5),
+            'password': Fuzzer().rand_punctuation(5),
+            'email': 'tester1235@gmail.com',
+            'full_name': 'tester bester2',
+            'confirm_password': 'test_password1'
+        }
+        self.fuzzed_email={
+            'username': Fuzzer().rand_punctuation(5),
+            'password': 'test_password1',
+            'email': Fuzzer('tester1235@gmail.com').insertChar(),
+            'full_name': 'tester bester2',
+            'confirm_password': 'test_password1'
+        }
         return super().setUp()
 
 class RegisterTest(RegisterTestCase):
@@ -88,6 +134,7 @@ class RegisterTest(RegisterTestCase):
     def test_can_register_user(self):
         response=self.client.post(self.signup_url,self.signup,format='text/html')
         self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response=response, expected_url=self.index_url, status_code=302)
 
     def test_can_register_user2(self):
         response=self.client.post(self.signup_url,self.signup_new,format='text/html')
@@ -100,6 +147,22 @@ class RegisterTest(RegisterTestCase):
     def test_existing_user(self):
         response=self.client.post(self.signup_url,self.existing_user,format='text/html')
         self.assertEqual(response.status_code, 302)
+
+    def test_fuzzer_signup(self):
+        response=self.client.post(self.signup_url,self.fuzzed,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fuzzer_username(self):
+        response=self.client.post(self.signup_url,self.fuzzed_username,format='text/html')
+        self.assertEqual(response.status_code, 302)
+
+    def test_fuzzer_password(self):
+        response=self.client.post(self.signup_url,self.fuzzed_password,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fuzzer_email(self):
+        response=self.client.post(self.signup_url,self.fuzzed_email,format='text/html')
+        self.assertEqual(response.status_code, 200)
 ##-------------------------------------------##
 
 ##----------------Feature 1----------------##
@@ -143,6 +206,27 @@ class DestinationSearchTestCase(TestCase):
             'start_date': '05/01/2023',
             'end_date': '09/01/2023',
         }
+        self.fuzzer={
+            'country': Fuzzer('Singapore, Singapore').flipABit(),
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '05/01/2023',
+            'end_date': '09/01/2023',
+        }
+        self.fuzzer_dest={
+            'country': Fuzzer().rand_punctuation(12),
+            'guests_number': '1',
+            'rooms_number': '1',
+            'start_date': '05/01/2023',
+            'end_date': '09/01/2023',
+        }
+        self.fuzzer_all={
+            'country': Fuzzer().rand_punctuation(12),
+            'guests_number': Fuzzer().randnum(1),
+            'rooms_number': Fuzzer().randnum(1),
+            'start_date': Fuzzer().randnum(8),
+            'end_date': Fuzzer().randnum(8),
+        }
         return super().setUp()
 
 class DestinationSearchTest(DestinationSearchTestCase):
@@ -154,12 +238,10 @@ class DestinationSearchTest(DestinationSearchTestCase):
     def test_search_singapore_hotels(self):
         response=self.client.post(self.index_url,self.singapore_search,format='text/html')
         self.assertEqual(response.status_code, 200)
-        # self.assertTemplateUsed(response, 'hotellist.html')
     
     def test_search_kl_hotels(self):
         response=self.client.post(self.index_url,self.kl_search,format='text/html')
         self.assertEqual(response.status_code, 200)
-        # self.assertTemplateUsed(response, 'hotellist.html')
     
     def test_search_other_hotels(self):
         response=self.client.post(self.index_url,self.rome_search,format='text/html')
@@ -172,12 +254,19 @@ class DestinationSearchTest(DestinationSearchTestCase):
     def test_search_many_guests(self):
         response=self.client.post(self.index_url,self.many_guests,format='text/html')
         self.assertEqual(response.status_code, 200)
-        # self.assertTemplateUsed(response, 'hotellist.html')
-##------------------------------------------##
 
-# class HotelListTestCase(TestCase):
-#     def setUp(self):
-#         self.index_url=reverse('escapp:hotellist')
+    def test_fuzzer_search(self):
+        response=self.client.post(self.index_url,self.fuzzer,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fuzzer_search2(self):
+        response=self.client.post(self.index_url,self.fuzzer_dest,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_fuzzer_all(self):
+        response=self.client.post(self.index_url,self.fuzzer_all,format='text/html')
+        self.assertEqual(response.status_code, 200)
+##------------------------------------------##
 
 ##----------------About Page----------------##
 class AboutPageTestCase(TestCase):
@@ -244,7 +333,7 @@ class DeleteAccountTest(DeleteAccountTestCase):
         self.assertTemplateUsed(response, 'checkdeleteaccount.html')
 ##-----------------------------------------##
 
-##----------------Delete Account----------------##
+##----------------Confirm Delete----------------##
 class ConfirmDeleteTestCase(TestCase):
     def setUp(self):
         self.confirmdelete_url=reverse('escapp:confirmdelete')
@@ -257,6 +346,7 @@ class ConfirmDeleteTest(ConfirmDeleteTestCase):
         self.assertTemplateUsed(response, 'confirmdelete.html')
 ##-----------------------------------------##
 
+##----------------Booking Form----------------##
 class BookingFormTestCase(TestCase):
     def setUp(self):
         self.login_url=reverse('escapp:booklogin')
@@ -269,7 +359,7 @@ class BookingFormTestCase(TestCase):
             'first_name': 'Testerman',
             'last_name': 'Test',
             'phone_number': '83245344',
-            'email': 'bob_tan@gmail.com',
+            'email': 'testerman@gmail.com',
             'request': 'NA',
             'card_no': '1234123412341234',
             'billing': '8 somapah rd',
@@ -298,6 +388,72 @@ class BookingFormTestCase(TestCase):
             'cvv': '123456',
             'expiry': '0524',
         }
+        self.fuzzer={
+            'first_name': Fuzzer().randword(10),
+            'last_name': Fuzzer().randword(3),
+            'phone_number': Fuzzer().randnum(8),
+            'email': Fuzzer('bob_tan@gmail.com').flipABit(),
+            'request': Fuzzer().rand_punctuation(12),
+            'card_no': Fuzzer().randnum(16),
+            'billing': Fuzzer('8 somapah rd').flipABit(),
+            'cvv': Fuzzer().randnum(3),
+            'expiry': Fuzzer().randnum(4),
+        }
+        self.fuzzed_first_name={
+            'first_name': Fuzzer('Testerman').flipABit(),
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'testerman@gmail.com',
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.fuzzed_phone={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': Fuzzer().rand_punctuation(8),
+            'email': 'testerman@gmail.com',
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.fuzzed_email={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': Fuzzer('testerman@gmail.com').insertChar(),
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.fuzzed_card={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'testerman@gmail.com',
+            'request': 'NA',
+            'card_no': Fuzzer().rand_punctuation(16),
+            'billing': '8 somapah rd',
+            'cvv': '123',
+            'expiry': '0524',
+        }
+        self.fuzzed_addr={
+            'first_name': 'Testerman',
+            'last_name': 'Test',
+            'phone_number': '83245344',
+            'email': 'testerman@gmail.com',
+            'request': 'NA',
+            'card_no': '1234123412341234',
+            'billing': Fuzzer('8 somapah rd').insertChar(),
+            'cvv': '123',
+            'expiry': '0524',
+        }
         return super().setUp()
 
 class BookingFormTest(BookingFormTestCase):
@@ -319,21 +475,72 @@ class BookingFormTest(BookingFormTestCase):
         response=self.client.post(self.booking_url,self.too_many_cvv,format='text/html')
         self.assertEqual(response.status_code, 200)
 
+    def test_fuzzer_booking(self):
+        response=self.client.post(self.booking_url,self.fuzzer,format='text/html')
+        self.assertEqual(response.status_code, 200)
 
-    
+    def test_fuzzer_firstname(self):
+        response=self.client.post(self.booking_url,self.fuzzed_first_name,format='text/html')
+        self.assertEqual(response.status_code, 200)
 
-    
+    def test_fuzzer_phone(self):
+        response=self.client.post(self.booking_url,self.fuzzed_phone,format='text/html')
+        self.assertEqual(response.status_code, 200)
 
-    
-    # def test_can_book(self):
-    #     response=self.client.post(self.booking_url,self.booking,format='text/html')
-    #     self.assertEqual(response.status_code, 200)
+    def test_fuzzer_email(self):
+        response=self.client.post(self.booking_url,self.fuzzed_email,format='text/html')
+        self.assertEqual(response.status_code, 200)
 
-# class Feature1TestCase(TestCase):
-#     def test_feature1_exists(self):
-#         qs = Feature1.objects.all()  #taking all the objects and check if it exists
-#         self.assertTrue(qs.exists())
+    def test_fuzzer_card(self):
+        response=self.client.post(self.booking_url,self.fuzzed_card,format='text/html')
+        self.assertEqual(response.status_code, 200)
 
-# class CustomerTestCase(self):
-#     self.customer = Customer.objects.create(full_name='aish')
-#     self.assertEquals(str(self.customer),'aish')
+    def test_fuzzer_addr(self):
+        response=self.client.post(self.booking_url,self.fuzzed_addr,format='text/html')
+        self.assertEqual(response.status_code, 200)
+
+##----------------Booking Form----------------##
+
+
+class Fuzzer:
+    def __init__(self, valid_inpit=""):
+        self.valid_input = valid_inpit
+        self.characters = "!@#$%^&*()_+}{|:<>'?~`/"
+        self.letters = "abcdefghijklmnopqrstuvwxyz"
+        self.numbers = "1234567890"
+
+    def flipABit(self):
+        randchar = randint(0, len(self.characters)-1)
+        randpos = randint(0, len(self.valid_input)-1)
+
+        return self.valid_input[:randpos] + self.characters[randchar] + self.valid_input[randpos+1:]
+
+    def trim(self):
+        randpos = randint(0, len(self.valid_input)-1)
+        return self.valid_input[:randpos]
+
+    def insertChar(self):
+        randchar = randint(0, len(self.characters)-1)
+        return self.valid_input + self.characters[randchar]
+
+    def rand_punctuation(self, n=7):
+        rand_punctuation = ""
+        for i in range(n):
+            randchar = randint(0, len(self.characters)-1)
+            rand_punctuation += self.characters[randchar]
+        return rand_punctuation
+
+    def randword(self, n=7):
+        randword = ""
+        for i in range(n):
+            randletter = randint(0, len(self.letters)-1)
+            randword += self.letters[randletter]
+        return randword
+
+    def randnum(self, n=4):
+        randnum = ""
+        for i in range(n):
+            rand = randint(0, len(self.numbers)-1)
+            randnum += self.numbers[rand]
+        return randnum
+

@@ -1,3 +1,4 @@
+from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -14,8 +15,8 @@ print(driver.title)
 # print(driver.page_source)
 # driver.quit() #COMMENT OUT WHEN DOING SELENIUM TESTING
 
-def sleep_quit ():
-    time.sleep(3)
+def sleep_quit (n=3):
+    time.sleep(n)
     driver.quit()
 
 
@@ -31,22 +32,6 @@ def go_to_page(page_id):
     #     search = driver.find_element_by_id(By.CSS_SELECTOR, 'a[href*="booking"]')
     #     search.click()
 
-
-def signup (fullname, email, username, password, confirm_password):
-    driver.find_element(By.NAME, "full_name").send_keys(fullname)
-    driver.find_element(By.NAME, "email").send_keys(email)
-    driver.find_element(By.NAME, "username").send_keys(username)
-    driver.find_element(By.NAME, "password").send_keys(password)
-    driver.find_element(By.NAME, "confirm_password").send_keys(confirm_password)
-
-    driver.find_element(By.ID, 'signup_button').click()
-
-def login (username, password):
-    driver.find_element(By.NAME, "username").send_keys(username)
-    driver.find_element(By.NAME, "password").send_keys(password)
-
-    driver.find_element(By.ID, "login_button").click()
-
 def scroll_and_click(button_id):
     button = driver.find_element(By.ID, button_id)
     driver.execute_script("arguments[0].scrollIntoView();", button)
@@ -56,6 +41,20 @@ def scroll_and_click(button_id):
     actions.click()
     actions.perform()
 
+def signup (fullname, email, username, password, confirm_password):
+    driver.find_element(By.NAME, "full_name").send_keys(fullname)
+    driver.find_element(By.NAME, "email").send_keys(email)
+    driver.find_element(By.NAME, "username").send_keys(username)
+    driver.find_element(By.NAME, "password").send_keys(password)
+    driver.find_element(By.NAME, "confirm_password").send_keys(confirm_password)
+
+    scroll_and_click('signup_button')
+
+def login (username, password):
+    driver.find_element(By.NAME, "username").send_keys(username)
+    driver.find_element(By.NAME, "password").send_keys(password)
+
+    driver.find_element(By.ID, "login_button").click()
 
 def book(first_name, last_name, phone_number, email, request, card_no, billing, cvv, expiry):
     driver.find_element(By.NAME, "first_name").send_keys(first_name)
@@ -85,32 +84,15 @@ def regular_signup():
     go_to_page("signup")
     signup("tester man", "testerman@gmail.com", "testerman", "testerman", "testerman")
     sleep_quit()
-
-# test case 2
-def signup_password_mismatch():
-    go_to_page("signup")
-    signup("test", "test_password", "tester", "different_password")
-    sleep_quit()
-
-# test case 3
-def regular_login():
-    go_to_page("login")
-    login("testerman", "testerman")
-    time.sleep(2)
-    # sleep_quit()
-
-# test case 4
-def wrong_user_login():
-    go_to_page("login")
-    login("test1234", "test_password")
-    sleep_quit()
-
   
 
 def full_booking_run():
-    regular_login()
-    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    # driver = webdriver.Chrome(PATH)
+    driver.get(url)
+    go_to_page("login")
+    login("testerman", "testerman")
     time.sleep(1)
+    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
     driver.find_element(By.ID, "view_button").click()
     time.sleep(1)
     scroll_and_click("rooms_button")
@@ -124,6 +106,8 @@ def full_booking_run():
     sleep_quit()
 
 def book_without_login():
+    # driver = webdriver.Chrome(PATH)
+    driver.get(url)
     search("Singapore, Singapore", "18092022", "19092022", "2", "2")
     time.sleep(1)
     driver.find_element(By.ID, "view_button").click()
@@ -141,8 +125,114 @@ def book_without_login():
 
     sleep_quit()
 
-# regular_signup()
+def book_with_signup():
+    go_to_page("signup")
+    signup("tester tester", "testertester@gmail.com", "tester123", "tester123", "tester123")
+    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    time.sleep(1)
+    driver.find_element(By.ID, "view_button").click()
+    time.sleep(1)
+    scroll_and_click("rooms_button")
+    time.sleep(1)
+    driver.find_element(By.ID, "book_button").click()
+    time.sleep(1)
+    driver.find_element(By.ID, "payment_button").click()
+    book("tester", "man", "98766543", "testerman@gmail.com", "extra pillows please", "1111222233334444", "8 somapah rd", "123", "1124")
+    time.sleep(1)
+    driver.find_element(By.ID, "confirm_transaction_button").click()
+    sleep_quit()
 
-full_booking_run()
+# book_with_signup()
+# full_booking_run()
 # book_without_login()
-# regular_login()
+
+###---------------------------Fuzzing---------------------------###
+characters = "!@#$%^&*()_+}{|:<>'?~`/"
+letters = "abcdefghijklmnopqrstuvwxyz"
+numbers = "1234567890"
+
+def flipABit(valid_input=""):
+    randchar = randint(0, len(characters)-1)
+    randpos = randint(0, len(valid_input)-1)
+
+    return valid_input[:randpos] + characters[randchar] + valid_input[randpos+1:]
+
+def trim(valid_input=""):
+    randpos = randint(0, len(valid_input)-1)
+    return valid_input[:randpos]
+
+def insertChar(valid_input=""):
+    randchar = randint(0, len(characters)-1)
+    return valid_input + characters[randchar]
+
+def rand_punctuation(n=7):
+    rand_punctuation = ""
+    for i in range(n):
+        randchar = randint(0, len(characters)-1)
+        rand_punctuation += characters[randchar]
+    return rand_punctuation
+
+def randword(n=7):
+    randword = ""
+    for i in range(n):
+        randletter = randint(0, len(letters)-1)
+        randword += letters[randletter]
+    return randword
+
+def randnum(n=4):
+    randnum = ""
+    for i in range(n):
+        rand = randint(0, len(numbers)-1)
+        randnum += numbers[rand]
+    return randnum
+
+def fuzz_search():
+    destination = rand_punctuation(9)
+    start = randnum(8)
+    end = randnum(8)
+    rooms = randnum(1)
+    guests = randnum(1)
+    search(destination, start, end, rooms, guests)
+    sleep_quit(5)
+
+def fuzz_signup():
+    go_to_page("signup")
+    full_name = rand_punctuation(10)
+    email = trim("testerman@gmail.com")
+    username = full_name
+    password = rand_punctuation(8)
+    confirm_password = rand_punctuation(8)
+    signup(full_name, email, username, password, confirm_password)
+    sleep_quit()
+
+def fuzz_login():
+    go_to_page("login")
+    username = rand_punctuation(10)
+    password = rand_punctuation(8)
+    login(username, password)
+    sleep_quit()
+
+def fuzz_booking():
+    go_to_page("login")
+    login("testerman", "testerman")
+    search("Singapore, Singapore", "18092022", "19092022", "2", "2")
+    time.sleep(1)
+    driver.find_element(By.ID, "view_button").click()
+    time.sleep(1)
+    scroll_and_click("rooms_button")
+    time.sleep(1)
+    driver.find_element(By.ID, "book_button").click()
+    time.sleep(1)
+    driver.find_element(By.ID, "payment_button").click()
+    book(randword(8), randword(3), randnum(8), insertChar("testerman@gmail.com"), rand_punctuation(14), randnum(16), flipABit("8 somapah rd"), randnum(3), randnum(4))
+    time.sleep(1)
+    driver.find_element(By.ID, "confirm_transaction_button").click()
+    sleep_quit()
+
+# fuzz_search()
+# fuzz_signup()
+# fuzz_login()
+# fuzz_booking()
+###---------------------------Fuzzing---------------------------###
+
+
