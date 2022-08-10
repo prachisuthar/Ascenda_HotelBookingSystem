@@ -103,7 +103,7 @@ def full_booking_run():
     book("tester", "man", "98766543", "testerman@gmail.com", "extra pillows please", "1111222233334444", "8 somapah rd", "123", "1124")
     time.sleep(1)
     driver.find_element(By.ID, "confirm_transaction_button").click()
-    sleep_quit()
+    sleep_quit(5)
 
 def book_without_login():
     # driver = webdriver.Chrome(PATH)
@@ -188,8 +188,8 @@ def randnum(n=4):
 
 def fuzz_search():
     destination = rand_punctuation(9)
-    start = randnum(8)
-    end = randnum(8)
+    start = randnum(6)
+    end = randnum(6)
     rooms = randnum(1)
     guests = randnum(1)
     search(destination, start, end, rooms, guests)
@@ -229,10 +229,10 @@ def fuzz_booking():
     driver.find_element(By.ID, "confirm_transaction_button").click()
     sleep_quit()
 
-fuzz_search()
+# fuzz_search()
 # fuzz_signup()
 # fuzz_login()
-# fuzz_booking()
+fuzz_booking()
 ###---------------------------Fuzzing---------------------------###
 
 
